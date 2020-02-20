@@ -3,6 +3,7 @@ package com.muma.common;
 
 
 import com.muma.entity.User;
+import com.muma.util.LoginType;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,14 +37,14 @@ public class Session {
 	 */
 	public static int isLogin(HttpSession session){
 		if(null == session){
-			return loginType.NO_LOGIN;
+			return LoginType.NO_LOGIN;
 
 		}
 		User user = (User) session.getAttribute(USER_KEY);
 		if(null == user){
-			return loginType.LOGIN_TIMEOUT;
+			return LoginType.LOGIN_TIMEOUT;
 		}
-		return loginType.LOGINED;
+		return LoginType.LOGINED;
 	}
 	
 
