@@ -6,8 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import com.yingjun.ssm.cache.RedisCache;
 import com.yingjun.ssm.dao.UserDao;
 
 /**
@@ -36,8 +34,6 @@ public class BizQuartz {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private RedisCache cache;
 	
 	/**
 	 * 用户自动加积分
@@ -54,7 +50,6 @@ public class BizQuartz {
 	@Scheduled(cron = "0 0/5 * * * ? ")
 	public void cacheClear() {
 		LOG.info("@Scheduled-------cacheClear()");
-		cache.clearCache();
 	}
 	
 }

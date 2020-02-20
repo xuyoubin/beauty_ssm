@@ -1,6 +1,5 @@
 package com.yingjun.ssm.service.impl;
 
-import com.yingjun.ssm.cache.RedisCache;
 import com.yingjun.ssm.dao.GoodsDao;
 import com.yingjun.ssm.dao.OrderDao;
 import com.yingjun.ssm.dao.UserDao;
@@ -30,20 +29,16 @@ public class GoodsServiceImpl implements GoodsService {
 	private OrderDao orderDao;
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private RedisCache cache;
 
 	@Override
 	public List<Goods> getGoodsList(int offset, int limit) {
-		String cache_key = RedisCache.CAHCENAME + "|getGoodsList|" + offset + "|" + limit;
-		List<Goods> result_cache = cache.getListCache(cache_key, Goods.class);
+		List<Goods> result_cache = null;
 		if (result_cache != null) {
-			LOG.info("get cache with key:" + cache_key);
+			LOG.info("get cache with key:" );
 		} else {
 			// 缓存中没有再去数据库取，并插入缓存（缓存时间为60秒）
 			result_cache = goodsDao.queryAll(offset, limit);
-			cache.putListCacheWithExpireTime(cache_key, result_cache, RedisCache.CAHCETIME);
-			LOG.info("put cache with key:" + cache_key);
+			LOG.info("put cache with key:" );
 			return result_cache;
 		}
 		return result_cache;
@@ -72,7 +67,6 @@ public class GoodsServiceImpl implements GoodsService {
 			} else {
 				// 买卖成功
 				// 此时缓存中的数据不是最新的，需要对缓存进行清理（具体的缓存策略还是要根据具体需求制定）
-				cache.deleteCacheWithPattern("getGoodsList*");
 				LOG.info("delete cache with key: getGoodsList*");
 				return;
 			}
@@ -91,7 +85,6 @@ public class GoodsServiceImpl implements GoodsService {
 				} else {
 					// 买卖成功
 					// 此时缓存中的数据不再是最新的，需要对缓存进行清理（具体的缓存策略还是要根据具体需求制定）
-					cache.deleteCacheWithPattern("getGoodsList*");
 					LOG.info("delete cache with key: getGoodsList*");
 					return;
 				}
