@@ -37,6 +37,7 @@ public class Session {
 	public static int isLogin(HttpSession session){
 		if(null == session){
 			return loginType.NO_LOGIN;
+
 		}
 		User user = (User) session.getAttribute(USER_KEY);
 		if(null == user){
