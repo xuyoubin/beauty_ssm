@@ -25,10 +25,10 @@
 					<tbody>
 						<c:forEach var="user" items="${userlist}">
 							<tr>
-								<td>${user.userId}</td>
-								<td>${user.userName}</td>
-								<td>${user.userPhone}</td>
-								<td>${user.score}</td>
+								<td>${user.id}</td>
+								<td>${user.platformName}</td>
+								<td>${user.regPhone}</td>
+								<td>${user.level}</td>
 								<td><fmt:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 							</tr>
 						</c:forEach>

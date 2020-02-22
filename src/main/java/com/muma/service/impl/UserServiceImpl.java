@@ -1,5 +1,7 @@
 package com.muma.service.impl;
 
+import com.muma.dao.BuyerDao;
+import com.muma.entity.Buyer;
 import com.muma.entity.User;
 import com.muma.service.UserService;
 import com.muma.dao.UserDao;
@@ -16,6 +18,8 @@ public class UserServiceImpl implements UserService {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private BuyerDao buyerDao;
 	
 	
 	@Override
@@ -31,7 +35,11 @@ public class UserServiceImpl implements UserService {
 		}
 		return result_cache;
 	}
-	
-	
+
+	@Override
+	public List<Buyer> getBuyerList() {
+		return buyerDao.queryBuyerList();
+	}
+
 
 }
