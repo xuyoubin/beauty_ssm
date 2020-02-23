@@ -11,6 +11,9 @@ public class UserDetail {
   private Long parent_id;
   private String code;
   private Long credit;
+  /**
+   * 状态 状态：0 -待审核，1-审核通过，2-审核不通过,3-用户拉黑（该系统拉黑，防止该用户再注册） 4-平台拉黑（如淘宝平台）
+   */
   private Long status;
   private String bank_id;
   private String bank_name;

@@ -1,28 +1,32 @@
-package com.my.db;
+package com.muma.entity;
 
-public class Notice {
-  private Long id;
-  private Long user_id;
+import com.muma.entity.base.BaseEntity;
+
+public class Notice extends BaseEntity {
+
+  private static final long serialVersionUID = -8156510561904414668L;
+  /**
+   * 用户ID
+   */
+  private Integer user_id;
+  /**
+   * 标题
+   */
   private String title;
+  /**
+   * 排序
+   */
+  private Integer sortNo;
+  /**
+   * 内容
+   */
   private String content;
-  private String create_by;
-  private java.sql.Timestamp create_time;
-  private String update_by;
-  private java.sql.Timestamp update_time;
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Long getUser_id() {
+  public Integer getUser_id() {
     return user_id;
   }
 
-  public void setUser_id(Long user_id) {
+  public void setUser_id(Integer user_id) {
     this.user_id = user_id;
   }
 
@@ -34,43 +38,19 @@ public class Notice {
     this.title = title;
   }
 
+  public Integer getSortNo() {
+    return sortNo;
+  }
+
+  public void setSortNo(Integer sortNo) {
+    this.sortNo = sortNo;
+  }
+
   public String getContent() {
     return content;
   }
 
   public void setContent(String content) {
     this.content = content;
-  }
-
-  public String getCreate_by() {
-    return create_by;
-  }
-
-  public void setCreate_by(String create_by) {
-    this.create_by = create_by;
-  }
-
-  public java.sql.Timestamp getCreate_time() {
-    return create_time;
-  }
-
-  public void setCreate_time(java.sql.Timestamp create_time) {
-    this.create_time = create_time;
-  }
-
-  public String getUpdate_by() {
-    return update_by;
-  }
-
-  public void setUpdate_by(String update_by) {
-    this.update_by = update_by;
-  }
-
-  public java.sql.Timestamp getUpdate_time() {
-    return update_time;
-  }
-
-  public void setUpdate_time(java.sql.Timestamp update_time) {
-    this.update_time = update_time;
   }
 }

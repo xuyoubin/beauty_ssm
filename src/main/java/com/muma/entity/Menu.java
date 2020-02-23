@@ -1,23 +1,29 @@
-package com.my.db;
+package com.muma.entity;
 
-public class Menu {
-  private Long id;
+import com.muma.entity.base.BaseEntity;
+
+/**
+ * 菜单实体类
+ */
+public class Menu extends BaseEntity {
+
+  private static final long serialVersionUID = -6534761559521552959L;
+  /**
+   * 菜单名称
+   */
   private String name;
+  /**
+   * 菜单地址
+   */
   private String url;
-  private Long sort_no;
-  private Long pid;
-  private String create_by;
-  private java.sql.Timestamp create_time;
-  private String update_by;
-  private java.sql.Timestamp update_time;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
+  /**
+   * 排序顺序
+   */
+  private Integer sortNo;
+  /**
+   * 父级菜单id
+   */
+  private Integer pid;
 
   public String getName() {
     return name;
@@ -35,51 +41,19 @@ public class Menu {
     this.url = url;
   }
 
-  public Long getSort_no() {
-    return sort_no;
+  public Integer getSortNo() {
+    return sortNo;
   }
 
-  public void setSort_no(Long sort_no) {
-    this.sort_no = sort_no;
+  public void setSortNo(Integer sortNo) {
+    this.sortNo = sortNo;
   }
 
-  public Long getPid() {
+  public Integer getPid() {
     return pid;
   }
 
-  public void setPid(Long pid) {
+  public void setPid(Integer pid) {
     this.pid = pid;
-  }
-
-  public String getCreate_by() {
-    return create_by;
-  }
-
-  public void setCreate_by(String create_by) {
-    this.create_by = create_by;
-  }
-
-  public java.sql.Timestamp getCreate_time() {
-    return create_time;
-  }
-
-  public void setCreate_time(java.sql.Timestamp create_time) {
-    this.create_time = create_time;
-  }
-
-  public String getUpdate_by() {
-    return update_by;
-  }
-
-  public void setUpdate_by(String update_by) {
-    this.update_by = update_by;
-  }
-
-  public java.sql.Timestamp getUpdate_time() {
-    return update_time;
-  }
-
-  public void setUpdate_time(java.sql.Timestamp update_time) {
-    this.update_time = update_time;
   }
 }

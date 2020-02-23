@@ -1,62 +1,97 @@
 package com.muma.entity;
 
-public class Order {
-    private Long id;
-    private Long task_order_id;
-    private Long type;
-    private Long player_id;
-    private Long business_id;
+import com.muma.entity.base.BaseEntity;
+import com.muma.enums.OrderStatusEnum;
+import com.muma.enums.TaskTypeEnum;
+
+import java.math.BigDecimal;
+
+/**
+ * 买家订单表
+ */
+public class Order extends BaseEntity {
+
+    private static final long serialVersionUID = 2258387237604157382L;
+    /**
+     * 任务ID
+     */
+    private Integer taskOrderId;
+    /**
+     * 任务类型
+     */
+    private TaskTypeEnum type;
+    /**
+     * 买家ID
+     */
+    private Integer playerId;
+    /**
+     * 用户ID
+     */
+    private Integer businessId;
+    /**
+     * 商家（店铺名称）
+     */
     private String shop;
+    /**
+     * 商品
+     */
     private String commodity;
-    private String order_no;
-    private Double money;
-    private Double fee;
-    private Long status;
-    private String auth_image_one;
-    private String auth_image_two;
-    private String create_by;
-    private java.sql.Timestamp create_time;
-    private String update_by;
-    private java.sql.Timestamp update_time;
+    /**
+     * 平台订单号
+     */
+    private String orderNo;
+    /**
+     * 订单金额
+     */
+    private BigDecimal money;
+    /**
+     * 佣金
+     */
+    private BigDecimal fee;
+    /**
+     * 0 -初始状态；10-步骤1完成；20-步骤2完成；30-提交订单 ；
+     * 40-投诉单；50-退出任务；90-审核通过，100-审核不通过
+     */
+    private OrderStatusEnum status;
+    /**
+     * 审核图片1
+     */
+    private String authImageOne;
+    /**
+     * 审核图片2
+     */
+    private String authImageTwo;
 
-    public Long getId() {
-        return id;
+    public Integer getTaskOrderId() {
+        return taskOrderId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTaskOrderId(Integer taskOrderId) {
+        this.taskOrderId = taskOrderId;
     }
 
-    public Long getTask_order_id() {
-        return task_order_id;
-    }
-
-    public void setTask_order_id(Long task_order_id) {
-        this.task_order_id = task_order_id;
-    }
-
-    public Long getType() {
+    public TaskTypeEnum getType() {
         return type;
     }
 
-    public void setType(Long type) {
+    public void setType(TaskTypeEnum type) {
         this.type = type;
     }
 
-    public Long getPlayer_id() {
-        return player_id;
+    public Integer getPlayerId() {
+        return playerId;
     }
 
-    public void setPlayer_id(Long player_id) {
-        this.player_id = player_id;
+    public void setPlayerId(Integer playerId) {
+        this.playerId = playerId;
     }
 
-    public Long getBusiness_id() {
-        return business_id;
+    public Integer getBusinessId() {
+        return businessId;
     }
 
-    public void setBusiness_id(Long business_id) {
-        this.business_id = business_id;
+    public void setBusinessId(Integer businessId) {
+        this.businessId = businessId;
     }
 
     public String getShop() {
@@ -75,83 +110,51 @@ public class Order {
         this.commodity = commodity;
     }
 
-    public String getOrder_no() {
-        return order_no;
+    public String getOrderNo() {
+        return orderNo;
     }
 
-    public void setOrder_no(String order_no) {
-        this.order_no = order_no;
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
-    public Double getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
-    public void setMoney(Double money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
 
-    public Double getFee() {
+    public BigDecimal getFee() {
         return fee;
     }
 
-    public void setFee(Double fee) {
+    public void setFee(BigDecimal fee) {
         this.fee = fee;
     }
 
-    public Long getStatus() {
+    public OrderStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(OrderStatusEnum status) {
         this.status = status;
     }
 
-    public String getAuth_image_one() {
-        return auth_image_one;
+    public String getAuthImageOne() {
+        return authImageOne;
     }
 
-    public void setAuth_image_one(String auth_image_one) {
-        this.auth_image_one = auth_image_one;
+    public void setAuthImageOne(String authImageOne) {
+        this.authImageOne = authImageOne;
     }
 
-    public String getAuth_image_two() {
-        return auth_image_two;
+    public String getAuthImageTwo() {
+        return authImageTwo;
     }
 
-    public void setAuth_image_two(String auth_image_two) {
-        this.auth_image_two = auth_image_two;
-    }
-
-    public String getCreate_by() {
-        return create_by;
-    }
-
-    public void setCreate_by(String create_by) {
-        this.create_by = create_by;
-    }
-
-    public java.sql.Timestamp getCreate_time() {
-        return create_time;
-    }
-
-    public void setCreate_time(java.sql.Timestamp create_time) {
-        this.create_time = create_time;
-    }
-
-    public String getUpdate_by() {
-        return update_by;
-    }
-
-    public void setUpdate_by(String update_by) {
-        this.update_by = update_by;
-    }
-
-    public java.sql.Timestamp getUpdate_time() {
-        return update_time;
-    }
-
-    public void setUpdate_time(java.sql.Timestamp update_time) {
-        this.update_time = update_time;
+    public void setAuthImageTwo(String authImageTwo) {
+        this.authImageTwo = authImageTwo;
     }
 }

@@ -1,72 +1,111 @@
-package com.my.db;
+package com.muma.entity;
 
-public class Statistics {
-  private Long id;
-  private Long user_id;
-  private Long task_order_id;
-  private Long type;
-  private String shop_name;
-  private Long platform_id;
+import com.muma.entity.base.BaseEntity;
+import com.muma.enums.TaskTypeEnum;
+
+import java.math.BigDecimal;
+
+/**
+ * 销售浏览任务统计表
+ */
+public class Statistics extends BaseEntity {
+
+  private static final long serialVersionUID = -5473571056485803852L;
+  /**
+   * 商家用户id
+   */
+  private Integer userId;
+  /**
+   * 任务id
+   */
+  private Integer taskOrderId;
+  /**
+   * 任务类型 0-销售任务；1-评价任务；3-浏览任务
+   */
+  private TaskTypeEnum type;
+  /**
+   * 商家（店铺名称）
+   */
+  private String shopName;
+  /**
+   * 平台id
+   */
+  private Integer platformId;
+  /**
+   * 商品
+   */
   private String commodity;
-  private Double corpus;
-  private Double real_income;
-  private Double total_income;
-  private Double total_fee;
-  private Double real_fee;
-  private Long total_num;
-  private Long num;
-  private Long revision;
-  private String create_by;
-  private java.sql.Timestamp create_time;
-  private String update_by;
-  private java.sql.Timestamp update_time;
+  /**
+   * 预计本金
+   */
+  private BigDecimal corpus;
+  /**
+   * 实收金额
+   */
+  private BigDecimal realIncome;
+  /**
+   * 已买金额
+   */
+  private BigDecimal totalIncome;
+  /**
+   * 预计总佣金
+   */
+  private BigDecimal totalFee;
+  /**
+   * 实际总佣金
+   */
+  private BigDecimal realFee;
+  /**
+   * 完成笔数
+   */
+  private Integer totalNum;
+  /**
+   * 商家发布笔数
+   */
+  private Integer num;
+  /**
+   * 乐观锁
+   */
+  private Integer revision;
 
-  public Long getId() {
-    return id;
+  public Integer getUserId() {
+    return userId;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setUserId(Integer userId) {
+    this.userId = userId;
   }
 
-  public Long getUser_id() {
-    return user_id;
+  public Integer getTaskOrderId() {
+    return taskOrderId;
   }
 
-  public void setUser_id(Long user_id) {
-    this.user_id = user_id;
+  public void setTaskOrderId(Integer taskOrderId) {
+    this.taskOrderId = taskOrderId;
   }
 
-  public Long getTask_order_id() {
-    return task_order_id;
-  }
-
-  public void setTask_order_id(Long task_order_id) {
-    this.task_order_id = task_order_id;
-  }
-
-  public Long getType() {
+  public TaskTypeEnum getType() {
     return type;
   }
 
-  public void setType(Long type) {
+  public void setType(TaskTypeEnum type) {
     this.type = type;
   }
 
-  public String getShop_name() {
-    return shop_name;
+  public String getShopName() {
+    return shopName;
   }
 
-  public void setShop_name(String shop_name) {
-    this.shop_name = shop_name;
+  public void setShopName(String shopName) {
+    this.shopName = shopName;
   }
 
-  public Long getPlatform_id() {
-    return platform_id;
+  public Integer getPlatformId() {
+    return platformId;
   }
 
-  public void setPlatform_id(Long platform_id) {
-    this.platform_id = platform_id;
+  public void setPlatformId(Integer platformId) {
+    this.platformId = platformId;
   }
 
   public String getCommodity() {
@@ -77,99 +116,67 @@ public class Statistics {
     this.commodity = commodity;
   }
 
-  public Double getCorpus() {
+  public BigDecimal getCorpus() {
     return corpus;
   }
 
-  public void setCorpus(Double corpus) {
+  public void setCorpus(BigDecimal corpus) {
     this.corpus = corpus;
   }
 
-  public Double getReal_income() {
-    return real_income;
+  public BigDecimal getRealIncome() {
+    return realIncome;
   }
 
-  public void setReal_income(Double real_income) {
-    this.real_income = real_income;
+  public void setRealIncome(BigDecimal realIncome) {
+    this.realIncome = realIncome;
   }
 
-  public Double getTotal_income() {
-    return total_income;
+  public BigDecimal getTotalIncome() {
+    return totalIncome;
   }
 
-  public void setTotal_income(Double total_income) {
-    this.total_income = total_income;
+  public void setTotalIncome(BigDecimal totalIncome) {
+    this.totalIncome = totalIncome;
   }
 
-  public Double getTotal_fee() {
-    return total_fee;
+  public BigDecimal getTotalFee() {
+    return totalFee;
   }
 
-  public void setTotal_fee(Double total_fee) {
-    this.total_fee = total_fee;
+  public void setTotalFee(BigDecimal totalFee) {
+    this.totalFee = totalFee;
   }
 
-  public Double getReal_fee() {
-    return real_fee;
+  public BigDecimal getRealFee() {
+    return realFee;
   }
 
-  public void setReal_fee(Double real_fee) {
-    this.real_fee = real_fee;
+  public void setRealFee(BigDecimal realFee) {
+    this.realFee = realFee;
   }
 
-  public Long getTotal_num() {
-    return total_num;
+  public Integer getTotalNum() {
+    return totalNum;
   }
 
-  public void setTotal_num(Long total_num) {
-    this.total_num = total_num;
+  public void setTotalNum(Integer totalNum) {
+    this.totalNum = totalNum;
   }
 
-  public Long getNum() {
+  public Integer getNum() {
     return num;
   }
 
-  public void setNum(Long num) {
+  public void setNum(Integer num) {
     this.num = num;
   }
 
-  public Long getRevision() {
+  public Integer getRevision() {
     return revision;
   }
 
-  public void setRevision(Long revision) {
+  public void setRevision(Integer revision) {
     this.revision = revision;
-  }
-
-  public String getCreate_by() {
-    return create_by;
-  }
-
-  public void setCreate_by(String create_by) {
-    this.create_by = create_by;
-  }
-
-  public java.sql.Timestamp getCreate_time() {
-    return create_time;
-  }
-
-  public void setCreate_time(java.sql.Timestamp create_time) {
-    this.create_time = create_time;
-  }
-
-  public String getUpdate_by() {
-    return update_by;
-  }
-
-  public void setUpdate_by(String update_by) {
-    this.update_by = update_by;
-  }
-
-  public java.sql.Timestamp getUpdate_time() {
-    return update_time;
-  }
-
-  public void setUpdate_time(java.sql.Timestamp update_time) {
-    this.update_time = update_time;
   }
 }
