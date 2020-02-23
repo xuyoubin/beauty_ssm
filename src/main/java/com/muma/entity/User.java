@@ -1,72 +1,85 @@
 package com.muma.entity;
 
-import java.util.Date;
-
-
-/**
- * 用户
- * @author  yingjun
- *
- */
 public class User {
-	
-	private long userId;
-	
-	private String userName;
-	
-	private long userPhone;
-	
-	private Date createTime;
-	
-	private int score;
+  private Long id;
+  private String reg_phone;
+  private String password;
+  private Long roal_id;
+  private String remark;
+  private String create_by;
+  private java.sql.Timestamp create_time;
+  private String update_by;
+  private java.sql.Timestamp update_time;
 
-	public long getUserId() {
-		return userId;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
+  public String getReg_phone() {
+    return reg_phone;
+  }
 
-	public String getUserName() {
-		return userName;
-	}
+  public void setReg_phone(String reg_phone) {
+    this.reg_phone = reg_phone;
+  }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+  public String getPassword() {
+    return password;
+  }
 
-	public long getUserPhone() {
-		return userPhone;
-	}
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	public void setUserPhone(long userPhone) {
-		this.userPhone = userPhone;
-	}
+  public Long getRoal_id() {
+    return roal_id;
+  }
 
-	public Date getCreateTime() {
-		return createTime;
-	}
+  public void setRoal_id(Long roal_id) {
+    this.roal_id = roal_id;
+  }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+  public String getRemark() {
+    return remark;
+  }
 
-	public int getScore() {
-		return score;
-	}
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
 
-	public void setScore(int score) {
-		this.score = score;
-	}
+  public String getCreate_by() {
+    return create_by;
+  }
 
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", userPhone=" + userPhone + ", createTime=" + createTime + ", score=" + score
-				+ "]";
-	}
+  public void setCreate_by(String create_by) {
+    this.create_by = create_by;
+  }
 
-	
+  public java.sql.Timestamp getCreate_time() {
+    return create_time;
+  }
 
+  public void setCreate_time(java.sql.Timestamp create_time) {
+    this.create_time = create_time;
+  }
+
+  public String getUpdate_by() {
+    return update_by;
+  }
+
+  public void setUpdate_by(String update_by) {
+    this.update_by = update_by;
+  }
+
+  public java.sql.Timestamp getUpdate_time() {
+    return update_time;
+  }
+
+  public void setUpdate_time(java.sql.Timestamp update_time) {
+    this.update_time = update_time;
+  }
 }

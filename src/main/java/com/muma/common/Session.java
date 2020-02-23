@@ -16,7 +16,7 @@ public class Session {
 	 * @param session
 	 * @param user
 	 */
-	public static void loginUser(HttpSession session,User user){
+	public static void loginUser(HttpSession session, User user){
 		session.setAttribute(USER_KEY, user);
 	}
 	
