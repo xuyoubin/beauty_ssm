@@ -1,30 +1,34 @@
 package com.muma.entity;
 
-public class User {
-  private Long id;
-  private String reg_phone;
+import com.muma.entity.base.BaseEntity;
+import com.muma.enums.RoalEnum;
+
+public class User extends BaseEntity {
+
+  private static final long serialVersionUID = 8034989383095978999L;
+  /**
+   * 注册手机号
+   */
+  private String regPhone;
+  /**
+   * 密码
+   */
   private String password;
-  private Long roal_id;
+  /**
+   * 角色
+   */
+  private RoalEnum roalId;
+  /**
+   * 备注
+   */
   private String remark;
-  private String create_by;
-  private java.sql.Timestamp create_time;
-  private String update_by;
-  private java.sql.Timestamp update_time;
 
-  public Long getId() {
-    return id;
+  public String getRegPhone() {
+    return regPhone;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getReg_phone() {
-    return reg_phone;
-  }
-
-  public void setReg_phone(String reg_phone) {
-    this.reg_phone = reg_phone;
+  public void setRegPhone(String regPhone) {
+    this.regPhone = regPhone;
   }
 
   public String getPassword() {
@@ -35,12 +39,12 @@ public class User {
     this.password = password;
   }
 
-  public Long getRoal_id() {
-    return roal_id;
+  public RoalEnum getRoalId() {
+    return roalId;
   }
 
-  public void setRoal_id(Long roal_id) {
-    this.roal_id = roal_id;
+  public void setRoalId(RoalEnum roalId) {
+    this.roalId = roalId;
   }
 
   public String getRemark() {
@@ -49,37 +53,5 @@ public class User {
 
   public void setRemark(String remark) {
     this.remark = remark;
-  }
-
-  public String getCreate_by() {
-    return create_by;
-  }
-
-  public void setCreate_by(String create_by) {
-    this.create_by = create_by;
-  }
-
-  public java.sql.Timestamp getCreate_time() {
-    return create_time;
-  }
-
-  public void setCreate_time(java.sql.Timestamp create_time) {
-    this.create_time = create_time;
-  }
-
-  public String getUpdate_by() {
-    return update_by;
-  }
-
-  public void setUpdate_by(String update_by) {
-    this.update_by = update_by;
-  }
-
-  public java.sql.Timestamp getUpdate_time() {
-    return update_time;
-  }
-
-  public void setUpdate_time(java.sql.Timestamp update_time) {
-    this.update_time = update_time;
   }
 }
