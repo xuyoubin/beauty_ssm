@@ -30,12 +30,12 @@ public class UserDetail extends BaseEntity {
    * 状态 状态：0 -待审核，1-审核通过，2-审核不通过,3-用户拉黑（该系统拉黑，防止该用户再注册） 4-平台拉黑（如淘宝平台）
    */
   private StatusEnum status;
-  private String bank_id;
-  private String bank_name;
-  private String bank_user;
+  private String bankId;
+  private String bankName;
+  private String bankUser;
   private String phone;
-  private String id_white;
-  private String id_black;
+  private String idWhite;
+  private String idBlack;
   private String photo;
 
 }
