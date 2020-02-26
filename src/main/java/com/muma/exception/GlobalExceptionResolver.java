@@ -1,7 +1,7 @@
 package com.muma.exception;
 
 import com.alibaba.fastjson.JSON;
-import com.muma.dto.BaseResult;
+import com.muma.controller.base.BaseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 /**
  * 错误信息统一处理
  * 对未处理的错误信息做一个统一处理
- * @author yingjun
+ * @author xuyb
  *
  */
 @Component

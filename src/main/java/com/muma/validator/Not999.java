@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * 自定义validator标签(和 hibernate validator组合使用)
  * 
- * @author yingjun
+ * @author xuyb
  *
  */
 @Constraint(validatedBy = Not999Validator.class) // 具体的实现

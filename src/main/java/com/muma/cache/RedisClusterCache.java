@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * 采用Jedis Cluster
  *
- * @author yingjun
+ * @author xuyb
  *
  */
 @Component

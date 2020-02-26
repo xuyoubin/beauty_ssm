@@ -1,4 +1,4 @@
-package com.muma.dto;
+package com.muma.controller.base;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * 
- * @author yingjun
+ * @author xuyb
  *
  * ajax 请求的返回类型封装JSON结果
  */

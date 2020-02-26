@@ -1,6 +1,6 @@
 package com.muma.aop;
 
-import com.muma.dto.BaseResult;
+import com.muma.controller.base.BaseResult;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
 /**
- * @author yingjun
+ * @author xuyb
  *
  * 采用AOP的方式处理参数问题。
  */

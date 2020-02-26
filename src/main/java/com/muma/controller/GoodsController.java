@@ -1,11 +1,10 @@
 package com.muma.controller;
 
-import com.muma.controller.base.BaseController;
 import com.muma.entity.Goods;
-import com.muma.enums.ResultEnum;
+import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.GoodsService;
-import com.muma.dto.BaseResult;
+import com.muma.controller.base.BaseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/goods")
-public class GoodsController extends BaseController {
+public class GoodsController {
 
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 

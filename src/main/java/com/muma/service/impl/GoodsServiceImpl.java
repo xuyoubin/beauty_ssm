@@ -4,7 +4,7 @@ import com.muma.dao.GoodsDao;
 import com.muma.dao.OrderDao;
 import com.muma.entity.Goods;
 import com.muma.entity.User;
-import com.muma.enums.ResultEnum;
+import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.GoodsService;
 import com.muma.dao.UserDao;

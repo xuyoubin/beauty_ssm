@@ -21,7 +21,7 @@
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.OperateStatusEnum"/>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.OrderStatusEnum"/>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.PayTypeEnum"/>
-        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.ResultEnum"/>
+        <!--<typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.ResultEnum"/>-->
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.RoalEnum"/>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.SellTaskRuleEnum"/>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.StatusEnum"/>

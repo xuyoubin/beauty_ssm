@@ -1,6 +1,5 @@
 package com.muma.controller;
 
-import com.muma.controller.base.BaseController;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
 import com.muma.service.UserService;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseController {
+public class UserController {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
