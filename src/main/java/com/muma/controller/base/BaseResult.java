@@ -22,6 +22,8 @@ public class BaseResult<T> implements Serializable {
 
     private String error;
 
+    private String code;
+
     public BaseResult(boolean success, String error) {
         this.success = success;
         this.error = error;
@@ -31,6 +33,18 @@ public class BaseResult<T> implements Serializable {
         this.success = success;
         this.data = data;
     }
+    public BaseResult(boolean success,String code, String error) {
+        this.success = success;
+        this.code = code;
+        this.error = error;
+    }
+
+    public BaseResult(boolean success,String code, T data) {
+        this.success = success;
+        this.code = code;
+        this.data = data;
+    }
+
 
     public boolean isSuccess() {
         return success;
@@ -56,7 +70,15 @@ public class BaseResult<T> implements Serializable {
         this.error = error;
     }
 
-	@Override
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    @Override
 	public String toString() {
 		return "BaseResult [success=" + success + ", data=" + data + ", error=" + error + "]";
 	}

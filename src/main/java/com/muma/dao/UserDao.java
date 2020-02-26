@@ -13,7 +13,14 @@ public interface UserDao {
      * @param userPhone
      * @return
      */
-    User queryByPhone(long userPhone);
+    User queryByPhone(@Param("userPhone") String userPhone);
+    /**
+     * 根据手机号和密码查询用户对象
+     *
+     * @param userPhone
+     * @return
+     */
+    User queryByPhoneAndPwd(@Param("userPhone")String userPhone,@Param("pwd") String pwd);
     
     
     /**

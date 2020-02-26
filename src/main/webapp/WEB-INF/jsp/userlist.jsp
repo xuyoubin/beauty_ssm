@@ -26,7 +26,7 @@
 						<c:forEach var="user" items="${userlist}">
 							<tr>
 								<td>${user.id}</td>
-								<td>${user.platformName}</td>
+								<td>${user.platformId.text}</td>
 								<td>${user.regPhone}</td>
 								<td>${user.level}</td>
 								<td><fmt:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

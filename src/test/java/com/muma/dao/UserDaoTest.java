@@ -25,8 +25,8 @@ public class UserDaoTest {
 	
 	@Test
 	public void testQueryById() {
-		User user=userDao.queryByPhone(18768128888L);
-		System.out.println(user);
+//		User user=userDao.queryByPhone(18768128888L);
+//		System.out.println(user);
 		System.out.println("--------------------------");
 	}
 

@@ -25,13 +25,23 @@ public class TimeUtils {
 
 	/**
 	 * long time to string
-	 * 
+	 *
 	 * @param timeInMillis
 	 * @param dateFormat
 	 * @return
 	 */
 	public static String getTime(long timeInMillis, SimpleDateFormat dateFormat) {
 		return dateFormat.format(new Date(timeInMillis));
+	}
+	/**
+	 * long time to string
+	 *
+	 * @param timeInMillis
+	 * @param dateFormat
+	 * @return
+	 */
+	public static String getTime(Date time, SimpleDateFormat dateFormat) {
+		return dateFormat.format(time);
 	}
 
 	/**
@@ -42,6 +52,15 @@ public class TimeUtils {
 	 */
 	public static String getTime(long timeInMillis) {
 		return getTime(timeInMillis, DATE_FORMAT_DATE_S);
+	}
+	/**
+	 * long time to string, format is {@link #DEFAULT_DATE_FORMAT}
+	 *
+	 * @param timeInMillis
+	 * @return
+	 */
+	public static String getTime(Date time) {
+		return getTime(time, DATE_FORMAT_DATE_S);
 	}
 
 	/**

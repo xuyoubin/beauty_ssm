@@ -19,8 +19,12 @@ public enum ResultEnum {
 	TOKEN_IS_ILLICIT(99980002, "Token验证非法"), 
 	SESSION_IS_OUT_TIME(99980003, "会话超时"),
 
+	//操作成功
+	 SUCCESS(88888888, "操作成功!"),
+
 	// 用户相关异常
-	INVALID_USER(1001001, "无效用户");
+	INVALID_USER(10010010, "账号或密码错误!");
+
 
 	private int state;
 

@@ -48,10 +48,10 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public void buyGoods(long userPhone, long goodsId, boolean useProcedure) {
 		// 用户校验
-		User user = userDao.queryByPhone(userPhone);
-		if (user == null) {
-			throw new BizException(ResultEnum.INVALID_USER.getMsg());
-		}
+//		User user = userDao.queryByPhone(userPhone);
+//		if (user == null) {
+//			throw new BizException(ResultEnum.INVALID_USER.getMsg());
+//		}
 		if (useProcedure) {
 			// 通过存储方式的方法进行操作
 			Map<String, Object> map = new HashMap<String, Object>();

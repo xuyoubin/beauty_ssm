@@ -1,6 +1,7 @@
 package com.muma.entity.base;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ public class BaseEntity  extends IdEntity{
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     /**
      * 更新人
@@ -21,6 +23,7 @@ public class BaseEntity  extends IdEntity{
     /**
      * 更新时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     public String getCreateBy() {
