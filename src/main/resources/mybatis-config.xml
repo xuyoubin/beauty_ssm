@@ -15,5 +15,17 @@
 
     <typeHandlers>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.PlatformEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.BuyerRuleEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.CommentTaskRuleEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.LogTypeEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.OperateStatusEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.OrderStatusEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.PayTypeEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.ResultEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.RoalEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.SellTaskRuleEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.StatusEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.TaskTypeEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.YesAndNoEnum"/>
     </typeHandlers>
 </configuration>
