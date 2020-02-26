@@ -3,6 +3,9 @@ package com.muma.entity;
 import com.muma.entity.base.BaseEntity;
 import com.muma.enums.RoalEnum;
 
+/**
+ * 用户登录表
+ */
 public class User extends BaseEntity {
 
   private static final long serialVersionUID = 8034989383095978999L;

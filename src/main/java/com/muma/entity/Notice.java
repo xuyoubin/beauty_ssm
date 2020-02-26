@@ -8,7 +8,7 @@ public class Notice extends BaseEntity {
   /**
    * 用户ID
    */
-  private Integer user_id;
+  private Integer userId;
   /**
    * 标题
    */
@@ -22,12 +22,12 @@ public class Notice extends BaseEntity {
    */
   private String content;
 
-  public Integer getUser_id() {
-    return user_id;
+  public Integer getUserId() {
+    return userId;
   }
 
-  public void setUser_id(Integer user_id) {
-    this.user_id = user_id;
+  public void setUserId(Integer userId) {
+    this.userId = userId;
   }
 
   public String getTitle() {

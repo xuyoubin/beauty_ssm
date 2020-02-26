@@ -1,9 +1,12 @@
-package com.my.db;
+package com.muma.entity;
 
 import com.muma.entity.base.BaseEntity;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.YesAndNoEnum;
 
+/**
+ * 用户信息表
+ */
 public class UserDetail extends BaseEntity {
 
 
@@ -17,25 +20,199 @@ public class UserDetail extends BaseEntity {
    */
   private String idCard;
   /**
-   *
+   * 性别
    */
   private YesAndNoEnum sex;
+  /**
+   * 年龄
+   */
   private Integer age;
-  private String province;
-  private String city;
+  /**
+   * 省份
+   */
+  private Integer provinceCode;
+  /**
+   * 城市
+   */
+  private String cityCode;
+  /**
+   * 上级买家
+   */
   private Long parentId;
+  /**
+   * 推荐码
+   */
   private String code;
+  /**
+   * 信用
+   */
   private Long credit;
   /**
    * 状态 状态：0 -待审核，1-审核通过，2-审核不通过,3-用户拉黑（该系统拉黑，防止该用户再注册） 4-平台拉黑（如淘宝平台）
    */
   private StatusEnum status;
+  /**
+   * 银行账号
+   */
   private String bankId;
+  /**
+   * 银行名称
+   */
   private String bankName;
+  /**
+   * 开户人
+   */
   private String bankUser;
+  /**
+   * 开户手机
+   */
   private String phone;
+  /**
+   * 身份证正面
+   */
   private String idWhite;
+  /**
+   * 身份证反面
+   */
   private String idBlack;
+  /**
+   * 本人照片
+   */
   private String photo;
 
+  public Integer getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Integer userId) {
+    this.userId = userId;
+  }
+
+  public String getIdCard() {
+    return idCard;
+  }
+
+  public void setIdCard(String idCard) {
+    this.idCard = idCard;
+  }
+
+  public YesAndNoEnum getSex() {
+    return sex;
+  }
+
+  public void setSex(YesAndNoEnum sex) {
+    this.sex = sex;
+  }
+
+  public Integer getAge() {
+    return age;
+  }
+
+  public void setAge(Integer age) {
+    this.age = age;
+  }
+
+  public Integer getProvinceCode() {
+    return provinceCode;
+  }
+
+  public void setProvinceCode(Integer provinceCode) {
+    this.provinceCode = provinceCode;
+  }
+
+  public String getCityCode() {
+    return cityCode;
+  }
+
+  public void setCityCode(String cityCode) {
+    this.cityCode = cityCode;
+  }
+
+  public Long getParentId() {
+    return parentId;
+  }
+
+  public void setParentId(Long parentId) {
+    this.parentId = parentId;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
+
+  public Long getCredit() {
+    return credit;
+  }
+
+  public void setCredit(Long credit) {
+    this.credit = credit;
+  }
+
+  public StatusEnum getStatus() {
+    return status;
+  }
+
+  public void setStatus(StatusEnum status) {
+    this.status = status;
+  }
+
+  public String getBankId() {
+    return bankId;
+  }
+
+  public void setBankId(String bankId) {
+    this.bankId = bankId;
+  }
+
+  public String getBankName() {
+    return bankName;
+  }
+
+  public void setBankName(String bankName) {
+    this.bankName = bankName;
+  }
+
+  public String getBankUser() {
+    return bankUser;
+  }
+
+  public void setBankUser(String bankUser) {
+    this.bankUser = bankUser;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getIdWhite() {
+    return idWhite;
+  }
+
+  public void setIdWhite(String idWhite) {
+    this.idWhite = idWhite;
+  }
+
+  public String getIdBlack() {
+    return idBlack;
+  }
+
+  public void setIdBlack(String idBlack) {
+    this.idBlack = idBlack;
+  }
+
+  public String getPhoto() {
+    return photo;
+  }
+
+  public void setPhoto(String photo) {
+    this.photo = photo;
+  }
 }

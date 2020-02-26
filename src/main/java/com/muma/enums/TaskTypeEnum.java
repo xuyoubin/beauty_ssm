@@ -6,7 +6,9 @@ public enum TaskTypeEnum implements ValuedEnum {
 
     SELLE_TASK(0,"销售任务"),
     COMMENT_TASK(1,"评价任务"),
-    LOOK_TASK(2,"浏览任务");
+    LOOK_TASK(2,"浏览任务"),
+    LOOK_AND_SHOP(3,"当天浏览第二天购买任务"),
+    REPEAT_SHOP(4,"复购任务");
 
     private Integer value;
     private String text;

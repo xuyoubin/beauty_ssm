@@ -1,12 +1,35 @@
-package com.my.db;
+package com.muma.entity;
 
-public class UserPermission {
-  private Long untitled3;
-  private Long user_id;
-  private Long menu_id;
-  private String create_by;
-  private java.sql.Timestamp create_time;
-  private String update_by;
-  private java.sql.Timestamp update_time;
+import com.muma.entity.base.BaseEntity;
 
+/**
+ * 菜单权限表
+ */
+public class UserPermission extends BaseEntity {
+
+  private static final long serialVersionUID = 1203572725363206952L;
+  /**
+   * 用户ID
+   */
+  private Integer userId;
+  /**
+   * 菜单ID
+   */
+  private Integer menuId;
+
+  public Integer getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Integer userId) {
+    this.userId = userId;
+  }
+
+  public Integer getMenuId() {
+    return menuId;
+  }
+
+  public void setMenuId(Integer menuId) {
+    this.menuId = menuId;
+  }
 }

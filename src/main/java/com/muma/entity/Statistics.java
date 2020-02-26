@@ -20,7 +20,7 @@ public class Statistics extends BaseEntity {
    */
   private Integer taskOrderId;
   /**
-   * 任务类型 0-销售任务；1-评价任务；3-浏览任务
+   * 任务类型 0-销售任务；1-评价任务；2-浏览任务； 3-天浏览第二天购买任务 ；4-复购任务
    */
   private TaskTypeEnum type;
   /**

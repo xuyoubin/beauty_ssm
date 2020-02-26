@@ -10,6 +10,9 @@ import com.muma.enums.TaskTypeEnum;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * 销售发布任务
+ */
 public class TaskOrder extends BaseEntity {
 
   private static final long serialVersionUID = -8999200277614292243L;
@@ -18,7 +21,7 @@ public class TaskOrder extends BaseEntity {
    */
   private Integer userId;
   /**
-   * 商家id
+   * 商店id
    */
   private Integer shopId;
   /**
