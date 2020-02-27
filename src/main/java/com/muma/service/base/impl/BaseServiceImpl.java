@@ -5,28 +5,22 @@
 
 package com.muma.service.base.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.hk.base.domain.Page;
-import com.hk.base.domain.PageRequest;
-import com.hk.base.domain.Sort;
-import com.hk.base.service.api.BaseService;
-import com.hk.base.util.DynamicCriteria;
-import com.hk.base.util.ReflectionUtils;
-import com.hk.base.util.SearchFilter;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.muma.common.Sort;
 import com.muma.service.base.BaseService;
+import com.sun.jndi.toolkit.dir.SearchFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 import tk.mybatis.mapper.util.StringUtil;
+
 
 public class BaseServiceImpl<T> implements BaseService<T> {
     @Autowired
@@ -39,18 +33,18 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     public T getEntity(Object key) {
         return this.mapper.selectByPrimaryKey(key);
     }
-
+    @Override
     public List<T> findAll() {
         return this.mapper.selectAll();
     }
-
+    @Override
     public List<T> findList(Map<String, Object> searchParams) {
         return this.findList(searchParams, (Sort)null);
     }
-
+    @Override
     public List<T> findList(Map<String, Object> searchParams, Sort sort) {
         Example example = new Example(this.clazz);
-        Criteria criteria = example.createCriteria();
+        Example.Criteria criteria = example.createCriteria();
         Map filters = SearchFilter.parse(searchParams);
         DynamicCriteria.bySearchFilter(filters, criteria);
         if (sort != null) {
@@ -112,40 +106,8 @@ public class BaseServiceImpl<T> implements BaseService<T> {
         return this.mapper.deleteByPrimaryKey(key);
     }
 
-    public int deleteByPrimaryKey(Object... keys) {
-        List<?> list = Arrays.asList(keys);
-        Example example = new Example(this.clazz);
-        Criteria criteria = example.createCriteria();
-        String properyeName = ReflectionUtils.getPropertyName(this.clazz);
-        if (properyeName != null) {
-            criteria.andIn(properyeName, list);
-            return this.mapper.deleteByExample(example);
-        } else {
-            return 0;
-        }
-    }
-
     public int delete(T entity) {
         return entity == null ? 0 : this.mapper.delete(entity);
-    }
-
-    public int delete(Iterable<? extends T> entities) {
-        int n = 0;
-
-        int dr;
-        for(Iterator var3 = entities.iterator(); var3.hasNext(); n += dr) {
-            T entity = var3.next();
-            dr = 0;
-            if (entity != null) {
-                dr = this.mapper.delete(entity);
-            }
-        }
-
-        return n;
-    }
-
-    public T getByPrimaryKey(Object key) {
-        return this.mapper.selectByPrimaryKey(key);
     }
 
     public int updateByPrimaryKey(T entity) {
