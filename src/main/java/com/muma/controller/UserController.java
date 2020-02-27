@@ -1,6 +1,7 @@
 package com.muma.controller;
 
 import com.muma.common.HttpContext;
+import com.muma.common.Session;
 import com.muma.controller.base.BaseResult;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Date;
 import java.util.List;
 
+import static com.muma.common.HttpContext.getRequset;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -37,11 +40,12 @@ public class UserController {
 	@RequestMapping(value = "login.do")
 	@ResponseBody
 	public BaseResult<User> login(){
-		String regPhone = HttpContext.getRequset().getParameter("phone");
-		String pwd = HttpContext.getRequset().getParameter("password");
+		String regPhone = getRequset().getParameter("phone");
+		String pwd = getRequset().getParameter("password");
 		try{
 			logger.info("=====================用户名："+regPhone+"密码："+pwd+"登录时间："+ TimeUtils.getTime(new Date())+"==================");
 			User userInfo = userService.login(regPhone,pwd);
+			Session.loginUser(getRequset().getSession(), userInfo);
 			return new BaseResult<User>(true,userInfo);
 		}catch (BizException e){
 			return new BaseResult<User>(false,e.getMessage());
@@ -49,6 +53,33 @@ public class UserController {
 			logger.error("登录异常：{}",e);
 			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
 		}
+	}
+	/**
+	 * 登出
+	 * @return
+	 */
+	@RequestMapping(value = "loginOut.do")
+	@ResponseBody
+	public BaseResult<User> loginOut(){
+		Session.loginoutUser(getRequset().getSession());
+		return  new BaseResult<User>(true,"登出成功！");
+	}
+
+	/**
+	 * 注册用户
+	 * @return
+	 */
+	@RequestMapping(value = "register.do")
+	@ResponseBody
+	public BaseResult<User> register(){
+		String regPhone = getRequset().getParameter("phone");
+		String pwd = getRequset().getParameter("password");
+		String type = getRequset().getParameter("type");
+
+		User userObj = userSrvice.findUser(parm);
+
+		userSrvice.add(name,parm,pwd);
+		return jsonSuccess(json);
 	}
 
 

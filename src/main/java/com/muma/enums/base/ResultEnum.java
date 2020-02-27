@@ -26,6 +26,7 @@ public enum ResultEnum {
 	INVALID_USER(10010010, "账号或密码错误!");
 
 
+
 	private int state;
 
 	private String msg;

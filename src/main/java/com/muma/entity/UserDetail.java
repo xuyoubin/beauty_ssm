@@ -30,7 +30,7 @@ public class UserDetail extends BaseEntity {
   /**
    * 省份
    */
-  private Integer provinceCode;
+  private String provinceCode;
   /**
    * 城市
    */
@@ -112,11 +112,11 @@ public class UserDetail extends BaseEntity {
     this.age = age;
   }
 
-  public Integer getProvinceCode() {
+  public String getProvinceCode() {
     return provinceCode;
   }
 
-  public void setProvinceCode(Integer provinceCode) {
+  public void setProvinceCode(String provinceCode) {
     this.provinceCode = provinceCode;
   }
 

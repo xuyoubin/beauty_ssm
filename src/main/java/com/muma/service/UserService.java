@@ -14,6 +14,8 @@ public interface UserService {
 	 */
 	User login(String regPhone,String pwd);
 
+	void register(String regPhone,String pwd,String type);
+
 
 	List<User> getUserList(int offset, int limit);
 

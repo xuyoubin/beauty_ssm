@@ -9,6 +9,7 @@ import com.muma.exception.BizException;
 import com.muma.service.UserService;
 import com.muma.dao.UserDao;
 import com.muma.util.Precondition;
+import com.muma.util.VaildUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,16 @@ public class UserServiceImpl implements UserService {
 		Precondition.checkNotNull(user, ResultEnum.INVALID_USER.getMsg());
 		return user;
 	}
+
+	@Override
+	public void register(String regPhone, String pwd, String type) {
+		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
+		Precondition.checkState(StringUtils.isNotBlank(pwd), "password is null!");
+		Precondition.checkState(StringUtils.isNotBlank(type), "type is null!");
+		Boolean isRight = VaildUtils.checkPhone(regPhone);
+
+	}
+
 
 	@Override
 	public List<User> getUserList(int offset, int limit) {
