@@ -40,11 +40,11 @@ public class UserController {
 	@RequestMapping(value = "login.do")
 	@ResponseBody
 	public BaseResult<User> login(){
-		String regPhone = getRequset().getParameter("phone");
-		String pwd = getRequset().getParameter("password");
+		String regPhone = getRequset().getParameter("regPhone");
+		String password = getRequset().getParameter("password");
 		try{
-			logger.info("=====================用户名："+regPhone+"密码："+pwd+"登录时间："+ TimeUtils.getTime(new Date())+"==================");
-			User userInfo = userService.login(regPhone,pwd);
+			logger.info("=====================用户名："+regPhone+"密码："+password+"登录时间："+ TimeUtils.getTime(new Date())+"==================");
+			User userInfo = userService.login(regPhone,password);
 			Session.loginUser(getRequset().getSession(), userInfo);
 			return new BaseResult<User>(true,userInfo);
 		}catch (BizException e){
@@ -72,14 +72,13 @@ public class UserController {
 	@RequestMapping(value = "register.do")
 	@ResponseBody
 	public BaseResult<User> register(){
-		String regPhone = getRequset().getParameter("phone");
-		String pwd = getRequset().getParameter("password");
+		String regPhone = getRequset().getParameter("regPhone");
+		String password = getRequset().getParameter("password");
 		String type = getRequset().getParameter("type");
+		userService.register(regPhone,password,type);
 
-		User userObj = userSrvice.findUser(parm);
 
-		userSrvice.add(name,parm,pwd);
-		return jsonSuccess(json);
+		return  new BaseResult<User>(true,"登出成功！");
 	}
 
 

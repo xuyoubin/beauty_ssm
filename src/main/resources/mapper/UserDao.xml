@@ -3,16 +3,16 @@
 <mapper namespace="com.muma.dao.UserDao">
 
 	<select id="queryByPhone" resultType="com.muma.entity.User">
-		SELECT  reg_phone,password,roal_id,create_time,remark
+		SELECT  reg_phone,roal_id,create_time
 		FROM tbl_user
 		WHERE 
-		reg_phone= #{userPhone} limit 1
+		reg_phone= #{regPhone} limit 1
 	</select>
 	<select id="queryByPhoneAndPwd" resultType="com.muma.entity.User">
-		SELECT reg_phone,roal_id,create_time,remark
+		SELECT reg_phone,roal_id,create_time
 		FROM tbl_user
 		WHERE
-		reg_phone= #{userPhone} AND password= #{pwd} limit 1
+		reg_phone= #{regPhone} AND password= #{password} limit 1
 	</select>
 	
 	<select id="queryAll" resultType="User">

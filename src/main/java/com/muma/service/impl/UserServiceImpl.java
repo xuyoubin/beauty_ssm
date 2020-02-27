@@ -15,7 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,20 +36,33 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public User login(String regPhone, String pwd) {
+	public User login(String regPhone, String password) {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
-		Precondition.checkState(StringUtils.isNotBlank(pwd), "password is null!");
-		User user = userDao.queryByPhoneAndPwd(regPhone,pwd);
+		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
+		User user = userDao.queryByPhoneAndPwd(regPhone,password);
 		Precondition.checkNotNull(user, ResultEnum.INVALID_USER.getMsg());
 		return user;
 	}
 
+	/**
+	 * 注册
+	 * @param regPhone
+	 * @param password
+	 * @param type
+	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public void register(String regPhone, String pwd, String type) {
+	public void register(String regPhone, String password, String type) {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
-		Precondition.checkState(StringUtils.isNotBlank(pwd), "password is null!");
+		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
 		Precondition.checkState(StringUtils.isNotBlank(type), "type is null!");
 		Boolean isRight = VaildUtils.checkPhone(regPhone);
+		Precondition.checkState(isRight,"手机号码错误！");
+		User user = userDao.queryByPhone(regPhone);
+		Precondition.checkState(user !=null, "该手机号码已经注册过！");
+		//保存用户登录信息和详细信息
+		User userInfo = new User();
+
 
 	}
 

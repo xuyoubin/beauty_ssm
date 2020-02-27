@@ -10,17 +10,17 @@ public interface UserDao {
 	/**
      * 根据手机号查询用户对象
      *
-     * @param userPhone
+     * @param regPhone
      * @return
      */
-    User queryByPhone(@Param("userPhone") String userPhone);
+    User queryByPhone(@Param("regPhone") String regPhone);
     /**
      * 根据手机号和密码查询用户对象
      *
-     * @param userPhone
+     * @param regPhone
      * @return
      */
-    User queryByPhoneAndPwd(@Param("userPhone")String userPhone,@Param("pwd") String pwd);
+    User queryByPhoneAndPwd(@Param("regPhone")String regPhone,@Param("password") String password);
     
     
     /**

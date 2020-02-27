@@ -12,9 +12,9 @@ public interface UserService {
 	 * @param pwd
 	 * @return
 	 */
-	User login(String regPhone,String pwd);
+	User login(String regPhone,String password);
 
-	void register(String regPhone,String pwd,String type);
+	void register(String regPhone,String password,String type);
 
 
 	List<User> getUserList(int offset, int limit);
