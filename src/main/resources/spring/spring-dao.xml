@@ -44,11 +44,11 @@
     </bean>
 
     <!--4、配置扫描Dao接口包,动态实现DAO接口,注入到spring容器-->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--注入SqlSessionFactory-->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!-- 给出需要扫描的Dao接口-->
-        <property name="basePackage" value="com.muma.dao"/>
+        <property name="basePackage" value="com.muma.mapper"/>
     </bean>
 
 </beans>

@@ -9,7 +9,7 @@ public interface UserService {
 	/**
 	 * 用户登录
 	 * @param regPhone
-	 * @param pwd
+	 * @param password
 	 * @return
 	 */
 	User login(String regPhone,String password);

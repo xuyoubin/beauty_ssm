@@ -26,13 +26,13 @@ public class UserServiceImpl implements UserService {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private BuyerDao buyerDao;
+//	@Autowired
+//	private BuyerDao buyerDao;
 
 	/**
 	 * 用户登录
 	 * @param regPhone
-	 * @param pwd
+	 * @param password
 	 * @return
 	 */
 	@Override
@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
 		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
 		User user = userDao.queryByPhoneAndPwd(regPhone,password);
+		User u = userDao.getEntity(1);
 		Precondition.checkNotNull(user, ResultEnum.INVALID_USER.getMsg());
 		return user;
 	}
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
 		List<User> result_cache=null;
 		if(result_cache==null){
 			//缓存中没有再去数据库取，并插入缓存（缓存时间为60秒）
-			result_cache=userDao.queryAll(offset, limit);
+//			result_cache=userDao.queryAll(offset, limit);
 			LOG.info("put cache with key:");
 		}else{
 			LOG.info("get cache with key:");
@@ -83,7 +84,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Buyer> getBuyerList() {
-		return buyerDao.queryBuyerList();
+//		return buyerDao.queryBuyerList();
+		return  null;
 	}
 
 

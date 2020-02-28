@@ -23,12 +23,12 @@ import java.util.Map;
 public class GoodsServiceImpl implements GoodsService {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-	@Autowired
-	private GoodsDao goodsDao;
-	@Autowired
-	private OrderDao orderDao;
-	@Autowired
-	private UserDao userDao;
+//	@Autowired
+//	private GoodsDao goodsDao;
+//	@Autowired
+//	private OrderDao orderDao;
+//	@Autowired
+//	private UserDao userDao;
 
 	@Override
 	public List<Goods> getGoodsList(int offset, int limit) {
@@ -37,7 +37,7 @@ public class GoodsServiceImpl implements GoodsService {
 			LOG.info("get cache with key:" );
 		} else {
 			// 缓存中没有再去数据库取，并插入缓存（缓存时间为60秒）
-			result_cache = goodsDao.queryAll(offset, limit);
+//			result_cache = goodsDao.queryAll(offset, limit);
 			LOG.info("put cache with key:" );
 			return result_cache;
 		}
@@ -59,7 +59,7 @@ public class GoodsServiceImpl implements GoodsService {
 			map.put("goodsId", goodsId);
 			map.put("title", "抢购");
 			map.put("result", null);
-			goodsDao.bugWithProcedure(map);
+//			goodsDao.bugWithProcedure(map);
 			int result = MapUtils.getInteger(map, "result", -1);
 			if (result <= 0) {
 				// 买卖失败
@@ -72,23 +72,23 @@ public class GoodsServiceImpl implements GoodsService {
 			}
 		} else {
 
-			int inserCount = orderDao.insertOrder(0, goodsId, "普通买卖");
-			if (inserCount <= 0) {
-				// 买卖失败
-				throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-			} else {
-				// 减库存
-				int updateCount = goodsDao.reduceNumber(goodsId);
-				if (updateCount <= 0) {
-					// 减库存失败
-					throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-				} else {
-					// 买卖成功
-					// 此时缓存中的数据不再是最新的，需要对缓存进行清理（具体的缓存策略还是要根据具体需求制定）
-					LOG.info("delete cache with key: getGoodsList*");
-					return;
-				}
-			}
+//			int inserCount = orderDao.insertOrder(0, goodsId, "普通买卖");
+//			if (inserCount <= 0) {
+//				// 买卖失败
+//				throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
+//			} else {
+//				// 减库存
+//				int updateCount = goodsDao.reduceNumber(goodsId);
+//				if (updateCount <= 0) {
+//					// 减库存失败
+//					throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
+//				} else {
+//					// 买卖成功
+//					// 此时缓存中的数据不再是最新的，需要对缓存进行清理（具体的缓存策略还是要根据具体需求制定）
+//					LOG.info("delete cache with key: getGoodsList*");
+//					return;
+//				}
+//			}
 		}
 	}
 
