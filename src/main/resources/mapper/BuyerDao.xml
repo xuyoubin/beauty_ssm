@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.muma.dao.BuyerDao">
 
-	<select id="queryBuyerList" resultType="Buyer">
+	<select id="queryBuyerListByUserId" resultType="com.muma.entity.Buyer">
 		SELECT *
 		FROM tbl_buyer
+		WHERE user_id= #{userId}
 	</select>
 
 </mapper>
