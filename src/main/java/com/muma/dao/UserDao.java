@@ -7,6 +7,15 @@ import org.apache.ibatis.annotations.Param;
 
 public interface UserDao {
 
+    /**
+     * 添加一个用户
+     */
+    void addUser(@Param("regPhone")int regPhone,
+                 @Param("password")int password,
+                 @Param("roalId")int roalId,
+                 @Param("remark")int remark,
+                 @Param("createBy")int createBy);
+
 	/**
      * 根据手机号查询用户对象
      *
@@ -21,21 +30,5 @@ public interface UserDao {
      * @return
      */
     User queryByPhoneAndPwd(@Param("regPhone")String regPhone,@Param("password") String password);
-    
-    
-    /**
-     * 根据偏移量查询用户列表
-     *
-     * @param offset
-     * @param limit
-     * @return
-     */
-    List<User> queryAll(@Param("offset") int offset, @Param("limit") int limit);
 
-    
-    /**
-     * 增加积分
-     */
-    void addScore(@Param("add")int add);
-	
 }

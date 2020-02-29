@@ -77,7 +77,6 @@ public class UserController {
 		String type = getRequset().getParameter("type");
 		userService.register(regPhone,password,type);
 
-
 		return  new BaseResult<User>(true,"登出成功！");
 	}
 

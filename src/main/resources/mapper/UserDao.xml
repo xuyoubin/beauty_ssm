@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.muma.dao.UserDao">
 
+	<insert id="addUser">
+		INSERT INTO
+		tbl_user(reg_phone,password,roal_id,remark,create_by,create_time,)
+		VALUES
+		(#{regPhone},#{password},#{roalId},#{remark},#{createBy},NOW())
+	</insert>
 	<select id="queryByPhone" resultType="com.muma.entity.User">
 		SELECT  reg_phone,roal_id,create_time
 		FROM tbl_user
@@ -14,19 +20,5 @@
 		WHERE
 		reg_phone= #{regPhone} AND password= #{password} limit 1
 	</select>
-	
-	<select id="queryAll" resultType="User">
-		SELECT *
-		FROM _user
-		ORDER BY create_time DESC
-		limit #{offset},#{limit}
-	</select>
-
-
-   	<update id="addScore">
-		UPDATE _user 
-		SET 
-		score = score + #{add}
-	</update>
 
 </mapper>
