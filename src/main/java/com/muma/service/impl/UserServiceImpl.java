@@ -2,6 +2,8 @@ package com.muma.service.impl;
 
 import com.muma.controller.base.BaseResult;
 import com.muma.dao.BuyerDao;
+import com.muma.dao.UserDetailDao;
+import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
 import com.muma.enums.base.ResultEnum;
@@ -28,6 +30,8 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	@Autowired
 	private BuyerDao buyerDao;
+	@Autowired
+	private UserDetailDao userDetailDao;
 
 	/**
 	 * 用户登录
@@ -36,12 +40,15 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public User login(String regPhone, String password) {
+	public UserInfoDto login(String regPhone, String password) {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
 		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
-		User user = userDao.queryByPhoneAndPwd(regPhone,password);
-		Precondition.checkNotNull(user, ResultEnum.INVALID_USER.getMsg());
-		return user;
+		UserInfoDto userInfo = userDao.queryByPhoneAndPwd(regPhone,password);
+		Precondition.checkNotNull(userInfo, ResultEnum.INVALID_USER.getMsg());
+		//已经注册查询平台信息
+		List<Buyer> buyerList = buyerDao.queryBuyerListByUserId(userInfo.getUserId());
+		userInfo.setBuyerList(buyerList);
+		return userInfo;
 	}
 
 	/**
@@ -58,10 +65,12 @@ public class UserServiceImpl implements UserService {
 		Precondition.checkState(StringUtils.isNotBlank(type), "type is null!");
 		Boolean isRight = VaildUtils.checkPhone(regPhone);
 		Precondition.checkState(isRight,"手机号码错误！");
-		User user = userDao.queryByPhone(regPhone);
-		Precondition.checkState(user !=null, "该手机号码已经注册过！");
+		Integer integer = userDao.queryByPhone(regPhone);
+		Precondition.checkState(integer > 0, "该手机号码已经注册过！");
 		//保存用户登录信息和详细信息
-		User userInfo = new User();
+		userDao.addUser(regPhone,password,Integer.valueOf(type),null,regPhone);
+		userDetailDao.addUserDetail();
+
 
 
 	}
@@ -73,7 +82,7 @@ public class UserServiceImpl implements UserService {
 		List<User> result_cache=null;
 		if(result_cache==null){
 			//缓存中没有再去数据库取，并插入缓存（缓存时间为60秒）
-			result_cache=userDao.queryAll(offset, limit);
+//			result_cache=userDao.queryAll(offset, limit);
 			LOG.info("put cache with key:");
 		}else{
 			LOG.info("get cache with key:");
@@ -83,7 +92,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Buyer> getBuyerList() {
-		return buyerDao.queryBuyerList();
+//		return buyerDao.queryBuyerList();
+		return  null;
 	}
 
 

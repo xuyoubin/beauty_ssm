@@ -3,6 +3,7 @@ package com.muma.controller;
 import com.muma.common.HttpContext;
 import com.muma.common.Session;
 import com.muma.controller.base.BaseResult;
+import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
 import com.muma.enums.base.ResultEnum;
@@ -39,19 +40,19 @@ public class UserController {
 	 */
 	@RequestMapping(value = "login.do")
 	@ResponseBody
-	public BaseResult<User> login(){
+	public BaseResult<UserInfoDto> login(){
 		String regPhone = getRequset().getParameter("regPhone");
 		String password = getRequset().getParameter("password");
 		try{
 			logger.info("=====================用户名："+regPhone+"密码："+password+"登录时间："+ TimeUtils.getTime(new Date())+"==================");
-			User userInfo = userService.login(regPhone,password);
+			UserInfoDto userInfo = userService.login(regPhone,password);
 			Session.loginUser(getRequset().getSession(), userInfo);
-			return new BaseResult<User>(true,userInfo);
+			return new BaseResult<UserInfoDto>(true,userInfo);
 		}catch (BizException e){
-			return new BaseResult<User>(false,e.getMessage());
+			return new BaseResult<UserInfoDto>(false,e.getMessage());
 		} catch (Exception e){
 			logger.error("登录异常：{}",e);
-			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
+			return new BaseResult<UserInfoDto>(false,ResultEnum.INNER_ERROR.getMsg());
 		}
 	}
 	/**

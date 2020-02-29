@@ -1,6 +1,7 @@
 package com.muma.entity;
 
 import com.muma.entity.base.BaseEntity;
+import com.muma.enums.SexEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.YesAndNoEnum;
 
@@ -22,7 +23,7 @@ public class UserDetail extends BaseEntity {
   /**
    * 性别
    */
-  private YesAndNoEnum sex;
+  private SexEnum sex;
   /**
    * 年龄
    */
@@ -96,11 +97,11 @@ public class UserDetail extends BaseEntity {
     this.idCard = idCard;
   }
 
-  public YesAndNoEnum getSex() {
+  public SexEnum getSex() {
     return sex;
   }
 
-  public void setSex(YesAndNoEnum sex) {
+  public void setSex(SexEnum sex) {
     this.sex = sex;
   }
 

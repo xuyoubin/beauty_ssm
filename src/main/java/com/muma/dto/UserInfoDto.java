@@ -3,6 +3,7 @@ package com.muma.dto;
 import com.muma.entity.Buyer;
 import com.muma.entity.base.BaseEntity;
 import com.muma.enums.RoalEnum;
+import com.muma.enums.SexEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.YesAndNoEnum;
 
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * 用户全部信息DTO
  */
-public class UserInfoDto extends BaseEntity {
+public class UserInfoDto {
 
 
   private static final long serialVersionUID = 9166348054973519985L;
@@ -35,7 +36,7 @@ public class UserInfoDto extends BaseEntity {
   /**
    * 性别
    */
-  private YesAndNoEnum sex;
+  private SexEnum sex;
   /**
    * 年龄
    */
@@ -130,11 +131,11 @@ public class UserInfoDto extends BaseEntity {
     this.idCard = idCard;
   }
 
-  public YesAndNoEnum getSex() {
+  public SexEnum getSex() {
     return sex;
   }
 
-  public void setSex(YesAndNoEnum sex) {
+  public void setSex(SexEnum sex) {
     this.sex = sex;
   }
 

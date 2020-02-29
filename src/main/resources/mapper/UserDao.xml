@@ -8,17 +8,19 @@
 		VALUES
 		(#{regPhone},#{password},#{roalId},#{remark},#{createBy},NOW())
 	</insert>
-	<select id="queryByPhone" resultType="com.muma.entity.User">
-		SELECT  reg_phone,roal_id,create_time
+	<select id="queryByPhone" resultType="Integer">
+		SELECT  COUNT(*)
 		FROM tbl_user
 		WHERE 
 		reg_phone= #{regPhone} limit 1
 	</select>
-	<select id="queryByPhoneAndPwd" resultType="com.muma.entity.User">
-		SELECT reg_phone,roal_id,create_time
-		FROM tbl_user
+	<select id="queryByPhoneAndPwd" resultType="com.muma.dto.UserInfoDto">
+		SELECT reg_phone,roal_id,user_id,id_card,sex,age,province_code,city_code,
+		parent_id,code,credit,status,bank_id,bank_name,bank_user,phone,id_white,
+		id_black,photo
+		FROM tbl_user u LEFT JOIN tbl_user_detail ud ON u.id = ud.user_id
 		WHERE
-		reg_phone= #{regPhone} AND password= #{password} limit 1
+		u.reg_phone= #{regPhone} AND u.password= #{password} limit 1
 	</select>
 
 </mapper>

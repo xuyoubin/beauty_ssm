@@ -32,19 +32,19 @@ public class UserDaoTest {
 
 	@Test
 	public void testQueryAll() {
-		List<User> list=userDao.queryAll(0, 100);
-		for (User user : list) {
-			System.out.println(user);
-		}
+//		List<User> list=userDao.queryAll(0, 100);
+//		for (User user : list) {
+//			System.out.println(user);
+//		}
 	}
 	
 	@Test
 	public void testAddScore() {
-		userDao.addScore(10);
-		List<User> list=userDao.queryAll(0, 100);
-		for (User user : list) {
-			System.out.println(user);
-		}
+//		userDao.addScore(10);
+//		List<User> list=userDao.queryAll(0, 100);
+//		for (User user : list) {
+//			System.out.println(user);
+//		}
 	}
 
 
