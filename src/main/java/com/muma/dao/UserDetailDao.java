@@ -26,5 +26,5 @@ public interface UserDetailDao {
      * @param
      * @return
      */
-    UserDetail queryByParentIdAndCode(@Param("parentId") Integer parentId, @Param("code") String code);
+    UserDetail queryByPhoneAndCode(@Param("regPhone") String regPhone, @Param("code") String code);
 }
