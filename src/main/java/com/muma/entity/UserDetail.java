@@ -39,7 +39,7 @@ public class UserDetail extends BaseEntity {
   /**
    * 上级买家
    */
-  private Long parentId;
+  private Integer parentId;
   /**
    * 推荐码
    */
@@ -129,7 +129,7 @@ public class UserDetail extends BaseEntity {
     this.cityCode = cityCode;
   }
 
-  public Long getParentId() {
+  public Integer getParentId() {
     return parentId;
   }
 
