@@ -21,7 +21,7 @@ public class ShareCodeUtil {
      * @param id ID
      * @return 随机码
      */
-    public static String toSerialCode(Integer id) {
+    public static String toSerialCode(long id) {
         char[] buf=new char[32];
         int charPos=32;
 
@@ -45,9 +45,9 @@ public class ShareCodeUtil {
         return str;
     }
 
-    public static Integer codeToId(String code) {
+    public static long codeToId(String code) {
         char chs[]=code.toCharArray();
-        Integer res=0;
+        long res=0L;
         for(int i=0; i < chs.length; i++) {
             int ind=0;
             for(int j=0; j < binLen; j++) {
@@ -71,7 +71,7 @@ public class ShareCodeUtil {
 
     public static void main(String[] args) {
 
-        String invitationCode=toSerialCode( 1);
+        String invitationCode=toSerialCode( 15105933763L);
         System.out.println(invitationCode);
         System.out.println(codeToId(invitationCode));
     }
