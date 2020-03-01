@@ -8,8 +8,8 @@
 		VALUES
 		(#{userId},#{parentId},#{code},#{createBy},NOW())
 	</insert>
-	<select id="queryByParentIdAndCode" resultType="com.muma.entity.UserDetail">
-		SELECT  id,user_id
+	<select id="queryByPhoneAndCode" resultType="com.muma.entity.UserDetail">
+		SELECT  id,reg_phone,roal_id
 		FROM tbl_user_detail
 		WHERE
 		status = 1
