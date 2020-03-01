@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.muma.dao.UserDao">
 
-	<insert id="addUser"  keyProperty="id"  keyColumn="id" useGeneratedKeys="true" parameterType="com.muma.entity.User">
-	INSERT INTO
-		tbl_user(reg_phone,password,roal_id,remark,create_by,create_time)
+	<insert id="addUser">
+		INSERT INTO
+		tbl_user(reg_phone,password,create_by,create_time)
 		VALUES
-		(#{regPhone},#{password},#{roalId},#{remark},#{createBy},now())
+		(#{regPhone},#{password},#{createBy},now())
 	</insert>
 	<select id="queryByPhone" resultType="java.lang.Integer">
 		SELECT  COUNT(*)
@@ -14,13 +14,11 @@
 		WHERE 
 		reg_phone= #{regPhone} limit 1
 	</select>
-	<select id="queryByPhoneAndPwd" resultType="com.muma.dto.UserInfoDto">
-		SELECT reg_phone,roal_id,user_id,id_card,sex,age,province_code,city_code,
-		parent_id,code,credit,status,bank_id,bank_name,bank_user,phone,id_white,
-		id_black,photo
-		FROM tbl_user u LEFT JOIN tbl_user_detail ud ON u.id = ud.user_id
-		WHERE
-		u.reg_phone= #{regPhone} AND u.password= #{password} limit 1
+	<select id="queryByPhoneAndPwd" resultType="com.muma.entity.User">
+		SELECT  id,reg_phone
+		FROM tbl_user
+		WHERE reg_phone= #{regPhone}
+		AND password = #{password} limit 1
 	</select>
 
 </mapper>

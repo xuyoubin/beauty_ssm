@@ -17,14 +17,6 @@ public class User extends BaseEntity {
    * 密码
    */
   private String password;
-  /**
-   * 角色
-   */
-  private RoalEnum roalId;
-  /**
-   * 备注
-   */
-  private String remark;
 
   public String getRegPhone() {
     return regPhone;
@@ -42,19 +34,4 @@ public class User extends BaseEntity {
     this.password = password;
   }
 
-  public RoalEnum getRoalId() {
-    return roalId;
-  }
-
-  public void setRoalId(RoalEnum roalId) {
-    this.roalId = roalId;
-  }
-
-  public String getRemark() {
-    return remark;
-  }
-
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
 }

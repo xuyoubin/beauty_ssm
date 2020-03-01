@@ -47,10 +47,10 @@ public class UserDaoTest {
 		User user = new User();
 		user.setRegPhone("15725369561");
 		user.setPassword("520114");
-		user.setRoalId(RoalEnum.SYSTEM_ROAL);
+//		user.setRoalId(RoalEnum.SYSTEM_ROAL);
 		user.setCreateBy("测试1");
-		userService.register("15725369561","123456",);
-		userDao.addUser(user);
+		userService.register("15725369061","123456","W9ZC7Q","0");
+//		userDao.addUser(user);
 		System.out.println(user.getId());
 	}
 

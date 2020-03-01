@@ -14,12 +14,14 @@ public interface UserService {
 	 * @return
 	 */
 	UserInfoDto login(String regPhone, String password);
-
+	/**
+	 * 用户注册
+	 * @param regPhone
+	 * @param password
+	 * @return
+	 */
 	void register(String regPhone,String password,String code,String type);
 
 
-	List<User> getUserList(int offset, int limit);
-
-	List<Buyer> getBuyerList();
 	 
 }

@@ -29,5 +29,12 @@
           #{result,jdbcType=INTEGER,mode=OUT}
         )
     </select>
+     <!--会返回主键-->
+	<insert id="addUser"  keyProperty="id"  keyColumn="id" useGeneratedKeys="true" parameterType="com.muma.entity.User">
+		INSERT INTO
+		tbl_user(reg_phone,password,create_by,create_time)
+		VALUES
+		(#{regPhone},#{password},#{createBy},now())
+	</insert>
 
 </mapper>

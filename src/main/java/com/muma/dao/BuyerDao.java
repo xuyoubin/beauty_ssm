@@ -9,11 +9,11 @@ import java.util.Map;
 
 public interface BuyerDao {
 	 /**
-     * 根据用户ID查询用户注册的平台信息
+     * 根据用户手机号
      *
      * @return
      */
-    List<Buyer> queryBuyerListByUserId(Integer userId);
+    List<Buyer> queryBuyerListByRegPhone(@Param("regPhone") String regPhone);
 
 
     

@@ -1,6 +1,7 @@
 package com.muma.entity;
 
 import com.muma.entity.base.BaseEntity;
+import com.muma.enums.RoalEnum;
 import com.muma.enums.SexEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.YesAndNoEnum;
@@ -13,13 +14,21 @@ public class UserDetail extends BaseEntity {
 
   private static final long serialVersionUID = -5261987733001241788L;
   /**
-   * 用户ID
+   * 用户注册手机号
    */
-  private Integer userId;
+  private String regPhone;
+  /**
+   * 角色ID 0-买家；1-商家；2-平台管理员；
+   */
+  private RoalEnum roalId;
   /**
    * 身份证号码
    */
   private String idCard;
+  /**
+   * 真实名称
+   */
+  private String realName;
   /**
    * 性别
    */
@@ -61,10 +70,6 @@ public class UserDetail extends BaseEntity {
    */
   private String bankName;
   /**
-   * 开户人
-   */
-  private String bankUser;
-  /**
    * 开户手机
    */
   private String phone;
@@ -81,12 +86,20 @@ public class UserDetail extends BaseEntity {
    */
   private String photo;
 
-  public Integer getUserId() {
-    return userId;
+  public String getRegPhone() {
+    return regPhone;
   }
 
-  public void setUserId(Integer userId) {
-    this.userId = userId;
+  public void setRegPhone(String regPhone) {
+    this.regPhone = regPhone;
+  }
+
+  public RoalEnum getRoalId() {
+    return roalId;
+  }
+
+  public void setRoalId(RoalEnum roalId) {
+    this.roalId = roalId;
   }
 
   public String getIdCard() {
@@ -95,6 +108,14 @@ public class UserDetail extends BaseEntity {
 
   public void setIdCard(String idCard) {
     this.idCard = idCard;
+  }
+
+  public String getRealName() {
+    return realName;
+  }
+
+  public void setRealName(String realName) {
+    this.realName = realName;
   }
 
   public SexEnum getSex() {
@@ -175,14 +196,6 @@ public class UserDetail extends BaseEntity {
 
   public void setBankName(String bankName) {
     this.bankName = bankName;
-  }
-
-  public String getBankUser() {
-    return bankUser;
-  }
-
-  public void setBankUser(String bankUser) {
-    this.bankUser = bankUser;
   }
 
   public String getPhone() {

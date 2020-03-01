@@ -94,16 +94,16 @@ public class UserController {
 		logger.info("invoke----------/user/list");
 		offset = offset == null ? 0 : offset;//默认便宜0
 		limit = limit == null ? 50 : limit;//默认展示50条
-		List<User> list = userService.getUserList(offset, limit);
-		model.addAttribute("userlist", list);
+//		List<User> list = userService.getUserList(offset, limit);
+//		model.addAttribute("userlist", list);
 		return "userlist";
 	}
 
 	@RequestMapping(value = "/blist", method = RequestMethod.GET)
 	public String blist(Model model, Integer offset, Integer limit) {
 		logger.info("invoke----------/user/list");
-		List<Buyer> list = userService.getBuyerList();
-		model.addAttribute("userlist", list);
+//		List<Buyer> list = userService.getBuyerList();
+//		model.addAttribute("userlist", list);
 		return "userlist";
 	}
 

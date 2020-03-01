@@ -26,13 +26,13 @@ public class UserInfoDto {
    */
   private RoalEnum roalId;
   /**
-   * 用户ID
-   */
-  private Integer userId;
-  /**
    * 身份证号码
    */
   private String idCard;
+  /**
+   * 真实名称
+   */
+  private String realName;
   /**
    * 性别
    */
@@ -74,10 +74,6 @@ public class UserInfoDto {
    */
   private String bankName;
   /**
-   * 开户人
-   */
-  private String bankUser;
-  /**
    * 开户手机
    */
   private String phone;
@@ -115,20 +111,20 @@ public class UserInfoDto {
     this.roalId = roalId;
   }
 
-  public Integer getUserId() {
-    return userId;
-  }
-
-  public void setUserId(Integer userId) {
-    this.userId = userId;
-  }
-
   public String getIdCard() {
     return idCard;
   }
 
   public void setIdCard(String idCard) {
     this.idCard = idCard;
+  }
+
+  public String getRealName() {
+    return realName;
+  }
+
+  public void setRealName(String realName) {
+    this.realName = realName;
   }
 
   public SexEnum getSex() {
@@ -209,14 +205,6 @@ public class UserInfoDto {
 
   public void setBankName(String bankName) {
     this.bankName = bankName;
-  }
-
-  public String getBankUser() {
-    return bankUser;
-  }
-
-  public void setBankUser(String bankUser) {
-    this.bankUser = bankUser;
   }
 
   public String getPhone() {

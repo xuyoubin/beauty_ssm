@@ -1,10 +1,6 @@
 package com.muma.dao;
 
-import java.util.List;
-
-import com.muma.dto.UserInfoDto;
 import com.muma.entity.User;
-import com.muma.enums.RoalEnum;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserDao {
@@ -27,6 +23,6 @@ public interface UserDao {
      * @param regPhone
      * @return
      */
-    UserInfoDto queryByPhoneAndPwd(@Param("regPhone")String regPhone, @Param("password") String password);
+    User queryByPhoneAndPwd(@Param("regPhone") String regPhone,@Param("password") String password);
 
 }
