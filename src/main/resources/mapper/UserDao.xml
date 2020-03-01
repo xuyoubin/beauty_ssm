@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.muma.dao.UserDao">
 
-	<insert id="addUser">
-		INSERT INTO
-		tbl_user(reg_phone,password,roal_id,remark,create_by,create_time,)
+	<insert id="addUser"  keyProperty="id"  keyColumn="id" useGeneratedKeys="true" parameterType="com.muma.entity.User">
+	INSERT INTO
+		tbl_user(reg_phone,password,roal_id,remark,create_by,create_time)
 		VALUES
-		(#{regPhone},#{password},#{roalId},#{remark},#{createBy},NOW())
+		(#{regPhone},#{password},#{roalId},#{remark},#{createBy},now())
 	</insert>
-	<select id="queryByPhone" resultType="Integer">
+	<select id="queryByPhone" resultType="java.lang.Integer">
 		SELECT  COUNT(*)
 		FROM tbl_user
 		WHERE 

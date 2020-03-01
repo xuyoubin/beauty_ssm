@@ -75,8 +75,9 @@ public class UserController {
 	public BaseResult<User> register(){
 		String regPhone = getRequset().getParameter("regPhone");
 		String password = getRequset().getParameter("password");
+		String code = getRequset().getParameter("code");
 		String type = getRequset().getParameter("type");
-		userService.register(regPhone,password,type);
+		userService.register(regPhone,password,code,type);
 
 		return  new BaseResult<User>(true,"登出成功！");
 	}

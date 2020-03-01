@@ -6,11 +6,14 @@ import com.muma.dao.UserDetailDao;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
+import com.muma.entity.UserDetail;
+import com.muma.enums.RoalEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.UserService;
 import com.muma.dao.UserDao;
 import com.muma.util.Precondition;
+import com.muma.util.ShareCodeUtil;
 import com.muma.util.VaildUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -59,20 +62,32 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public void register(String regPhone, String password, String type) {
+	public void register(String regPhone, String password,String code, String type) {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
 		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
+		Precondition.checkState(StringUtils.isNotBlank(code), "code is null!");
 		Precondition.checkState(StringUtils.isNotBlank(type), "type is null!");
 		Boolean isRight = VaildUtils.checkPhone(regPhone);
 		Precondition.checkState(isRight,"手机号码错误！");
-		Integer integer = userDao.queryByPhone(regPhone);
-		Precondition.checkState(integer > 0, "该手机号码已经注册过！");
+		Integer userNum = userDao.queryByPhone(regPhone);
+		Precondition.checkState(userNum > 0, "该手机号码已经注册过！");
+		//查询邀请码是否有效
+		Integer parentId = ShareCodeUtil.codeToId(code);
+		UserDetail parentDetail =  userDetailDao.queryByParentIdAndCode(parentId,code);
+		Precondition.checkNotNull(parentDetail, "该邀请码无效！");
 		//保存用户登录信息和详细信息
-		userDao.addUser(regPhone,password,Integer.valueOf(type),null,regPhone);
-		userDetailDao.addUserDetail();
-
-
-
+		User user = new User();
+		user.setRegPhone(regPhone);
+		user.setPassword(password);
+		user.setRoalId(RoalEnum.stateOf(Integer.valueOf(type)));
+		user.setCreateBy(regPhone);
+		userDao.addUser(user);
+		UserDetail userDetail = new UserDetail();
+		userDetail.setUserId(user.getId());
+		userDetail.setParentId(parentDetail.getId());
+		userDetail.setCode(code);
+		userDetail.setCreateBy(regPhone);
+		userDetailDao.addUserDetail(userDetail);
 	}
 
 

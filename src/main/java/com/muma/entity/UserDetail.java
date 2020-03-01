@@ -133,7 +133,7 @@ public class UserDetail extends BaseEntity {
     return parentId;
   }
 
-  public void setParentId(Long parentId) {
+  public void setParentId(Integer parentId) {
     this.parentId = parentId;
   }
 

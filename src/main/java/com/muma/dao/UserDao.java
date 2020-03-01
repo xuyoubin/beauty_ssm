@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.User;
+import com.muma.enums.RoalEnum;
 import org.apache.ibatis.annotations.Param;
 
 public interface UserDao {
@@ -11,11 +12,7 @@ public interface UserDao {
     /**
      * 添加一个用户
      */
-    void addUser(@Param("regPhone")String regPhone,
-                 @Param("password")String password,
-                 @Param("roalId")int roalId,
-                 @Param("remark")String remark,
-                 @Param("createBy")String createBy);
+    void addUser(User user);
 
 	/**
      * 根据手机号查询用户对象

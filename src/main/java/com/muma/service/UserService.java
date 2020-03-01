@@ -15,7 +15,7 @@ public interface UserService {
 	 */
 	UserInfoDto login(String regPhone, String password);
 
-	void register(String regPhone,String password,String type);
+	void register(String regPhone,String password,String code,String type);
 
 
 	List<User> getUserList(int offset, int limit);
