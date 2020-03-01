@@ -94,16 +94,24 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	private UserDetail checkCode(String code ,RoalEnum roalEnum){
-		Integer parentId = ShareCodeUtil.codeToId(code);
-		UserDetail parentDetail =  userDetailDao.queryByParentIdAndCode(parentId,code);
+		long phone = ShareCodeUtil.codeToId(code);
+		UserDetail parentDetail =  userDetailDao.queryByPhoneAndCode(String.valueOf(phone),code);
 		Precondition.checkNotNull(parentDetail, "该邀请码无效！");
-//		User user  = userDao.
-		if(RoalEnum.BUYER_ROAL.equals(roalEnum)){//买家
-			//查询上级有效单数
+		if(RoalEnum.BUYER_ROAL.equals(roalEnum)){//注册买家
+
+			if(RoalEnum.BUYER_ROAL.equals(parentDetail.getRoalId())){ //上级是买家
+
+			}else if(RoalEnum.BUSINESS_ROAL.equals(parentDetail.getRoalId())){//上级是商家
+
+			}else {//上级是平台
+
+			}
+		}else if(RoalEnum.BUSINESS_ROAL.equals(roalEnum)){//注册商家
+
 		}
 
 
-		return parentDetail;
+		return null;
 	}
 
 
