@@ -52,7 +52,7 @@ public class UserInfoDto {
   /**
    * 上级买家
    */
-  private Long parentId;
+  private String parentPhone;
   /**
    * 推荐码
    */
@@ -60,7 +60,7 @@ public class UserInfoDto {
   /**
    * 信用
    */
-  private Long credit;
+  private Integer credit;
   /**
    * 状态 状态：0 -待审核，1-审核通过，2-审核不通过,3-用户拉黑（该系统拉黑，防止该用户再注册） 4-平台拉黑（如淘宝平台）
    */
@@ -159,12 +159,12 @@ public class UserInfoDto {
     this.cityCode = cityCode;
   }
 
-  public Long getParentId() {
-    return parentId;
+  public String getParentPhone() {
+    return parentPhone;
   }
 
-  public void setParentId(Long parentId) {
-    this.parentId = parentId;
+  public void setParentPhone(String parentPhone) {
+    this.parentPhone = parentPhone;
   }
 
   public String getCode() {
@@ -175,11 +175,11 @@ public class UserInfoDto {
     this.code = code;
   }
 
-  public Long getCredit() {
+  public Integer getCredit() {
     return credit;
   }
 
-  public void setCredit(Long credit) {
+  public void setCredit(Integer credit) {
     this.credit = credit;
   }
 

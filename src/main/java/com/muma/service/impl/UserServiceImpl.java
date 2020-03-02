@@ -1,6 +1,7 @@
 package com.muma.service.impl;
 
 import com.muma.dao.BuyerDao;
+import com.muma.dao.UserDao;
 import com.muma.dao.UserDetailDao;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
@@ -9,7 +10,6 @@ import com.muma.entity.UserDetail;
 import com.muma.enums.RoalEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.service.UserService;
-import com.muma.dao.UserDao;
 import com.muma.util.Precondition;
 import com.muma.util.ShareCodeUtil;
 import com.muma.util.VaildUtils;
@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserDao userDao;
 	@Autowired
@@ -72,8 +72,12 @@ public class UserServiceImpl implements UserService {
 		Integer userNum = userDao.queryByPhone(regPhone);
 		Precondition.checkState(userNum == 0, "该手机号码已经注册过！");
 		RoalEnum userRoal = RoalEnum.stateOf(Integer.valueOf(type));
-		//查询邀请码是否有效
-		UserDetail parentDetail = checkCode(code,userRoal);
+		//注册买家查询邀请码是否有效
+		String parentPhone = null;
+		if(RoalEnum.BUYER_ROAL.equals(userRoal)){
+			UserDetail parentDetail = checkCode(code);
+			parentPhone = parentDetail.getRegPhone();
+		}
 		//保存用户登录信息和详细信息
 		User user = new User();
 		user.setRegPhone(regPhone);
@@ -81,8 +85,10 @@ public class UserServiceImpl implements UserService {
 		user.setCreateBy(regPhone);
 		userDao.addUser(user);
 		UserDetail userDetail = new UserDetail();
-		userDetail.setParentId(parentDetail.getId());
-		userDetail.setCode(code);
+		userDetail.setRegPhone(regPhone);
+		userDetail.setRoalId(userRoal);
+		userDetail.setParentPhone(parentPhone);
+//		userDetail.setCode(ShareCodeUtil.toSerialCode(Long.valueOf(regPhone)));//获取自己的邀请码，用户审核通过的时候生成
 		userDetail.setCreateBy(regPhone);
 		userDetailDao.addUserDetail(userDetail);
 	}
@@ -93,25 +99,23 @@ public class UserServiceImpl implements UserService {
 	 * @param code
 	 * @return
 	 */
-	private UserDetail checkCode(String code ,RoalEnum roalEnum){
-		long phone = ShareCodeUtil.codeToId(code);
-		UserDetail parentDetail =  userDetailDao.queryByPhoneAndCode(String.valueOf(phone),code);
+	private UserDetail checkCode(String code){
+		Integer id = (int) ShareCodeUtil.codeToId(code);
+		UserDetail parentDetail =  userDetailDao.queryByIdAndCode(id,code);
 		Precondition.checkNotNull(parentDetail, "该邀请码无效！");
-		if(RoalEnum.BUYER_ROAL.equals(roalEnum)){//注册买家
+		//查询邀请次数
+		if(RoalEnum.BUYER_ROAL.equals(parentDetail.getRoalId())){ //上级是买家
+			Integer shareNum = userDetailDao.queryByParentPhone(parentDetail.getRegPhone());
+			Precondition.checkState(shareNum<=6, "该邀请码无效！");
+			//TODO查询有效1交易次数
 
-			if(RoalEnum.BUYER_ROAL.equals(parentDetail.getRoalId())){ //上级是买家
-
-			}else if(RoalEnum.BUSINESS_ROAL.equals(parentDetail.getRoalId())){//上级是商家
-
-			}else {//上级是平台
-
-			}
-		}else if(RoalEnum.BUSINESS_ROAL.equals(roalEnum)){//注册商家
-
+		}else if(RoalEnum.BUSINESS_ROAL.equals(parentDetail.getRoalId())){//上级是商家
+			Precondition.checkState(false, "该邀请码无效！");
+		}else {//上级是平台
+			Integer shareNum = userDetailDao.queryByParentPhone(parentDetail.getRegPhone());
+			Precondition.checkState(shareNum<=50, "该邀请码无效！");
 		}
-
-
-		return null;
+		return parentDetail;
 	}
 
 

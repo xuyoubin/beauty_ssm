@@ -27,14 +27,6 @@
             <td name="url">/user/login.do</td>
         </tr>
         <tr>
-            <td class="title">入参:</td>
-            <td>
-             <pre>
-phone 手机号码
-password 密码</pre>
-            </td>
-        </tr>
-        <tr>
             <td class="title">手机号码:</td>
             <td><input type="text" name="regPhone" value="15705938769"/></td>
         </tr>
@@ -56,12 +48,6 @@ password 密码</pre>
             <td name="url">/user/register.do</td>
         </tr>
         <tr>
-            <td class="title">出参:</td>
-            <td>
-                <pre></pre>
-            </td>
-        </tr>
-        <tr>
             <td class="title">手机号码:</td>
             <td><input type="text" name="regPhone" value="15705938769"/></td>
         </tr>
@@ -72,6 +58,23 @@ password 密码</pre>
         <tr>
             <td class="title">类型:</td>
             <td><input type="text" name="type" value="0"/></td>
+        </tr>
+        <tr>
+            <td class="title">邀请码:</td>
+            <td><input type="text" name="code" value="W943TW"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>登出</legend>
+    <table>
+        <tr>
+            <td class="title">URL:</td>
+            <td name="url">/user/loginOut.do</td>
         </tr>
         <tr>
             <td><input type="button" value="提交" onclick="submitAct(this)"/></td>

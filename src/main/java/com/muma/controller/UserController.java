@@ -77,9 +77,15 @@ public class UserController {
 		String password = getRequset().getParameter("password");
 		String code = getRequset().getParameter("code");
 		String type = getRequset().getParameter("type");
-		userService.register(regPhone,password,code,type);
-
-		return  new BaseResult<User>(true,"登出成功！");
+		try{
+			userService.register(regPhone,password,code,type);
+			return new BaseResult<User>(true,"注册成功！");
+		}catch (BizException e){
+			return new BaseResult<User>(false,e.getMessage());
+		} catch (Exception e){
+			logger.error("注册异常：{}",e);
+			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
+		}
 	}
 
 

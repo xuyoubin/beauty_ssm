@@ -49,7 +49,7 @@ public class UserDaoTest {
 		user.setPassword("520114");
 //		user.setRoalId(RoalEnum.SYSTEM_ROAL);
 		user.setCreateBy("测试1");
-		userService.register("15725369061","123456","W9ZC7Q","0");
+		userService.register("15725369061","123456","MRJJAJ8","0");
 //		userDao.addUser(user);
 		System.out.println(user.getId());
 	}

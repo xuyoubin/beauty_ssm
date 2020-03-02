@@ -7,8 +7,7 @@ public enum StatusEnum implements ValuedEnum {
     CONFIRM_WAIT(0,"待审核"),
     CONFIRM_PASS(1,"审核通过"),
     CONFIRM_NO_PASS(2,"审核不通过"),
-    USER_BLACK(3,"用户拉黑"),//该系统拉黑，防止该用户再注册
-    PLATFOEM_BLACK(4,"平台拉黑"); //如淘宝平台
+    USER_BLACK(3,"用户拉黑");//该系统拉黑，防止该用户再注册
 
     private Integer value;
     private String text;

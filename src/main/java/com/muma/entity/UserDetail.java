@@ -46,9 +46,9 @@ public class UserDetail extends BaseEntity {
    */
   private String cityCode;
   /**
-   * 上级买家
+   * 上级买家手机号
    */
-  private Integer parentId;
+  private String parentPhone;
   /**
    * 推荐码
    */
@@ -58,7 +58,7 @@ public class UserDetail extends BaseEntity {
    */
   private Long credit;
   /**
-   * 状态 状态：0 -待审核，1-审核通过，2-审核不通过,3-用户拉黑（该系统拉黑，防止该用户再注册） 4-平台拉黑（如淘宝平台）
+   * 状态 状态：0 -待审核，1-审核通过，2-审核不通过,3-用户拉黑（该系统拉黑，防止该用户再注册）
    */
   private StatusEnum status;
   /**
@@ -150,14 +150,6 @@ public class UserDetail extends BaseEntity {
     this.cityCode = cityCode;
   }
 
-  public Integer getParentId() {
-    return parentId;
-  }
-
-  public void setParentId(Integer parentId) {
-    this.parentId = parentId;
-  }
-
   public String getCode() {
     return code;
   }
@@ -228,5 +220,13 @@ public class UserDetail extends BaseEntity {
 
   public void setPhoto(String photo) {
     this.photo = photo;
+  }
+
+  public String getParentPhone() {
+    return parentPhone;
+  }
+
+  public void setParentPhone(String parentPhone) {
+    this.parentPhone = parentPhone;
   }
 }

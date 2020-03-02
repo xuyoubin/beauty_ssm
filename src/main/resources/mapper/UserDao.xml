@@ -9,7 +9,7 @@
 		(#{regPhone},#{password},#{createBy},now())
 	</insert>
 	<select id="queryByPhone" resultType="java.lang.Integer">
-		SELECT  COUNT(*)
+		SELECT  count(*)
 		FROM tbl_user
 		WHERE 
 		reg_phone= #{regPhone} limit 1

@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="beauty_ssm_0.0.1-SNAPSHOT_20200228.war">
+    <root id="archive" name="beauty_ssm_0.0.1-SNAPSHOT_20200302.war">
       <element id="artifact" artifact-name="beauty_ssm:war exploded" />
     </root>
   </artifact>

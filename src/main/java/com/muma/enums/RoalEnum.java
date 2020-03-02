@@ -3,7 +3,9 @@ package com.muma.enums;
 import com.muma.enums.base.ValuedEnum;
 
 public enum RoalEnum implements ValuedEnum {
-
+    /**
+     * 买家
+     */
     BUYER_ROAL(0,"买家"),
     BUSINESS_ROAL(1,"商家"),
     SYSTEM_ROAL(2,"平台管理员");

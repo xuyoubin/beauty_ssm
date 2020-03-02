@@ -71,7 +71,7 @@ public class ShareCodeUtil {
 
     public static void main(String[] args) {
 
-        String invitationCode=toSerialCode( 15105933763L);
+        String invitationCode=toSerialCode( 1L);
         System.out.println(invitationCode);
         System.out.println(codeToId(invitationCode));
     }

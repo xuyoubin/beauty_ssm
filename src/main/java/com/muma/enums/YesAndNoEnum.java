@@ -4,8 +4,8 @@ import com.muma.enums.base.ValuedEnum;
 
 public enum YesAndNoEnum implements ValuedEnum {
 
-    YES_STATUS(0,"是"),//女
-    NO_STATUS(1,"否");//男
+    YES_STATUS(0,"是"),
+    NO_STATUS(1,"否");
 
     private Integer value;
     private String text;

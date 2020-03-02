@@ -32,8 +32,8 @@ import com.muma.dao.UserDao;
 public class BizQuartz {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-	@Autowired
-	private UserDao userDao;
+//	@Autowired
+//	private UserDao userDao;
 	
 	/**
 	 * 用户自动加积分

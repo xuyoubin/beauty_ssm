@@ -26,5 +26,12 @@ public interface UserDetailDao {
      * @param
      * @return
      */
-    UserDetail queryByPhoneAndCode(@Param("regPhone") String regPhone, @Param("code") String code);
+    UserDetail queryByIdAndCode(@Param("id") Integer id, @Param("code") String code);
+    /**
+     * 查询邀请次数
+     *
+     * @param
+     * @return
+     */
+    Integer queryByParentPhone(@Param("parentPhone") String parentPhone);
 }

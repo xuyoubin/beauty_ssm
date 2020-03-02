@@ -14,13 +14,23 @@ public class Buyer extends BaseEntity {
 
   private static final long serialVersionUID = -586488352413370705L;
   /**
+   * 注册手机号
+   */
+  private String regPhone;
+  /**
    * 平台id
    */
   private PlatformEnum platformId;
   /**
-   * 注册手机号
+   * 平台注册手机号
    */
-  private String regPhone;
+  private String platformPhone;
+  /**
+   * 用户名称
+   */
+  private String realName;
+
+
   /**
    * 注册时间
    */
@@ -144,5 +154,21 @@ public class Buyer extends BaseEntity {
 
   public void setRemark(String remark) {
     this.remark = remark;
+  }
+
+  public String getPlatformPhone() {
+    return platformPhone;
+  }
+
+  public void setPlatformPhone(String platformPhone) {
+    this.platformPhone = platformPhone;
+  }
+
+  public String getRealName() {
+    return realName;
+  }
+
+  public void setRealName(String realName) {
+    this.realName = realName;
   }
 }

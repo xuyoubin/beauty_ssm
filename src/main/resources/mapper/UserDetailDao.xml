@@ -4,26 +4,30 @@
 
 	<insert id="addUserDetail">
 		INSERT INTO
-		tbl_user_detail(user_id,parent_id,code,create_by,create_time)
+		tbl_user_detail(reg_phone,roal_id,parent_phone,code,create_by,create_time)
 		VALUES
-		(#{userId},#{parentId},#{code},#{createBy},NOW())
+		(#{regPhone},#{roalId},#{parentPhone},#{code},#{createBy},NOW())
 	</insert>
-	<select id="queryByPhoneAndCode" resultType="com.muma.entity.UserDetail">
-		SELECT  id,reg_phone,roal_id
+	<select id="queryByIdAndCode" resultType="com.muma.entity.UserDetail">
+		SELECT  id,reg_phone,roal_id,status
 		FROM tbl_user_detail
 		WHERE
 		status = 1
 		AND code = #{code}
-		AND parent_id= #{parentId} limit 1
+		AND id= #{id} limit 1
 	</select>
 
 	<select id="queryByRegPhone" resultType="com.muma.dto.UserInfoDto">
 		SELECT reg_phone,roal_id,id_card,real_name,sex,age,province_code,city_code,
-		parent_id,code,credit,status,bank_id,bank_name,phone,id_white,
+		parent_phone,code,credit,status,bank_id,bank_name,phone,id_white,
 		id_black,photo
 		FROM tbl_user_detail
 		WHERE reg_phone= #{regPhone} limit 1
 	</select>
 
-	<select id=""></select>
+	<select id="queryByParentPhone" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM tbl_user_detail
+		WHERE parent_phone= #{parentPhone}
+	</select>
 </mapper>
