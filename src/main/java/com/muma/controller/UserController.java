@@ -33,7 +33,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-
 	/**
 	 * 用户登录
 	 * @return
@@ -65,7 +64,6 @@ public class UserController {
 		Session.loginoutUser(getRequset().getSession());
 		return  new BaseResult<User>(true,"登出成功！");
 	}
-
 	/**
 	 * 注册用户
 	 * @return
@@ -84,6 +82,24 @@ public class UserController {
 			return new BaseResult<User>(false,e.getMessage());
 		} catch (Exception e){
 			logger.error("注册异常：{}",e);
+			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
+		}
+	}
+	/**
+	 * 邀请码校验
+	 * @return
+	 */
+	@RequestMapping(value = "checkCode.do")
+	@ResponseBody
+	public BaseResult<User> checkCode(){
+		String code = getRequset().getParameter("code");
+		try{
+			userService.checkShareCode(code);
+			return new BaseResult<User>(true,"邀请码有效！");
+		}catch (BizException e){
+			return new BaseResult<User>(false,e.getMessage());
+		} catch (Exception e){
+			logger.error("邀请码校验异常：{}",e);
 			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
 		}
 	}

@@ -95,6 +95,18 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * 检查验证码是否有效
+	 * @return
+	 */
+	@Override
+	public void checkShareCode(String code) {
+		Precondition.checkState(StringUtils.isNotBlank(code), "code is null!");
+		checkCode(code);
+	}
+
+
+
+	/**
+	 * 检查验证码是否有效
 	 * 如果有效返回上级用户信息
 	 * @param code
 	 * @return

@@ -21,7 +21,10 @@ public interface UserService {
 	 * @return
 	 */
 	void register(String regPhone,String password,String code,String type);
-
-
+	/**
+	 * 检查验证码是否有效
+	 * @return
+	 */
+	public void checkShareCode(String code);
 	 
 }
