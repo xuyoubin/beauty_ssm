@@ -6,6 +6,7 @@ import com.muma.controller.base.BaseResult;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
+import com.muma.entity.UserDetail;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.UserService;
@@ -37,7 +38,7 @@ public class UserController {
 	 * 用户登录
 	 * @return
 	 */
-	@RequestMapping(value = "login.do")
+	@RequestMapping(value = "login.do" ,method = RequestMethod.GET)
 	@ResponseBody
 	public BaseResult<UserInfoDto> login(){
 		String regPhone = getRequset().getParameter("regPhone");
@@ -58,7 +59,7 @@ public class UserController {
 	 * 登出
 	 * @return
 	 */
-	@RequestMapping(value = "loginOut.do")
+	@RequestMapping(value = "loginOut.do",method = RequestMethod.GET)
 	@ResponseBody
 	public BaseResult<User> loginOut(){
 		Session.loginoutUser(getRequset().getSession());
@@ -68,7 +69,7 @@ public class UserController {
 	 * 注册用户
 	 * @return
 	 */
-	@RequestMapping(value = "register.do")
+	@RequestMapping(value = "register.do",method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResult<User> register(){
 		String regPhone = getRequset().getParameter("regPhone");
@@ -89,7 +90,7 @@ public class UserController {
 	 * 邀请码校验
 	 * @return
 	 */
-	@RequestMapping(value = "checkCode.do")
+	@RequestMapping(value = "checkCode.do",method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResult<User> checkCode(){
 		String code = getRequset().getParameter("code");
@@ -101,6 +102,30 @@ public class UserController {
 		} catch (Exception e){
 			logger.error("邀请码校验异常：{}",e);
 			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
+		}
+	}
+	/**
+	 * 上传用户认证详细信息
+	 * @return
+	 */
+	@RequestMapping(value = "authInfo.do",method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResult<UserDetail> authInfo(){
+		String idNumber = getRequset().getParameter("idNumber");
+		String idName = getRequset().getParameter("idName");
+		String bankNumber = getRequset().getParameter("bankNumber");
+		String bankName = getRequset().getParameter("bankName");
+		String bankPhone = getRequset().getParameter("bankPhone");
+		String idImangeWhite = getRequset().getParameter("idImangeWhite");
+		String idImageBlack = getRequset().getParameter("idImageBlack");
+		try{
+			userService.updateUserDetail(idNumber);
+			return new BaseResult<UserDetail>(true,"用户认证保存成功！");
+		}catch (BizException e){
+			return new BaseResult<UserDetail>(false,e.getMessage());
+		} catch (Exception e){
+			logger.error("用户认证保存异常：{}",e);
+			return new BaseResult<UserDetail>(false,ResultEnum.INNER_ERROR.getMsg());
 		}
 	}
 

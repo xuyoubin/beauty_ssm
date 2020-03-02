@@ -49,6 +49,7 @@ var submitAct = function (obj) {
     var $btn =$(obj);
     var $table=$btn.parent().parent().parent();
     var url =$("td[name='url']",$table).html();
+    var type =$("td[name='url']",$table).attr("type");
     var data ={};
     var $form =$("input[type='text']",$table);
     $form.each(function(index,obj){
@@ -56,7 +57,7 @@ var submitAct = function (obj) {
         data[$field.attr("name")]=$field.val();
     });
     $.ajax({
-        type: "post",
+        type: type,
         dataType: "html",
         url: url,
         data: data,

@@ -26,5 +26,10 @@ public interface UserService {
 	 * @return
 	 */
 	public void checkShareCode(String code);
-	 
+	/**
+	 * 更新用户认证信息
+	 * @return
+	 */
+	public void updateUserDetail(String code);
+
 }

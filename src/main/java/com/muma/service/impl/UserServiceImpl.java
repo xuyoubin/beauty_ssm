@@ -92,7 +92,6 @@ public class UserServiceImpl implements UserService {
 		userDetail.setCreateBy(regPhone);
 		userDetailDao.addUserDetail(userDetail);
 	}
-
 	/**
 	 * 检查验证码是否有效
 	 * @return
@@ -101,6 +100,14 @@ public class UserServiceImpl implements UserService {
 	public void checkShareCode(String code) {
 		Precondition.checkState(StringUtils.isNotBlank(code), "code is null!");
 		checkCode(code);
+	}
+	/**
+	 * 更新用户认证信息
+	 * @return
+	 */
+	@Override
+	public void updateUserDetail(String code) {
+
 	}
 
 
