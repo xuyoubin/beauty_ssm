@@ -5,6 +5,8 @@ import java.util.List;
 
 
 import com.muma.entity.User;
+import com.muma.enums.RoalEnum;
+import com.muma.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/spring-dao.xml")
+@ContextConfiguration("classpath:spring/spring-*.xml")
 public class UserDaoTest {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+	private UserService userService;
 	
 	@Test
 	public void testQueryById() {
@@ -40,11 +44,14 @@ public class UserDaoTest {
 	
 	@Test
 	public void testAddScore() {
-//		userDao.addScore(10);
-//		List<User> list=userDao.queryAll(0, 100);
-//		for (User user : list) {
-//			System.out.println(user);
-//		}
+		User user = new User();
+		user.setRegPhone("15725369561");
+		user.setPassword("520114");
+//		user.setRoalId(RoalEnum.SYSTEM_ROAL);
+		user.setCreateBy("测试1");
+		userService.register("15725369061","123456","W9ZC7Q","0");
+//		userDao.addUser(user);
+		System.out.println(user.getId());
 	}
 
 

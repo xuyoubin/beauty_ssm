@@ -14,10 +14,6 @@ public class Buyer extends BaseEntity {
 
   private static final long serialVersionUID = -586488352413370705L;
   /**
-   * 买家id
-   */
-  private Integer userId;
-  /**
    * 平台id
    */
   private PlatformEnum platformId;
@@ -61,14 +57,6 @@ public class Buyer extends BaseEntity {
    * 备注
    */
   private String remark;
-
-  public Integer getUserId() {
-    return userId;
-  }
-
-  public void setUserId(Integer userId) {
-    this.userId = userId;
-  }
 
   public PlatformEnum getPlatformId() {
     return platformId;

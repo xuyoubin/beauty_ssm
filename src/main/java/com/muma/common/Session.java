@@ -2,9 +2,8 @@ package com.muma.common;
 
 
 
-import com.muma.entity.User;
+import com.muma.dto.UserInfoDto;
 import com.muma.util.LoginType;
-
 import javax.servlet.http.HttpSession;
 
 public class Session {
@@ -14,10 +13,10 @@ public class Session {
 	/**
 	 * 用户登录成功保存session
 	 * @param session
-	 * @param user
+	 * @param userInfo
 	 */
-	public static void loginUser(HttpSession session, User user){
-		session.setAttribute(USER_KEY, user);
+	public static void loginUser(HttpSession session, UserInfoDto userInfo){
+		session.setAttribute(USER_KEY, userInfo);
 	}
 	
 	/**
@@ -40,8 +39,8 @@ public class Session {
 			return LoginType.NO_LOGIN;
 
 		}
-		User user = (User) session.getAttribute(USER_KEY);
-		if(null == user){
+		UserInfoDto userInfo = (UserInfoDto) session.getAttribute(USER_KEY);
+		if(null == userInfo){
 			return LoginType.LOGIN_TIMEOUT;
 		}
 		return LoginType.LOGINED;

@@ -1,23 +1,28 @@
 package com.muma.dao;
 
 import com.muma.entity.User;
-import com.muma.service.base.BaseService;
-public interface UserDao extends BaseService<User> {
+import org.apache.ibatis.annotations.Param;
+
+public interface UserDao {
 
     /**
+     * 添加一个用户
+     */
+    void addUser(User user);
+
+	/**
      * 根据手机号查询用户对象
      *
      * @param regPhone
      * @return
      */
-    User queryByPhone(String regPhone);
+    Integer queryByPhone(@Param("regPhone") String regPhone);
     /**
      * 根据手机号和密码查询用户对象
      *
      * @param regPhone
      * @return
      */
-    User queryByPhoneAndPwd( String regPhone, String password);
+    User queryByPhoneAndPwd(@Param("regPhone") String regPhone,@Param("password") String password);
 
-	
 }

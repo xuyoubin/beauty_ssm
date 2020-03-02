@@ -32,8 +32,8 @@ import com.muma.dao.UserDao;
 public class BizQuartz {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-//	@Autowired
-//	private UserDao userDao;
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * 用户自动加积分
@@ -42,7 +42,6 @@ public class BizQuartz {
 	@Scheduled(cron = "0 0/1 9-17 * * ? ")
 	public void addUserScore() {
 		LOG.info("@Scheduled--------addUserScore()");
-//		userDao.addScore(10);
 	}
 	/**
 	 * 每隔5分钟定时清理缓存

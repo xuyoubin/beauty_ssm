@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muma.dao.UserDetailDao">
+
+	<insert id="addUserDetail">
+		INSERT INTO
+		tbl_user_detail(user_id,parent_id,code,create_by,create_time)
+		VALUES
+		(#{userId},#{parentId},#{code},#{createBy},NOW())
+	</insert>
+	<select id="queryByPhoneAndCode" resultType="com.muma.entity.UserDetail">
+		SELECT  id,reg_phone,roal_id
+		FROM tbl_user_detail
+		WHERE
+		status = 1
+		AND code = #{code}
+		AND parent_id= #{parentId} limit 1
+	</select>
+
+	<select id="queryByRegPhone" resultType="com.muma.dto.UserInfoDto">
+		SELECT reg_phone,roal_id,id_card,real_name,sex,age,province_code,city_code,
+		parent_id,code,credit,status,bank_id,bank_name,phone,id_white,
+		id_black,photo
+		FROM tbl_user_detail
+		WHERE reg_phone= #{regPhone} limit 1
+	</select>
+
+	<select id=""></select>
+</mapper>

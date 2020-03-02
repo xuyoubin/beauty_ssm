@@ -1,14 +1,17 @@
 package com.muma.service.impl;
 
-import com.muma.controller.base.BaseResult;
 import com.muma.dao.BuyerDao;
+import com.muma.dao.UserDetailDao;
+import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
+import com.muma.entity.UserDetail;
+import com.muma.enums.RoalEnum;
 import com.muma.enums.base.ResultEnum;
-import com.muma.exception.BizException;
 import com.muma.service.UserService;
 import com.muma.dao.UserDao;
 import com.muma.util.Precondition;
+import com.muma.util.ShareCodeUtil;
 import com.muma.util.VaildUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -26,8 +28,10 @@ public class UserServiceImpl implements UserService {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserDao userDao;
-//	@Autowired
-//	private BuyerDao buyerDao;
+	@Autowired
+	private BuyerDao buyerDao;
+	@Autowired
+	private UserDetailDao userDetailDao;
 
 	/**
 	 * 用户登录
@@ -36,13 +40,18 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public User login(String regPhone, String password) {
+	public UserInfoDto login(String regPhone, String password) {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
 		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
 		User user = userDao.queryByPhoneAndPwd(regPhone,password);
-		User u = userDao.getEntity(1);
 		Precondition.checkNotNull(user, ResultEnum.INVALID_USER.getMsg());
-		return user;
+		//根据手机号码查询用户详细信息
+        UserInfoDto userInfo = userDetailDao.queryByRegPhone(user.getRegPhone());
+		Precondition.checkNotNull(userInfo, "用户异常,请联系管理员！");
+		//已经注册查询平台信息
+		List<Buyer> buyerList = buyerDao.queryBuyerListByRegPhone(userInfo.getRegPhone());
+		userInfo.setBuyerList(buyerList);
+		return userInfo;
 	}
 
 	/**
@@ -53,40 +62,58 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public void register(String regPhone, String password, String type) {
+	public void register(String regPhone, String password,String code, String type) {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
 		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
+		Precondition.checkState(StringUtils.isNotBlank(code), "code is null!");
 		Precondition.checkState(StringUtils.isNotBlank(type), "type is null!");
 		Boolean isRight = VaildUtils.checkPhone(regPhone);
 		Precondition.checkState(isRight,"手机号码错误！");
-		User user = userDao.queryByPhone(regPhone);
-		Precondition.checkState(user !=null, "该手机号码已经注册过！");
+		Integer userNum = userDao.queryByPhone(regPhone);
+		Precondition.checkState(userNum == 0, "该手机号码已经注册过！");
+		RoalEnum userRoal = RoalEnum.stateOf(Integer.valueOf(type));
+		//查询邀请码是否有效
+		UserDetail parentDetail = checkCode(code,userRoal);
 		//保存用户登录信息和详细信息
-		User userInfo = new User();
-
-
+		User user = new User();
+		user.setRegPhone(regPhone);
+		user.setPassword(password);
+		user.setCreateBy(regPhone);
+		userDao.addUser(user);
+		UserDetail userDetail = new UserDetail();
+		userDetail.setParentId(parentDetail.getId());
+		userDetail.setCode(code);
+		userDetail.setCreateBy(regPhone);
+		userDetailDao.addUserDetail(userDetail);
 	}
 
+	/**
+	 * 检查验证码是否有效
+	 * 如果有效返回上级用户信息
+	 * @param code
+	 * @return
+	 */
+	private UserDetail checkCode(String code ,RoalEnum roalEnum){
+		long phone = ShareCodeUtil.codeToId(code);
+		UserDetail parentDetail =  userDetailDao.queryByPhoneAndCode(String.valueOf(phone),code);
+		Precondition.checkNotNull(parentDetail, "该邀请码无效！");
+		if(RoalEnum.BUYER_ROAL.equals(roalEnum)){//注册买家
 
-	@Override
-	public List<User> getUserList(int offset, int limit) {
-		//先去缓存中取
-		List<User> result_cache=null;
-		if(result_cache==null){
-			//缓存中没有再去数据库取，并插入缓存（缓存时间为60秒）
-//			result_cache=userDao.queryAll(offset, limit);
-			LOG.info("put cache with key:");
-		}else{
-			LOG.info("get cache with key:");
+			if(RoalEnum.BUYER_ROAL.equals(parentDetail.getRoalId())){ //上级是买家
+
+			}else if(RoalEnum.BUSINESS_ROAL.equals(parentDetail.getRoalId())){//上级是商家
+
+			}else {//上级是平台
+
+			}
+		}else if(RoalEnum.BUSINESS_ROAL.equals(roalEnum)){//注册商家
+
 		}
-		return result_cache;
+
+
+		return null;
 	}
 
-	@Override
-	public List<Buyer> getBuyerList() {
-//		return buyerDao.queryBuyerList();
-		return  null;
-	}
 
 
 }

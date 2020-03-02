@@ -1,24 +1,28 @@
-package com.muma.entity;
+package com.muma.dto;
 
+import com.muma.entity.Buyer;
 import com.muma.entity.base.BaseEntity;
 import com.muma.enums.RoalEnum;
 import com.muma.enums.SexEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.YesAndNoEnum;
 
+import java.util.List;
+
 /**
- * 用户信息表
+ * 用户全部信息DTO
  */
-public class UserDetail extends BaseEntity {
+public class UserInfoDto {
 
 
-  private static final long serialVersionUID = -5261987733001241788L;
+  private static final long serialVersionUID = 9166348054973519985L;
+
   /**
-   * 用户注册手机号
+   * 注册手机号
    */
   private String regPhone;
   /**
-   * 角色ID 0-买家；1-商家；2-平台管理员；
+   * 角色
    */
   private RoalEnum roalId;
   /**
@@ -48,7 +52,7 @@ public class UserDetail extends BaseEntity {
   /**
    * 上级买家
    */
-  private Integer parentId;
+  private Long parentId;
   /**
    * 推荐码
    */
@@ -85,6 +89,11 @@ public class UserDetail extends BaseEntity {
    * 本人照片
    */
   private String photo;
+
+  /**
+   * 注册平台信息集合
+   */
+  private List<Buyer> buyerList;
 
   public String getRegPhone() {
     return regPhone;
@@ -150,11 +159,11 @@ public class UserDetail extends BaseEntity {
     this.cityCode = cityCode;
   }
 
-  public Integer getParentId() {
+  public Long getParentId() {
     return parentId;
   }
 
-  public void setParentId(Integer parentId) {
+  public void setParentId(Long parentId) {
     this.parentId = parentId;
   }
 
@@ -228,5 +237,13 @@ public class UserDetail extends BaseEntity {
 
   public void setPhoto(String photo) {
     this.photo = photo;
+  }
+
+  public List<Buyer> getBuyerList() {
+    return buyerList;
+  }
+
+  public void setBuyerList(List<Buyer> buyerList) {
+    this.buyerList = buyerList;
   }
 }
