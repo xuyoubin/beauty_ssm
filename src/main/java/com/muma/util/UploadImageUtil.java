@@ -33,9 +33,9 @@ public final class UploadImageUtil {
      * @return
      */
     private static String  makeFilePath(String type){
-        String newPath = "D:"+File.separator+"muma";
+        String newPath = "D:\\muma\\";
         if("userInfo".equals(type)){ //用户信息
-            newPath += File.separator+"userInfo";
+            newPath += "userInfo";
         }else if("taskInfo".equals(type)){
             // 1. 读取系统时间
             Calendar calendar = Calendar.getInstance();
@@ -44,7 +44,7 @@ public final class UploadImageUtil {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String fileName = format.format(time); //获取系统当前时间并将其转换为string类型,fileName即文件名
             // 3. 创建文件夹
-            newPath += File.separator+"task-"+fileName;
+            newPath += "task-"+fileName;
         }
         return newPath;
     }
@@ -60,11 +60,11 @@ public final class UploadImageUtil {
          String savePath = UploadImageUtil.makeFilePath(type);
          File file = new File(savePath);
          //临时存储文件
-         File uploadTemp=new File("D:"+File.separator+"muma"+File.separator+"uploadTemp");
+         File uploadTemp=new File("D:\\muma\\uploadTemp");
          //如果文件目录不存在则创建目录
          if(!file.exists() && !file.isDirectory()){
              System.out.println(savePath+"目录不存在，需要创建");
-             file.mkdir();
+             file.mkdirs();
          }
          System.out.println("创建成功" + savePath);
          try{
@@ -131,7 +131,7 @@ public final class UploadImageUtil {
                      //得到文件的保存目录
 //                     String realSavePath = makePath(saveFilename, savePath);
                      //创建一个文件输出流
-                     FileOutputStream out = new FileOutputStream(savePath + File.separator + saveFilename);
+                     FileOutputStream out = new FileOutputStream(savePath + "\\" + saveFilename);
                      //创建一个缓冲区
                      byte buffer[] = new byte[1024];
                      //判断输入流中的数据是否已经读完的标识
