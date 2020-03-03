@@ -12,6 +12,7 @@ import com.muma.exception.BizException;
 import com.muma.service.UserService;
 import com.muma.util.Precondition;
 import com.muma.util.TimeUtils;
+import com.muma.util.UploadImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.muma.common.HttpContext.getRequset;
+import static com.muma.common.HttpContext.getResponse;
 
 @Controller
 @RequestMapping("/user")
@@ -111,15 +113,19 @@ public class UserController {
 	@RequestMapping(value = "authInfo.do",method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResult<UserDetail> authInfo(){
-		String idNumber = getRequset().getParameter("idNumber");
-		String idName = getRequset().getParameter("idName");
-		String bankNumber = getRequset().getParameter("bankNumber");
-		String bankName = getRequset().getParameter("bankName");
-		String bankPhone = getRequset().getParameter("bankPhone");
-		String idImangeWhite = getRequset().getParameter("idImangeWhite");
-		String idImageBlack = getRequset().getParameter("idImageBlack");
+//		String idNumber = getRequset().getParameter("idNumber");
+//		String idName = getRequset().getParameter("idName");
+//		String bankNumber = getRequset().getParameter("bankNumber");
+//		String bankName = getRequset().getParameter("bankName");
+//		String bankPhone = getRequset().getParameter("bankPhone");
+//		String idImangeWhite = getRequset().getParameter("idImangeWhite");
+//		String idImageBlack = getRequset().getParameter("idImageBlack");
 		try{
-			userService.updateUserDetail(idNumber);
+//			userService.updateUserDetail(idNumber);
+			String idNumber  =   getRequset().getParameter("idNumber");
+			UploadImageUtil.upImage(getRequset(),getResponse(),"userInfo");
+			String idNumber1  =   getRequset().getParameter("idNumber");
+			logger.info("数据"+idNumber+idNumber1);
 			return new BaseResult<UserDetail>(true,"用户认证保存成功！");
 		}catch (BizException e){
 			return new BaseResult<UserDetail>(false,e.getMessage());

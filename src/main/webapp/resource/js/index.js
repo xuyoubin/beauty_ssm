@@ -9,14 +9,14 @@ $(function(){
 });
 var submitFileAct = function (obj) {
     var $btn =$(obj);
-    var $table=$btn.parent().parent().parent();
+    var $table=$btn.parent().parent().parent().parent();
     var url =$("td[name='url']",$table).html();
     var data ={};
     var $form =$("form",$table);
     var data = new FormData($form[0]);
     $.ajax({
         type: "post",
-        dataType: "html",
+        // dataType: "html",
         url: url,
         data: data,
         cache: false,

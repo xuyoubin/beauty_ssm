@@ -99,5 +99,29 @@
         </tr>
     </table>
 </fieldset>
+<fieldset>
+    <legend>用户信息认证提交</legend>
+    <table>
+        <form>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/user/authInfo.do</td>
+        </tr>
+        <tr>
+            <td class="title">身份证号码:</td>
+            <td><input type="text" name="idNumber" value="350526199555547123"></td>
+        </tr>
+        <tr>
+            <td class="title">身份证正面:</td>
+            <td><input type="file" name="idImangeWhite" accept="image/png,image/jpeg"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitFileAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
+        </form>
+    </table>
+
+</fieldset>
 </body>
 </html>
