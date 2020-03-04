@@ -1,5 +1,7 @@
 package com.muma.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.muma.controller.base.BaseResult;
 import com.muma.dao.BuyerDao;
 import com.muma.dao.UserDao;
 import com.muma.dao.UserDetailDao;
@@ -10,8 +12,11 @@ import com.muma.entity.UserDetail;
 import com.muma.enums.RoalEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.service.UserService;
+import com.muma.util.BankNameUtil;
+import com.muma.util.IdcardUtils;
 import com.muma.util.Precondition;
 import com.muma.util.ShareCodeUtil;
+import com.muma.util.UploadImageUtil;
 import com.muma.util.VaildUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -106,8 +113,36 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	@Override
-	public void updateUserDetail(String code) {
-
+	public void updateUserDetail(MultipartFile idImageWhite, MultipartFile idImageBlack,
+								 String regPhone, String idNumber, String idName, String bankNumber, String bankName, String bankPhone) {
+		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
+		Precondition.checkState(StringUtils.isNotBlank(idNumber), "请填写身份证号码!");
+		Precondition.checkState(StringUtils.isNotBlank(idImageWhite.getOriginalFilename()), "请上传身份证正面!");
+		Precondition.checkState(StringUtils.isNotBlank(idImageBlack.getOriginalFilename()), "请上传身份证反面!");
+		Precondition.checkState(StringUtils.isNotBlank(idName), "请填写开户银行!");
+		Precondition.checkState(StringUtils.isNotBlank(bankNumber), "请填写银行卡号!");
+		Precondition.checkState(StringUtils.isNotBlank(bankPhone), "请填写绑定手机号码!");
+        //验证身份证号码
+		Precondition.checkState(IdcardUtils.validateCard(idNumber), "身份证号码格式有误!");
+		//获取省份代码
+		String provinceNum = IdcardUtils.getProvinceByIdCard(idNumber);
+		//获取年龄
+		int age = IdcardUtils.getAgeByIdCard(idNumber);
+		//验证银行卡号
+		JSONObject bankCheck =  BankNameUtil.getNameOfBank(bankNumber);
+		Precondition.checkState(bankCheck.getBoolean("flag"), bankCheck.getString("msg"));
+		//根据注册手机查询用户详细信息
+		UserInfoDto userInfo = userDetailDao.queryByRegPhone(regPhone);
+		Precondition.checkNotNull(userInfo, "用户异常,请联系管理员！");
+		//保存照片
+		//保存正面
+		JSONObject result1 = UploadImageUtil.upImage(idImageWhite,UploadImageUtil.UPLOAD_IMAGE_TYPE_USER_INFO);
+		Precondition.checkState(result1.getBoolean("success"), result1.getString("message"));
+		String whiteUrl = result1.getString("url");
+		//保存反面
+		JSONObject result2 = UploadImageUtil.upImage(idImageBlack,UploadImageUtil.UPLOAD_IMAGE_TYPE_USER_INFO);
+		Precondition.checkState(result2.getBoolean("success"), result2.getString("message"));
+		String blackUrl = result2.getString("url");
 	}
 
 

@@ -1,5 +1,6 @@
 package com.muma.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.muma.common.HttpContext;
 import com.muma.common.Session;
 import com.muma.controller.base.BaseResult;
@@ -20,7 +21,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -112,20 +115,16 @@ public class UserController {
 	 */
 	@RequestMapping(value = "authInfo.do",method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult<UserDetail> authInfo(){
-//		String idNumber = getRequset().getParameter("idNumber");
-//		String idName = getRequset().getParameter("idName");
-//		String bankNumber = getRequset().getParameter("bankNumber");
-//		String bankName = getRequset().getParameter("bankName");
-//		String bankPhone = getRequset().getParameter("bankPhone");
-//		String idImangeWhite = getRequset().getParameter("idImangeWhite");
-//		String idImageBlack = getRequset().getParameter("idImageBlack");
+	public BaseResult<UserDetail> authInfo(@RequestParam("idImageWhite") MultipartFile idImageWhite,
+										   @RequestParam("idImageBlack") MultipartFile idImageBlack	   ){
+		String idNumber = getRequset().getParameter("idNumber");
+		String idName = getRequset().getParameter("idName");
+		String bankNumber = getRequset().getParameter("bankNumber");
+		String bankName = getRequset().getParameter("bankName");
+		String bankPhone = getRequset().getParameter("bankPhone");
 		try{
-//			userService.updateUserDetail(idNumber);
-			String idNumber  =   getRequset().getParameter("idNumber");
-			UploadImageUtil.upImage(getRequset(),getResponse(),"userInfo");
-			String idNumber1  =   getRequset().getParameter("idNumber");
-			logger.info("数据"+idNumber+idNumber1);
+			UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
+			userService.updateUserDetail(idImageWhite,idImageBlack,userInfoDto.getRegPhone(),idNumber,idName,bankNumber,bankName,bankPhone);
 			return new BaseResult<UserDetail>(true,"用户认证保存成功！");
 		}catch (BizException e){
 			return new BaseResult<UserDetail>(false,e.getMessage());

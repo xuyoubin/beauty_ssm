@@ -5,6 +5,7 @@ import java.util.List;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
 	/**
@@ -30,6 +31,7 @@ public interface UserService {
 	 * 更新用户认证信息
 	 * @return
 	 */
-	public void updateUserDetail(String code);
+	public void updateUserDetail(MultipartFile idImageWhite,MultipartFile idImageBlack,
+								 String regPhone,String idNumber,String idName,String bankNumber,String bankName,String bankPhone);
 
 }

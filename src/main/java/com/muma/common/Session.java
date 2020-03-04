@@ -4,7 +4,10 @@ package com.muma.common;
 
 import com.muma.dto.UserInfoDto;
 import com.muma.util.LoginType;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import static com.muma.common.HttpContext.getRequset;
 
 public class Session {
 	
@@ -28,7 +31,16 @@ public class Session {
 			session.removeAttribute(USER_KEY);
 		}
 	}
-	
+	/**
+	 * 获取session中的Attribute
+	 * @param name
+	 * @return
+	 */
+	public static Object getSessionAttribute(){
+		HttpServletRequest request = getRequset();
+		return request == null?null:request.getSession().getAttribute(Session.USER_KEY);
+	}
+
 	/**
 	 * 判断用户是否已经登录
 	 * @param session
