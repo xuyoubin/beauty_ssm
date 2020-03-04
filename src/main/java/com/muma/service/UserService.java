@@ -32,6 +32,6 @@ public interface UserService {
 	 * @return
 	 */
 	public void updateUserDetail(MultipartFile idImageWhite,MultipartFile idImageBlack,
-								 String regPhone,String idNumber,String idName,String bankNumber,String bankName,String bankPhone);
+								 String regPhone,String idNumber,String idName,String bankNumber,String bankPhone);
 
 }

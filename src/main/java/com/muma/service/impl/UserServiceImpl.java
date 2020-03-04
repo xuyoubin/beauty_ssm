@@ -10,6 +10,7 @@ import com.muma.entity.Buyer;
 import com.muma.entity.User;
 import com.muma.entity.UserDetail;
 import com.muma.enums.RoalEnum;
+import com.muma.enums.SexEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.service.UserService;
 import com.muma.util.BankNameUtil;
@@ -114,12 +115,12 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public void updateUserDetail(MultipartFile idImageWhite, MultipartFile idImageBlack,
-								 String regPhone, String idNumber, String idName, String bankNumber, String bankName, String bankPhone) {
+								 String regPhone, String idNumber, String idName, String bankNumber, String bankPhone) {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
 		Precondition.checkState(StringUtils.isNotBlank(idNumber), "请填写身份证号码!");
+		Precondition.checkState(StringUtils.isNotBlank(idName), "请填写身份证姓名!");
 		Precondition.checkState(StringUtils.isNotBlank(idImageWhite.getOriginalFilename()), "请上传身份证正面!");
 		Precondition.checkState(StringUtils.isNotBlank(idImageBlack.getOriginalFilename()), "请上传身份证反面!");
-		Precondition.checkState(StringUtils.isNotBlank(idName), "请填写开户银行!");
 		Precondition.checkState(StringUtils.isNotBlank(bankNumber), "请填写银行卡号!");
 		Precondition.checkState(StringUtils.isNotBlank(bankPhone), "请填写绑定手机号码!");
         //验证身份证号码
@@ -128,9 +129,9 @@ public class UserServiceImpl implements UserService {
 		String provinceNum = IdcardUtils.getProvinceByIdCard(idNumber);
 		//获取年龄
 		int age = IdcardUtils.getAgeByIdCard(idNumber);
+		int sex = IdcardUtils.getGenderByIdCard(idNumber);
 		//验证银行卡号
-		JSONObject bankCheck =  BankNameUtil.getNameOfBank(bankNumber);
-		Precondition.checkState(bankCheck.getBoolean("flag"), bankCheck.getString("msg"));
+		String  bankName =  BankNameUtil.checkBankName(bankNumber);
 		//根据注册手机查询用户详细信息
 		UserInfoDto userInfo = userDetailDao.queryByRegPhone(regPhone);
 		Precondition.checkNotNull(userInfo, "用户异常,请联系管理员！");
@@ -143,6 +144,18 @@ public class UserServiceImpl implements UserService {
 		JSONObject result2 = UploadImageUtil.upImage(idImageBlack,UploadImageUtil.UPLOAD_IMAGE_TYPE_USER_INFO);
 		Precondition.checkState(result2.getBoolean("success"), result2.getString("message"));
 		String blackUrl = result2.getString("url");
+		UserDetail userDetail = new UserDetail();
+		userDetail.setIdCard(idNumber);
+		userDetail.setRealName(idName);
+		userDetail.setAge(age);
+		userDetail.setSex(SexEnum.stateOf(sex));
+		userDetail.setProvinceCode(provinceNum);
+		userDetail.setBankId(bankNumber);
+		userDetail.setBankName(bankName);
+		userDetail.setCode(ShareCodeUtil.toSerialCode(Long.valueOf(userInfo.getId())));
+		userDetail.setIdWhite(whiteUrl);
+		userDetail.setIdBlack(blackUrl);
+		userDetail.setUpdateBy(regPhone);
 	}
 
 

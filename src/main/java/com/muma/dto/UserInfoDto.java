@@ -18,6 +18,10 @@ public class UserInfoDto {
   private static final long serialVersionUID = 9166348054973519985L;
 
   /**
+   * 主键
+   */
+  private Integer id;
+  /**
    * 注册手机号
    */
   private String regPhone;
@@ -94,6 +98,14 @@ public class UserInfoDto {
    * 注册平台信息集合
    */
   private List<Buyer> buyerList;
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
   public String getRegPhone() {
     return regPhone;

@@ -482,16 +482,16 @@ public class IdcardUtils extends StringUtils {
      * @param idCard 身份编号
      * @return 性别(M-男，F-女，N-未知)
      */
-    public static String getGenderByIdCard(String idCard) {
-        String sGender = "N";
+    public static Integer getGenderByIdCard(String idCard) {
+        int sGender = 3;
         if (idCard.length() == CHINA_ID_MIN_LENGTH) {
             idCard = conver15CardTo18(idCard);
         }
         String sCardNum = idCard.substring(16, 17);
         if (Integer.parseInt(sCardNum) % 2 != 0) {
-            sGender = "M";
+            sGender = 1;
         } else {
-            sGender = "F";
+            sGender = 0;
         }
         return sGender;
     }

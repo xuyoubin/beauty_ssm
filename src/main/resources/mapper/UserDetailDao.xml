@@ -18,7 +18,7 @@
 	</select>
 
 	<select id="queryByRegPhone" resultType="com.muma.dto.UserInfoDto">
-		SELECT reg_phone,roal_id,id_card,real_name,sex,age,province_code,city_code,
+		SELECT id, reg_phone,roal_id,id_card,real_name,sex,age,province_code,city_code,
 		parent_phone,code,credit,status,bank_id,bank_name,phone,id_white,
 		id_black,photo
 		FROM tbl_user_detail

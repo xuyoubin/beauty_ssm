@@ -120,11 +120,10 @@ public class UserController {
 		String idNumber = getRequset().getParameter("idNumber");
 		String idName = getRequset().getParameter("idName");
 		String bankNumber = getRequset().getParameter("bankNumber");
-		String bankName = getRequset().getParameter("bankName");
 		String bankPhone = getRequset().getParameter("bankPhone");
 		try{
 			UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
-			userService.updateUserDetail(idImageWhite,idImageBlack,userInfoDto.getRegPhone(),idNumber,idName,bankNumber,bankName,bankPhone);
+			userService.updateUserDetail(idImageWhite,idImageBlack,userInfoDto.getRegPhone(),idNumber,idName,bankNumber,bankPhone);
 			return new BaseResult<UserDetail>(true,"用户认证保存成功！");
 		}catch (BizException e){
 			return new BaseResult<UserDetail>(false,e.getMessage());
