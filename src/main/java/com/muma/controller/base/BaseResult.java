@@ -20,23 +20,23 @@ public class BaseResult<T> implements Serializable {
 
     private T data;
 
-    private String error;
+    private String message;
 
     private String code;
 
-    public BaseResult(boolean success, String error) {
+    public BaseResult(boolean success, String message) {
         this.success = success;
-        this.error = error;
+        this.message = message;
     }
 
     public BaseResult(boolean success, T data) {
         this.success = success;
         this.data = data;
     }
-    public BaseResult(boolean success,String code, String error) {
+    public BaseResult(boolean success,String code, String message) {
         this.success = success;
         this.code = code;
-        this.error = error;
+        this.message = message;
     }
 
     public BaseResult(boolean success,String code, T data) {
@@ -62,12 +62,12 @@ public class BaseResult<T> implements Serializable {
         this.data = data;
     }
 
-    public String getError() {
-        return error;
+    public String getMessage() {
+        return message;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getCode() {
@@ -80,7 +80,7 @@ public class BaseResult<T> implements Serializable {
 
     @Override
 	public String toString() {
-		return "BaseResult [success=" + success + ", data=" + data + ", error=" + error + "]";
+		return "BaseResult [success=" + success + ", data=" + data + ", message=" + message + "]";
 	}
 
 }

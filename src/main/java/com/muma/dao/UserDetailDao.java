@@ -11,7 +11,10 @@ public interface UserDetailDao {
      * 添加一条详细信息
      */
     void addUserDetail(UserDetail userDetail);
-
+    /**
+     * 根据主键更新信息
+     */
+     void updateUserDetail(UserDetail userDetail);
     /**
      * 根据用户手机号查询用户详细信息
      *

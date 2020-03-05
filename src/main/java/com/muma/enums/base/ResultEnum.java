@@ -17,7 +17,7 @@ public enum ResultEnum {
 	// 系统异常
 	INNER_ERROR(99980001, "系统错误！"),
 	TOKEN_IS_ILLICIT(99980002, "Token验证非法！"),
-	SESSION_IS_OUT_TIME(99980003, "会话超时！"),
+	SESSION_IS_OUT_TIME(-1, "会话超时！"),
 
 	//操作成功
 	 SUCCESS(88888888, "操作成功!"),

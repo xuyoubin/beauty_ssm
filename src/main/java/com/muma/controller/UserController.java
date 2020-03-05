@@ -8,6 +8,7 @@ import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
 import com.muma.entity.UserDetail;
+import com.muma.enums.StatusEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.UserService;
@@ -123,6 +124,9 @@ public class UserController {
 		String bankPhone = getRequset().getParameter("bankPhone");
 		try{
 			UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
+			if(!StatusEnum.CONFIRM_WAIT.equals(userInfoDto.getStatus())){
+				return new BaseResult<UserDetail>(false,"用户状态错误！");
+			}
 			userService.updateUserDetail(idImageWhite,idImageBlack,userInfoDto.getRegPhone(),idNumber,idName,bankNumber,bankPhone);
 			return new BaseResult<UserDetail>(true,"用户认证保存成功！");
 		}catch (BizException e){

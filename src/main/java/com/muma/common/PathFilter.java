@@ -49,7 +49,7 @@ public class PathFilter implements Filter {
 				response.setCharacterEncoding("UTF-8");
 				response.setContentType("application/json;charset=UTF-8");
 				PrintWriter pw = response.getWriter();
-				pw.write(JSONObject.toJSONString(new BaseResult<Object>(false, ResultEnum.SESSION_IS_OUT_TIME.getMsg())));
+				pw.write(JSONObject.toJSONString(new BaseResult<Object>(false,String.valueOf(ResultEnum.SESSION_IS_OUT_TIME.getState()), ResultEnum.SESSION_IS_OUT_TIME.getMsg())));
 				pw.flush();
 				pw.close();
 				return ;

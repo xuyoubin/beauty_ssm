@@ -11,6 +11,7 @@ import com.muma.entity.User;
 import com.muma.entity.UserDetail;
 import com.muma.enums.RoalEnum;
 import com.muma.enums.SexEnum;
+import com.muma.enums.StatusEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.service.UserService;
 import com.muma.util.BankNameUtil;
@@ -96,7 +97,6 @@ public class UserServiceImpl implements UserService {
 		userDetail.setRegPhone(regPhone);
 		userDetail.setRoalId(userRoal);
 		userDetail.setParentPhone(parentPhone);
-//		userDetail.setCode(ShareCodeUtil.toSerialCode(Long.valueOf(regPhone)));//获取自己的邀请码，用户审核通过的时候生成
 		userDetail.setCreateBy(regPhone);
 		userDetailDao.addUserDetail(userDetail);
 	}
@@ -131,20 +131,26 @@ public class UserServiceImpl implements UserService {
 		int age = IdcardUtils.getAgeByIdCard(idNumber);
 		int sex = IdcardUtils.getGenderByIdCard(idNumber);
 		//验证银行卡号
-		String  bankName =  BankNameUtil.checkBankName(bankNumber);
+		JSONObject  bankResult =  BankNameUtil.checkBankName(bankNumber);
+		Precondition.checkState(bankResult.getBoolean("success"), bankResult.getString("message"));
+		String bankName = bankResult.getString("message");
+		//验证手机号码
+		Boolean isRight = VaildUtils.checkPhone(bankPhone);
+		Precondition.checkState(isRight,"手机号码错误！");
 		//根据注册手机查询用户详细信息
 		UserInfoDto userInfo = userDetailDao.queryByRegPhone(regPhone);
 		Precondition.checkNotNull(userInfo, "用户异常,请联系管理员！");
 		//保存照片
 		//保存正面
-		JSONObject result1 = UploadImageUtil.upImage(idImageWhite,UploadImageUtil.UPLOAD_IMAGE_TYPE_USER_INFO);
+		JSONObject result1 = UploadImageUtil.upImage(idImageWhite,UploadImageUtil.UPLOAD_IMAGE_TYPE_USER_INFO,regPhone);
 		Precondition.checkState(result1.getBoolean("success"), result1.getString("message"));
 		String whiteUrl = result1.getString("url");
 		//保存反面
-		JSONObject result2 = UploadImageUtil.upImage(idImageBlack,UploadImageUtil.UPLOAD_IMAGE_TYPE_USER_INFO);
+		JSONObject result2 = UploadImageUtil.upImage(idImageBlack,UploadImageUtil.UPLOAD_IMAGE_TYPE_USER_INFO,regPhone);
 		Precondition.checkState(result2.getBoolean("success"), result2.getString("message"));
 		String blackUrl = result2.getString("url");
 		UserDetail userDetail = new UserDetail();
+		userDetail.setId(userInfo.getId());
 		userDetail.setIdCard(idNumber);
 		userDetail.setRealName(idName);
 		userDetail.setAge(age);
@@ -152,10 +158,13 @@ public class UserServiceImpl implements UserService {
 		userDetail.setProvinceCode(provinceNum);
 		userDetail.setBankId(bankNumber);
 		userDetail.setBankName(bankName);
+		userDetail.setPhone(bankPhone);
 		userDetail.setCode(ShareCodeUtil.toSerialCode(Long.valueOf(userInfo.getId())));
 		userDetail.setIdWhite(whiteUrl);
 		userDetail.setIdBlack(blackUrl);
 		userDetail.setUpdateBy(regPhone);
+		userDetail.setStatus(StatusEnum.CONFIRM_WAIT);
+		userDetailDao.updateUserDetail(userDetail);
 	}
 
 

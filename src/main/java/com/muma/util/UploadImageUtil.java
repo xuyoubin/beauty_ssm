@@ -31,9 +31,9 @@ public final class UploadImageUtil {
     public static  final String  UPLOAD_IMAGE_TYPE_USER_INFO = "userInfo";
     public static  final String  UPLOAD_IMAGE_TYPE_TASK = "taskInfo";
 	
-	private static String makeFileName(String suffix){
+	private static String makeFileName(String suffix,String regPhone){
 		         //为防止文件覆盖的现象发生，要为上传文件产生一个唯一的文件名
-		         return UUID.randomUUID().toString()+suffix;
+		         return regPhone+"_"+UUID.randomUUID().toString()+suffix;
 		     }
 
     /**
@@ -66,7 +66,7 @@ public final class UploadImageUtil {
     }
 		
 	
-	 public static  JSONObject upImage(MultipartFile file, String type){
+	 public static  JSONObject upImage(MultipartFile file, String type,String regPhone){
          // 判断文件是否为空
          JSONObject result = new JSONObject();
          result.put("success",false);
@@ -80,7 +80,7 @@ public final class UploadImageUtil {
                  final String suffix = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
                  //创建路径
                  String newPath = makeFilePath(type);
-                 String newName = makeFileName(suffix);
+                 String newName = makeFileName(suffix,regPhone);
                  if (!IMAGE_EXTENSIONS.contains(suffix)) {
                      result.put("message", "图片格式错误！");
                      return result;

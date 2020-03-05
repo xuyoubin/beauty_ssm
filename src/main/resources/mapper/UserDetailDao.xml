@@ -8,11 +8,34 @@
 		VALUES
 		(#{regPhone},#{roalId},#{parentPhone},#{code},#{createBy},NOW())
 	</insert>
+
+	<update id="updateUserDetail">
+		UPDATE tbl_user_detail
+		SET
+			id_card = #{idCard},
+			real_name = #{realName},
+			sex = #{sex},
+			age = #{age},
+			province_code = #{provinceCode},
+			code = #{code},
+			status = #{status},
+			bank_id = #{bankId},
+			bank_name = #{bankName},
+			phone = #{phone},
+			id_white = #{idWhite},
+			id_black = #{idBlack},
+			update_by = #{updateBy},
+			update_time = NOW()
+		WHERE
+			id = #{id};
+	</update>
+
+
 	<select id="queryByIdAndCode" resultType="com.muma.entity.UserDetail">
 		SELECT  id,reg_phone,roal_id,status
 		FROM tbl_user_detail
 		WHERE
-		status = 1
+		status = 2
 		AND code = #{code}
 		AND id= #{id} limit 1
 	</select>

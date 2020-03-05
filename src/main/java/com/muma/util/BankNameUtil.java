@@ -15,8 +15,7 @@ import java.util.Map;
 public class BankNameUtil {
 
     public static Map<String,String> bankNameMap = new HashMap<>();
-
-    private BankNameUtil(){
+    static {
         bankNameMap.put("ICBC","中国工商银行");
         bankNameMap.put("BOC","中国银行");
         bankNameMap.put("CCB","中国建设银行");
@@ -36,15 +35,20 @@ public class BankNameUtil {
      * 根据银行卡号获取对应的银行变化如：ICBC
      * @param bankCardId
      * @return
+     * DC: "储蓄卡",
+     * CC: "信用卡",
+     * SCC: "准贷记卡",
+     * PC: "预付费卡"
      */
-    public static String checkBankName(String bankCardId){
+    public static JSONObject checkBankName(String bankCardId){
+        JSONObject result = new JSONObject();
+        result.put("success",false);
+        result.put("message","");
         if(bankCardId==null || bankCardId.length()<16 || bankCardId.length()>19){
-            throw new BizException("银行卡号码位数不正确！");
+            result.put("message","银行卡号码位数不正确！");
+            return result;
         }
         try {
-            /**
-             *请求
-             */
             String url = "https://ccdcapi.alipay.com/validateAndCacheCardInfo.json";
             Map<String, String> map = new HashMap<String, String>();
             map.put("cardNo", bankCardId);
@@ -56,21 +60,31 @@ public class BankNameUtil {
                 boolean validated = json.getBoolean("validated");
                 if(validated){
                     String bank = json.getString("bank");
+                    String cardType = json.getString("cardType");
                     String name =  bankNameMap.get(bank);
-                    if(StringUtils.isEmpty(name)){
-                        throw new BizException("暂不支持该银行卡，请更换其他银行卡！");
+
+                    if(StringUtils.isEmpty(name) || !"DC".equals(cardType) ){
+                        result.put("message","暂不支持该银行卡，请更换其他银行卡！");
+                        return result;
                     }
-                    return name;
+                    result.put("success",true);
+                    result.put("message",name);
+                    return result;
+                }else {
+                    result.put("message","银行卡号码不正确!");
+                    return result;
                 }
             }
         } catch (Exception e) {
-            throw new BizException("查询银行卡号异常！");
+            result.put("message","查询银行卡号异常！");
+            return result;
         }
-        return null;
+        return result;
     }
 
     public static void main(String[] args) {
-        System.out.println(checkBankName("350102199003075171"));
+        JSONObject re = checkBankName("4391880081522983");
+        System.out.println(JSONObject.toJSONString(re));
     }
 
 }

@@ -16,7 +16,7 @@ var submitFileAct = function (obj) {
     var data = new FormData($form[0]);
     $.ajax({
         type: "post",
-        // dataType: "html",
+        dataType: "html",
         url: url,
         data: data,
         cache: false,
