@@ -50,6 +50,7 @@ public class BankNameUtil {
             map.put("cardNo", bankCardId);
             map.put("cardBinCheck", "true");
             String json_Str = HttpUtils.httpSend(url, map, "utf-8");
+            System.out.println("返回结果："+json_Str);
             if(StringUtils.isNotBlank(json_Str)){
                 JSONObject json = JSON.parseObject(json_Str);
                 boolean validated = json.getBoolean("validated");
