@@ -62,9 +62,12 @@ public class BankNameUtil {
                     String bank = json.getString("bank");
                     String cardType = json.getString("cardType");
                     String name =  bankNameMap.get(bank);
-
-                    if(StringUtils.isEmpty(name) || !"DC".equals(cardType) ){
+                    if(StringUtils.isEmpty(name)){
                         result.put("message","暂不支持该银行卡，请更换其他银行卡！");
+                        return result;
+                    }
+                    if(!"DC".equals(cardType)){
+                        result.put("message","暂不支持该类型卡，请更换储蓄卡！");
                         return result;
                     }
                     result.put("success",true);

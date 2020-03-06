@@ -66,7 +66,7 @@ public class UserInfoDto {
    */
   private Integer credit;
   /**
-   * 状态 状态：0 -待审核，1-审核通过，2-审核不通过,3-用户拉黑（该系统拉黑，防止该用户再注册） 4-平台拉黑（如淘宝平台）
+   * 状态：0-初始化 ，1-待审核，2-审核通过，3-审核不通过,4-用户拉黑（该系统拉黑，防止该用户再注册）
    */
   private StatusEnum status;
   /**

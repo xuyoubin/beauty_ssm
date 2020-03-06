@@ -40,11 +40,11 @@ public class GoodsController {
 
     @RequestMapping(value = "/{goodsId}/buy", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public BaseResult<Object> buy(@CookieValue(value = "userPhone", required = false) Long userPhone,
+    public BaseResult buy(@CookieValue(value = "userPhone", required = false) Long userPhone,
         /*@PathVariable("goodsId") Long goodsId*/ @Valid Goods goods, BindingResult result) {
         LOG.info("invoke----------/" + goods.getGoodsId() + "/buy userPhone:" + userPhone);
         if (userPhone == null) {
-            return new BaseResult<Object>(false, ResultEnum.INVALID_USER.getMsg());
+            return new BaseResult(false, ResultEnum.INVALID_USER.getMsg());
         }
         //Valid 参数验证(这里注释掉，采用AOP的方式验证,见BindingResultAop.java)
         //if (result.hasErrors()) {
@@ -54,10 +54,10 @@ public class GoodsController {
         try {
             goodsService.buyGoods(userPhone, goods.getGoodsId(), false);
         } catch (BizException e) {
-            return new BaseResult<Object>(false, e.getMessage());
+            return new BaseResult(false, e.getMessage());
         } catch (Exception e) {
-            return new BaseResult<Object>(false, ResultEnum.INNER_ERROR.getMsg());
+            return new BaseResult(false, ResultEnum.INNER_ERROR.getMsg());
         }
-        return new BaseResult<Object>(true, null);
+        return new BaseResult(true, null);
     }
 }

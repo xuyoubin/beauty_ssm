@@ -36,7 +36,7 @@ public class BindingResultAop {
         if(bindingResult != null){
             if(bindingResult.hasErrors()){
                 String errorInfo="["+bindingResult.getFieldError().getField()+"]"+bindingResult.getFieldError().getDefaultMessage();
-                return new BaseResult<Object>(false, errorInfo);
+                return new BaseResult(false, errorInfo);
             }
         }
         return joinPoint.proceed();

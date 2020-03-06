@@ -5,6 +5,7 @@ import com.muma.controller.base.BaseResult;
 import com.muma.dao.BuyerDao;
 import com.muma.dao.UserDao;
 import com.muma.dao.UserDetailDao;
+import com.muma.dto.ShareUserDto;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.User;
@@ -13,6 +14,7 @@ import com.muma.enums.RoalEnum;
 import com.muma.enums.SexEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.base.ResultEnum;
+import com.muma.exception.BizException;
 import com.muma.service.UserService;
 import com.muma.util.BankNameUtil;
 import com.muma.util.IdcardUtils;
@@ -140,15 +142,13 @@ public class UserServiceImpl implements UserService {
 		//根据注册手机查询用户详细信息
 		UserInfoDto userInfo = userDetailDao.queryByRegPhone(regPhone);
 		Precondition.checkNotNull(userInfo, "用户异常,请联系管理员！");
-		//保存照片
+		if( StatusEnum.CONFIRM_PASS.equals(userInfo.getStatus()) ||StatusEnum.USER_BLACK.equals(userInfo.getStatus())){
+			throw new BizException("当前用户状态不可修改认证信息!");
+		}
 		//保存正面
-		JSONObject result1 = UploadImageUtil.upImage(idImageWhite,UploadImageUtil.UPLOAD_IMAGE_TYPE_USER_INFO,regPhone);
-		Precondition.checkState(result1.getBoolean("success"), result1.getString("message"));
-		String whiteUrl = result1.getString("url");
+		String whiteUrl = UploadImageUtil.saveImage(idImageWhite,UploadImageUtil.IMAGE_TYPE_USER_INFO,regPhone,"身份证正面");
 		//保存反面
-		JSONObject result2 = UploadImageUtil.upImage(idImageBlack,UploadImageUtil.UPLOAD_IMAGE_TYPE_USER_INFO,regPhone);
-		Precondition.checkState(result2.getBoolean("success"), result2.getString("message"));
-		String blackUrl = result2.getString("url");
+		String blackUrl = UploadImageUtil.saveImage(idImageBlack,UploadImageUtil.IMAGE_TYPE_USER_INFO,regPhone,"身份证反面");
 		UserDetail userDetail = new UserDetail();
 		userDetail.setId(userInfo.getId());
 		userDetail.setIdCard(idNumber);
@@ -180,17 +180,29 @@ public class UserServiceImpl implements UserService {
 		UserDetail parentDetail =  userDetailDao.queryByIdAndCode(id,code);
 		Precondition.checkNotNull(parentDetail, "该邀请码无效！");
 		//查询邀请次数
-		List<UserDetail> userDetails = userDetailDao.queryByParentPhone(parentDetail.getRegPhone());
+		List<ShareUserDto> shareUserDtos = userDetailDao.queryByParentPhone(parentDetail.getRegPhone());
 		if(RoalEnum.BUYER_ROAL.equals(parentDetail.getRoalId())){ //上级是买家
-			Precondition.checkState(userDetails.size()<=6, "该邀请码无效！");
-			//TODO查询有效1交易次数
+			Precondition.checkState(shareUserDtos.size()<=6, "该邀请码无效！");
+			// TODO 查询有效1交易次数
 
 		}else if(RoalEnum.BUSINESS_ROAL.equals(parentDetail.getRoalId())){//上级是商家
 			Precondition.checkState(false, "该邀请码无效！");
 		}else {//上级是平台
-			Precondition.checkState(userDetails.size()<=50, "该邀请码无效！");
+			Precondition.checkState(shareUserDtos.size()<=50, "该邀请码无效！");
 		}
 		return parentDetail;
+	}
+
+	/**
+	 * 查询用户邀请的人信息
+	 * @param regPhone
+	 * @return
+	 */
+	public List<ShareUserDto> shareUser(String regPhone){
+		//查询邀请次数
+		List<ShareUserDto> shareUserDtos = userDetailDao.queryByParentPhone(regPhone);
+		// TODO 查询有效的销售任务
+		return shareUserDtos;
 	}
 
 

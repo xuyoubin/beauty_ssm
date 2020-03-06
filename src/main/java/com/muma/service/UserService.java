@@ -1,11 +1,10 @@
 package com.muma.service;
 
-import java.util.List;
-
+import com.muma.dto.ShareUserDto;
 import com.muma.dto.UserInfoDto;
-import com.muma.entity.Buyer;
-import com.muma.entity.User;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface UserService {
 	/**
@@ -34,6 +33,10 @@ public interface UserService {
 	public void updateUserDetail(MultipartFile idImageWhite,MultipartFile idImageBlack,
 								 String regPhone,String idNumber,String idName,String bankNumber,String bankPhone);
 
-
-	public List<> shareUser(String regPhone);
+	/**
+	 * 查询用户邀请的人信息
+	 * @param regPhone
+	 * @return
+	 */
+	public List<ShareUserDto> shareUser(String regPhone);
 }

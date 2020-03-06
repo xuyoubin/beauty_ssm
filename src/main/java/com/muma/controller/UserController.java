@@ -1,25 +1,17 @@
 package com.muma.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.muma.common.HttpContext;
 import com.muma.common.Session;
 import com.muma.controller.base.BaseResult;
+import com.muma.dto.ShareUserDto;
 import com.muma.dto.UserInfoDto;
-import com.muma.entity.Buyer;
-import com.muma.entity.User;
-import com.muma.entity.UserDetail;
-import com.muma.enums.StatusEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.UserService;
-import com.muma.util.Precondition;
 import com.muma.util.TimeUtils;
-import com.muma.util.UploadImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,79 +36,79 @@ public class UserController {
 	 * 用户登录
 	 * @return
 	 */
-	@RequestMapping(value = "login.muma" ,method = RequestMethod.POST)
+	@RequestMapping(value = "login.action" ,method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult<UserInfoDto> login(){
+	public BaseResult login(){
 		String regPhone = getRequset().getParameter("regPhone");
 		String password = getRequset().getParameter("password");
 		try{
 			logger.info("=====================用户名："+regPhone+"密码："+password+"登录时间："+ TimeUtils.getTime(new Date())+"==================");
 			UserInfoDto userInfo = userService.login(regPhone,password);
 			Session.loginUser(getRequset().getSession(), userInfo);
-			return new BaseResult<UserInfoDto>(true,userInfo);
+			return new BaseResult(true,userInfo);
 		}catch (BizException e){
-			return new BaseResult<UserInfoDto>(false,e.getMessage());
+			return new BaseResult(false,e.getMessage());
 		} catch (Exception e){
 			logger.error("登录异常：{}",e);
-			return new BaseResult<UserInfoDto>(false,ResultEnum.INNER_ERROR.getMsg());
+			return new BaseResult(false,ResultEnum.INNER_ERROR.getMsg());
 		}
 	}
 	/**
 	 * 登出
 	 * @return
 	 */
-	@RequestMapping(value = "loginOut.muma",method = RequestMethod.POST)
+	@RequestMapping(value = "loginOut.action",method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult<User> loginOut(){
+	public BaseResult loginOut(){
 		Session.loginoutUser(getRequset().getSession());
-		return  new BaseResult<User>(true,"登出成功！");
+		return  new BaseResult(true,"登出成功！");
 	}
 	/**
 	 * 注册用户
 	 * @return
 	 */
-	@RequestMapping(value = "register.muma",method = RequestMethod.POST)
+	@RequestMapping(value = "register.action",method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult<User> register(){
+	public BaseResult register(){
 		String regPhone = getRequset().getParameter("regPhone");
 		String password = getRequset().getParameter("password");
 		String code = getRequset().getParameter("code");
 		String type = getRequset().getParameter("type");
 		try{
 			userService.register(regPhone,password,code,type);
-			return new BaseResult<User>(true,"注册成功！");
+			return new BaseResult(true,"注册成功！");
 		}catch (BizException e){
-			return new BaseResult<User>(false,e.getMessage());
+			return new BaseResult(false,e.getMessage());
 		} catch (Exception e){
 			logger.error("注册异常：{}",e);
-			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
+			return new BaseResult(false,ResultEnum.INNER_ERROR.getMsg());
 		}
 	}
 	/**
 	 * 邀请码校验
 	 * @return
 	 */
-	@RequestMapping(value = "checkCode.muma",method = RequestMethod.POST)
+	@RequestMapping(value = "checkCode.action",method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult<User> checkCode(){
+	public BaseResult checkCode(){
 		String code = getRequset().getParameter("code");
 		try{
 			userService.checkShareCode(code);
-			return new BaseResult<User>(true,"邀请码有效！");
+			return new BaseResult(true,"邀请码有效！");
 		}catch (BizException e){
-			return new BaseResult<User>(false,e.getMessage());
+			return new BaseResult(false,e.getMessage());
 		} catch (Exception e){
 			logger.error("邀请码校验异常：{}",e);
-			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
+			return new BaseResult(false,ResultEnum.INNER_ERROR.getMsg());
 		}
 	}
 	/**
 	 * 上传用户认证详细信息
 	 * @return
 	 */
-	@RequestMapping(value = "authInfo.muma",method = RequestMethod.POST)
+	@RequestMapping(value = "authInfo.action",method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult<UserDetail> authInfo(@RequestParam("idImageWhite") MultipartFile idImageWhite,
+	public BaseResult authInfo(@RequestParam("idImageWhite") MultipartFile idImageWhite,
 										   @RequestParam("idImageBlack") MultipartFile idImageBlack	   ){
 		String idNumber = getRequset().getParameter("idNumber");
 		String idName = getRequset().getParameter("idName");
@@ -124,16 +116,13 @@ public class UserController {
 		String bankPhone = getRequset().getParameter("bankPhone");
 		try{
 			UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
-			if(StatusEnum.CONFIRM_WAIT.equals(userInfoDto.getStatus()) || StatusEnum.CONFIRM_PASS.equals(userInfoDto.getStatus()) ||StatusEnum.USER_BLACK.equals(userInfoDto.getStatus())){
-				return new BaseResult<UserDetail>(false,"用户状态错误！");
-			}
 			userService.updateUserDetail(idImageWhite,idImageBlack,userInfoDto.getRegPhone(),idNumber,idName,bankNumber,bankPhone);
-			return new BaseResult<UserDetail>(true,"用户认证保存成功！");
+			return new BaseResult(true,"用户认证保存成功！");
 		}catch (BizException e){
-			return new BaseResult<UserDetail>(false,e.getMessage());
+			return new BaseResult(false,e.getMessage());
 		} catch (Exception e){
 			logger.error("用户认证保存异常：{}",e);
-			return new BaseResult<UserDetail>(false,ResultEnum.INNER_ERROR.getMsg());
+			return new BaseResult(false,ResultEnum.INNER_ERROR.getMsg());
 		}
 	}
 
@@ -141,44 +130,20 @@ public class UserController {
 	 * 查看邀请的人数
 	 * @return
 	 */
-	@RequestMapping(value = "shareUser.muma",method = RequestMethod.POST)
+	@RequestMapping(value = "shareUsers.action",method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult<User> shareUser(){
+	public BaseResult shareUser(){
 		String regPhone = getRequset().getParameter("regPhone");
 		try{
-			userService.checkShareCode(code);
-			return new BaseResult<User>(true,"查看邀请的人数成功！");
+			List<ShareUserDto> shareUserDtos = userService.shareUser(regPhone);
+			return new BaseResult(true, shareUserDtos);
 		}catch (BizException e){
-			return new BaseResult<User>(false,e.getMessage());
+			return new BaseResult(false,e.getMessage());
 		} catch (Exception e){
 			logger.error("邀请码校验异常：{}",e);
-			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
+			return new BaseResult(false,ResultEnum.INNER_ERROR.getMsg());
 		}
 	}
 
-
-
-
-
-
-
-
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, Integer offset, Integer limit) {
-		logger.info("invoke----------/user/list");
-		offset = offset == null ? 0 : offset;//默认便宜0
-		limit = limit == null ? 50 : limit;//默认展示50条
-//		List<User> list = userService.getUserList(offset, limit);
-//		model.addAttribute("userlist", list);
-		return "userlist";
-	}
-
-	@RequestMapping(value = "/blist", method = RequestMethod.GET)
-	public String blist(Model model, Integer offset, Integer limit) {
-		logger.info("invoke----------/user/list");
-//		List<Buyer> list = userService.getBuyerList();
-//		model.addAttribute("userlist", list);
-		return "userlist";
-	}
 
 }

@@ -49,12 +49,10 @@ public class PathFilter implements Filter {
 				response.setCharacterEncoding("UTF-8");
 				response.setContentType("application/json;charset=UTF-8");
 				PrintWriter pw = response.getWriter();
-				pw.write(JSONObject.toJSONString(new BaseResult<Object>(false,String.valueOf(ResultEnum.SESSION_IS_OUT_TIME.getState()), ResultEnum.SESSION_IS_OUT_TIME.getMsg())));
+				pw.write(JSONObject.toJSONString(new BaseResult(false,String.valueOf(ResultEnum.SESSION_IS_OUT_TIME.getState()), ResultEnum.SESSION_IS_OUT_TIME.getMsg())));
 				pw.flush();
 				pw.close();
 				return ;
-
-
 //				req.getRequestDispatcher("/user/loginPage.do").forward(req, res);
 //				return;
 //				return new BaseResult<Object>(false, ResultEnum.INNER_ERROR.getMsg());

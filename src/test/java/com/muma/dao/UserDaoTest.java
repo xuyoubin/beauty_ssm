@@ -34,8 +34,8 @@ public class UserDaoTest {
 	public void testQueryById() {
 //		User user=userDao.queryByPhone(18768128888L);
 //		System.out.println(user);
-		List<UserDetail> userDetails = userDetailDao.queryByParentPhone("15705938769");
-		System.out.println("--------------------------"+userDetails.size());
+//		List<UserDetail> userDetails = userDetailDao.queryByParentPhone("15705938769");
+//		System.out.println("--------------------------"+userDetails.size());
 	}
 
 	@Test

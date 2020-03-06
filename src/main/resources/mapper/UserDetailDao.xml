@@ -48,8 +48,8 @@
 		WHERE reg_phone= #{regPhone} limit 1
 	</select>
 
-	<select id="queryByParentPhone" resultType="com.muma.entity.UserDetail">
-		SELECT id, reg_phone,roal_id,real_name
+	<select id="queryByParentPhone" resultType="com.muma.dto.ShareUserDto">
+		SELECT id, reg_phone,roal_id,real_name,status,sex
 		FROM tbl_user_detail
 		WHERE parent_phone= #{parentPhone}
 	</select>

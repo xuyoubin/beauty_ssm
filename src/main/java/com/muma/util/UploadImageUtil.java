@@ -6,6 +6,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +29,8 @@ import java.util.UUID;
 public final class UploadImageUtil {
 
     private static  final List<String> IMAGE_EXTENSIONS = Lists.newArrayList(".png",".jpg",".jpeg",".gif",".bmp");
-    public static  final String  UPLOAD_IMAGE_TYPE_USER_INFO = "userInfo";
-    public static  final String  UPLOAD_IMAGE_TYPE_TASK = "taskInfo";
+    public static  final String  IMAGE_TYPE_USER_INFO = "userInfo";
+    public static  final String  IMAGE_TYPE_TASK = "taskInfo";
 	
 	private static String makeFileName(String suffix,String regPhone){
 		         //为防止文件覆盖的现象发生，要为上传文件产生一个唯一的文件名
@@ -64,6 +65,20 @@ public final class UploadImageUtil {
         System.out.println("创建成功" + newPath);
         return newPath;
     }
+
+    /**
+     * 保存多张照片
+     * @param file
+     * @param type
+     * @param regPhone
+     * @return
+     */
+    public static String saveImage(MultipartFile file, String type,String regPhone,String imageName){
+        JSONObject result = upImage(file,type,regPhone);
+        Precondition.checkState(result.getBoolean("success"), imageName+result.getString("message"));
+        String url = result.getString("url");
+        return url;
+    }
 		
 	
 	 public static  JSONObject upImage(MultipartFile file, String type,String regPhone){
@@ -82,7 +97,7 @@ public final class UploadImageUtil {
                  String newPath = makeFilePath(type);
                  String newName = makeFileName(suffix,regPhone);
                  if (!IMAGE_EXTENSIONS.contains(suffix)) {
-                     result.put("message", "图片格式错误！");
+                     result.put("message", "格式错误！");
                      return result;
                  }
                  // 文件保存路径

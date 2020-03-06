@@ -1,5 +1,6 @@
 package com.muma.dao;
 
+import com.muma.dto.ShareUserDto;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.UserDetail;
 import org.apache.ibatis.annotations.Param;
@@ -38,5 +39,5 @@ public interface UserDetailDao {
      * @param
      * @return
      */
-    List<UserDetail> queryByParentPhone(@Param("parentPhone") String parentPhone);
+    List<ShareUserDto> queryByParentPhone(@Param("parentPhone") String parentPhone);
 }

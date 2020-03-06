@@ -23,8 +23,8 @@
     <legend>登录</legend>
     <table>
         <tr>
-            <td class="title">URL:(get)</td>
-            <td name="url" type="get">/user/login.do</td>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/user/login.action</td>
         </tr>
         <tr>
             <td class="title">手机号码:</td>
@@ -45,7 +45,7 @@
     <table>
         <tr>
             <td class="title">URL:(post)</td>
-            <td name="url" type="post">/user/register.do</td>
+            <td name="url" type="post">/user/register.action</td>
         </tr>
         <tr>
             <td class="title">手机号码:</td>
@@ -61,7 +61,7 @@
         </tr>
         <tr>
             <td class="title">邀请码:</td>
-            <td><input type="text" name="code" value="W943TW"/></td>
+            <td><input type="text" name="code" value="W9BW35"/></td>
         </tr>
         <tr>
             <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
@@ -73,8 +73,8 @@
     <legend>登出</legend>
     <table>
         <tr>
-            <td class="title">URL:(get)</td>
-            <td name="url" type="get">/user/loginOut.do</td>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/user/loginOut.action</td>
         </tr>
         <tr>
             <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
@@ -87,7 +87,7 @@
     <table>
         <tr>
             <td class="title">URL:(post)</td>
-            <td name="url" type="post">/user/checkCode.do</td>
+            <td name="url" type="post">/user/checkCode.action</td>
         </tr>
         <tr>
             <td class="title">邀请码:</td>
@@ -105,7 +105,7 @@
         <form>
         <tr>
             <td class="title">URL:(post)</td>
-            <td name="url" type="post">/user/authInfo.do</td>
+            <td name="url" type="post">/user/authInfo.action</td>
         </tr>
         <tr>
             <td class="title">身份证号码:</td>
@@ -137,6 +137,24 @@
         </tr>
         </form>
     </table>
+    <fieldset>
+        <legend>查询用户邀请人数信息</legend>
+        <table>
+            <tr>
+                <td class="title">URL:(post)</td>
+                <td name="url" type="post">/user/shareUsers.action</td>
+            </tr>
+            <tr>
+                <td class="title">用户注册手机:</td>
+                <td><input type="text" name="regPhone" value="15705938769"/></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+                <td><textarea name="resp"></textarea></td>
+            </tr>
+        </table>
+    </fieldset>
+
 
 </fieldset>
 </body>

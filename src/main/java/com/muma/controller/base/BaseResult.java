@@ -11,14 +11,14 @@ import java.io.Serializable;
  * ajax 请求的返回类型封装JSON结果
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BaseResult<T> implements Serializable {
+public class BaseResult implements Serializable {
 
 
 	private static final long serialVersionUID = -4185151304730685014L;
 
 	private boolean success;
 
-    private T data;
+    private Object data;
 
     private String message;
 
@@ -29,7 +29,7 @@ public class BaseResult<T> implements Serializable {
         this.message = message;
     }
 
-    public BaseResult(boolean success, T data) {
+    public BaseResult(boolean success, final Object data) {
         this.success = success;
         this.data = data;
     }
@@ -39,7 +39,7 @@ public class BaseResult<T> implements Serializable {
         this.message = message;
     }
 
-    public BaseResult(boolean success,String code, T data) {
+    public BaseResult(boolean success,String code,final Object data) {
         this.success = success;
         this.code = code;
         this.data = data;
@@ -54,11 +54,11 @@ public class BaseResult<T> implements Serializable {
         this.success = success;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
