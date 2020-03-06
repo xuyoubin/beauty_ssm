@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.muma.dao.BuyerDao">
 
+	<insert id="addBuyer">
+		INSERT INTO
+			tbl_buyer(reg_phone,platform_id,name,reg_time,heart,year,level,naughty,open,believe,status,auth_image_one,auth_image_two,
+					  auth_image_three,auth_image_four,create_by,create_time)
+		VALUES
+			(#{regPhone},#{platformId},#{name},#{regTime},#{heart},#{year},#{level},#{naughty},#{open},#{believe},#{status},
+			 #{authImageOne},#{authImageTwo},#{authImageThree},#{authImageFour},#{createBy},now())
+	</insert>
+
 	<select id="queryBuyerListByRegPhone" resultType="com.muma.entity.Buyer">
 		SELECT *
 		FROM tbl_buyer

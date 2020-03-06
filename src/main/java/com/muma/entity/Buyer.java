@@ -34,6 +34,10 @@ public class Buyer extends BaseEntity {
    */
   private Integer heart;
   /**
+   * 注册年长
+   */
+  private  Integer year;
+  /**
    * 账号等级
    */
   private Integer level;
@@ -112,6 +116,14 @@ public class Buyer extends BaseEntity {
 
   public void setHeart(Integer heart) {
     this.heart = heart;
+  }
+
+  public Integer getYear() {
+    return year;
+  }
+
+  public void setYear(Integer year) {
+    this.year = year;
   }
 
   public Integer getLevel() {

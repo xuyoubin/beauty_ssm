@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface BuyerDao {
+
+    void addBuyer(Buyer buyer);
 	 /**
      * 根据用户手机号
      *
