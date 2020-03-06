@@ -34,4 +34,6 @@ public interface UserService {
 	public void updateUserDetail(MultipartFile idImageWhite,MultipartFile idImageBlack,
 								 String regPhone,String idNumber,String idName,String bankNumber,String bankPhone);
 
+
+	public List<> shareUser(String regPhone);
 }

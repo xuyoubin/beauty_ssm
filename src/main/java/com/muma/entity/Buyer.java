@@ -22,33 +22,35 @@ public class Buyer extends BaseEntity {
    */
   private PlatformEnum platformId;
   /**
-   * 平台注册手机号
+   * 会员名称
    */
-  private String platformPhone;
-  /**
-   * 用户名称
-   */
-  private String realName;
-
-
+  private String name;
   /**
    * 注册时间
    */
   private Date regTime;
   /**
+   * 心值
+   */
+  private Integer heart;
+  /**
    * 账号等级
    */
   private Integer level;
   /**
-   * 账号权重
+   * 淘气值,京享值
    */
-  private Integer weight;
+  private Integer naughty;
+  /**
+   * 是否开通花呗，白条：0是，1否
+   */
+  private YesAndNoEnum open;
   /**
    * 实名认证 0-是；1否
    */
-  private YesAndNoEnum verifiId;
+  private YesAndNoEnum believe;
   /**
-   * 状态 状态：0 -待审核，1-审核通过，2-审核不通过,3-用户拉黑（该系统拉黑，防止该用户再注册） 4-平台拉黑（如淘宝平台）
+   * 状态：0初始化，1 待审核，2审核通过，3审核不通过,
    */
   private StatusEnum status;
   /**
@@ -64,9 +66,21 @@ public class Buyer extends BaseEntity {
    */
   private String authImageThree;
   /**
+   * 认证图片4
+   */
+  private String authImageFour;
+  /**
    * 备注
    */
   private String remark;
+
+  public String getRegPhone() {
+    return regPhone;
+  }
+
+  public void setRegPhone(String regPhone) {
+    this.regPhone = regPhone;
+  }
 
   public PlatformEnum getPlatformId() {
     return platformId;
@@ -76,12 +90,12 @@ public class Buyer extends BaseEntity {
     this.platformId = platformId;
   }
 
-  public String getRegPhone() {
-    return regPhone;
+  public String getName() {
+    return name;
   }
 
-  public void setRegPhone(String regPhone) {
-    this.regPhone = regPhone;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Date getRegTime() {
@@ -92,6 +106,14 @@ public class Buyer extends BaseEntity {
     this.regTime = regTime;
   }
 
+  public Integer getHeart() {
+    return heart;
+  }
+
+  public void setHeart(Integer heart) {
+    this.heart = heart;
+  }
+
   public Integer getLevel() {
     return level;
   }
@@ -100,20 +122,28 @@ public class Buyer extends BaseEntity {
     this.level = level;
   }
 
-  public Integer getWeight() {
-    return weight;
+  public Integer getNaughty() {
+    return naughty;
   }
 
-  public void setWeight(Integer weight) {
-    this.weight = weight;
+  public void setNaughty(Integer naughty) {
+    this.naughty = naughty;
   }
 
-  public YesAndNoEnum getVerifiId() {
-    return verifiId;
+  public YesAndNoEnum getOpen() {
+    return open;
   }
 
-  public void setVerifiId(YesAndNoEnum verifiId) {
-    this.verifiId = verifiId;
+  public void setOpen(YesAndNoEnum open) {
+    this.open = open;
+  }
+
+  public YesAndNoEnum getBelieve() {
+    return believe;
+  }
+
+  public void setBelieve(YesAndNoEnum believe) {
+    this.believe = believe;
   }
 
   public StatusEnum getStatus() {
@@ -148,27 +178,19 @@ public class Buyer extends BaseEntity {
     this.authImageThree = authImageThree;
   }
 
+  public String getAuthImageFour() {
+    return authImageFour;
+  }
+
+  public void setAuthImageFour(String authImageFour) {
+    this.authImageFour = authImageFour;
+  }
+
   public String getRemark() {
     return remark;
   }
 
   public void setRemark(String remark) {
     this.remark = remark;
-  }
-
-  public String getPlatformPhone() {
-    return platformPhone;
-  }
-
-  public void setPlatformPhone(String platformPhone) {
-    this.platformPhone = platformPhone;
-  }
-
-  public String getRealName() {
-    return realName;
-  }
-
-  public void setRealName(String realName) {
-    this.realName = realName;
   }
 }

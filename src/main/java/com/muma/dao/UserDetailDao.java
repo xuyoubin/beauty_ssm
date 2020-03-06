@@ -4,6 +4,8 @@ import com.muma.dto.UserInfoDto;
 import com.muma.entity.UserDetail;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 public interface UserDetailDao {
 
@@ -36,5 +38,5 @@ public interface UserDetailDao {
      * @param
      * @return
      */
-    Integer queryByParentPhone(@Param("parentPhone") String parentPhone);
+    List<UserDetail> queryByParentPhone(@Param("parentPhone") String parentPhone);
 }

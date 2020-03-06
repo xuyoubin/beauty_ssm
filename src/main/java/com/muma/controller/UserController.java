@@ -44,7 +44,7 @@ public class UserController {
 	 * 用户登录
 	 * @return
 	 */
-	@RequestMapping(value = "login.do" ,method = RequestMethod.GET)
+	@RequestMapping(value = "login.muma" ,method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResult<UserInfoDto> login(){
 		String regPhone = getRequset().getParameter("regPhone");
@@ -65,7 +65,7 @@ public class UserController {
 	 * 登出
 	 * @return
 	 */
-	@RequestMapping(value = "loginOut.do",method = RequestMethod.GET)
+	@RequestMapping(value = "loginOut.muma",method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResult<User> loginOut(){
 		Session.loginoutUser(getRequset().getSession());
@@ -75,7 +75,7 @@ public class UserController {
 	 * 注册用户
 	 * @return
 	 */
-	@RequestMapping(value = "register.do",method = RequestMethod.POST)
+	@RequestMapping(value = "register.muma",method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResult<User> register(){
 		String regPhone = getRequset().getParameter("regPhone");
@@ -96,7 +96,7 @@ public class UserController {
 	 * 邀请码校验
 	 * @return
 	 */
-	@RequestMapping(value = "checkCode.do",method = RequestMethod.POST)
+	@RequestMapping(value = "checkCode.muma",method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResult<User> checkCode(){
 		String code = getRequset().getParameter("code");
@@ -114,7 +114,7 @@ public class UserController {
 	 * 上传用户认证详细信息
 	 * @return
 	 */
-	@RequestMapping(value = "authInfo.do",method = RequestMethod.POST)
+	@RequestMapping(value = "authInfo.muma",method = RequestMethod.POST)
 	@ResponseBody
 	public BaseResult<UserDetail> authInfo(@RequestParam("idImageWhite") MultipartFile idImageWhite,
 										   @RequestParam("idImageBlack") MultipartFile idImageBlack	   ){
@@ -124,7 +124,7 @@ public class UserController {
 		String bankPhone = getRequset().getParameter("bankPhone");
 		try{
 			UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
-			if(!StatusEnum.CONFIRM_WAIT.equals(userInfoDto.getStatus())){
+			if(StatusEnum.CONFIRM_WAIT.equals(userInfoDto.getStatus()) || StatusEnum.CONFIRM_PASS.equals(userInfoDto.getStatus()) ||StatusEnum.USER_BLACK.equals(userInfoDto.getStatus())){
 				return new BaseResult<UserDetail>(false,"用户状态错误！");
 			}
 			userService.updateUserDetail(idImageWhite,idImageBlack,userInfoDto.getRegPhone(),idNumber,idName,bankNumber,bankPhone);
@@ -134,6 +134,25 @@ public class UserController {
 		} catch (Exception e){
 			logger.error("用户认证保存异常：{}",e);
 			return new BaseResult<UserDetail>(false,ResultEnum.INNER_ERROR.getMsg());
+		}
+	}
+
+	/**
+	 * 查看邀请的人数
+	 * @return
+	 */
+	@RequestMapping(value = "shareUser.muma",method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResult<User> shareUser(){
+		String regPhone = getRequset().getParameter("regPhone");
+		try{
+			userService.checkShareCode(code);
+			return new BaseResult<User>(true,"查看邀请的人数成功！");
+		}catch (BizException e){
+			return new BaseResult<User>(false,e.getMessage());
+		} catch (Exception e){
+			logger.error("邀请码校验异常：{}",e);
+			return new BaseResult<User>(false,ResultEnum.INNER_ERROR.getMsg());
 		}
 	}
 

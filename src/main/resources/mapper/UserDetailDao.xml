@@ -48,8 +48,8 @@
 		WHERE reg_phone= #{regPhone} limit 1
 	</select>
 
-	<select id="queryByParentPhone" resultType="java.lang.Integer">
-		SELECT count(*)
+	<select id="queryByParentPhone" resultType="com.muma.entity.UserDetail">
+		SELECT id, reg_phone,roal_id,real_name
 		FROM tbl_user_detail
 		WHERE parent_phone= #{parentPhone}
 	</select>

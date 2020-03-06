@@ -180,16 +180,15 @@ public class UserServiceImpl implements UserService {
 		UserDetail parentDetail =  userDetailDao.queryByIdAndCode(id,code);
 		Precondition.checkNotNull(parentDetail, "该邀请码无效！");
 		//查询邀请次数
+		List<UserDetail> userDetails = userDetailDao.queryByParentPhone(parentDetail.getRegPhone());
 		if(RoalEnum.BUYER_ROAL.equals(parentDetail.getRoalId())){ //上级是买家
-			Integer shareNum = userDetailDao.queryByParentPhone(parentDetail.getRegPhone());
-			Precondition.checkState(shareNum<=6, "该邀请码无效！");
+			Precondition.checkState(userDetails.size()<=6, "该邀请码无效！");
 			//TODO查询有效1交易次数
 
 		}else if(RoalEnum.BUSINESS_ROAL.equals(parentDetail.getRoalId())){//上级是商家
 			Precondition.checkState(false, "该邀请码无效！");
 		}else {//上级是平台
-			Integer shareNum = userDetailDao.queryByParentPhone(parentDetail.getRegPhone());
-			Precondition.checkState(shareNum<=50, "该邀请码无效！");
+			Precondition.checkState(userDetails.size()<=50, "该邀请码无效！");
 		}
 		return parentDetail;
 	}

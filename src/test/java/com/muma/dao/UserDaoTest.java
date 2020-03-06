@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.muma.entity.User;
+import com.muma.entity.UserDetail;
 import com.muma.enums.RoalEnum;
 import com.muma.service.UserService;
 import org.junit.Test;
@@ -26,12 +27,15 @@ public class UserDaoTest {
     private UserDao userDao;
     @Autowired
 	private UserService userService;
+    @Autowired
+	private UserDetailDao userDetailDao;
 	
 	@Test
 	public void testQueryById() {
 //		User user=userDao.queryByPhone(18768128888L);
 //		System.out.println(user);
-		System.out.println("--------------------------");
+		List<UserDetail> userDetails = userDetailDao.queryByParentPhone("15705938769");
+		System.out.println("--------------------------"+userDetails.size());
 	}
 
 	@Test
