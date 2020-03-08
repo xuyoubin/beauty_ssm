@@ -25,7 +25,6 @@ public interface UserDetailDao {
      * @return
      */
     UserInfoDto queryByRegPhone(@Param("regPhone") String regPhone);
-
     /**
      * 根据用户ID和邀请码查看上级用户信息的有效效性
      *
@@ -40,4 +39,11 @@ public interface UserDetailDao {
      * @return
      */
     List<ShareUserDto> queryByParentPhone(@Param("parentPhone") String parentPhone);
+
+    /**
+     * 通过身份号码查询是否已经注册
+     * @param
+     * @return
+     */
+    UserDetail queryByCardId(@Param("idNumber") String idNumber);
 }

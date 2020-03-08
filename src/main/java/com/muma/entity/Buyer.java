@@ -26,6 +26,10 @@ public class Buyer extends BaseEntity {
    */
   private String name;
   /**
+   * 是否是卖家 0 是，1否
+   */
+  private YesAndNoEnum type;
+  /**
    * 注册时间
    */
   private Date regTime;
@@ -92,6 +96,14 @@ public class Buyer extends BaseEntity {
 
   public void setPlatformId(PlatformEnum platformId) {
     this.platformId = platformId;
+  }
+
+  public YesAndNoEnum getType() {
+    return type;
+  }
+
+  public void setType(YesAndNoEnum type) {
+    this.type = type;
   }
 
   public String getName() {

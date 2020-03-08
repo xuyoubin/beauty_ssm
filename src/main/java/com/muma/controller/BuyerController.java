@@ -1,6 +1,8 @@
 package com.muma.controller;
 
+import com.muma.common.Session;
 import com.muma.controller.base.BaseResult;
+import com.muma.dto.UserInfoDto;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.BuyerService;
@@ -10,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.muma.common.HttpContext.getRequset;
 
@@ -28,10 +32,14 @@ public class BuyerController {
      */
     @RequestMapping(value = "addBuyer.action",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult addBuyer(){
-        String regPhone = getRequset().getParameter("regPhone");
+    public BaseResult addBuyer(@RequestParam("indexImage") MultipartFile indexImage,
+                               @RequestParam("infoImage") MultipartFile infoImage,
+                               @RequestParam("commentImage") MultipartFile commentImage){
+        String platformId = getRequset().getParameter("platformId");
+        String nickName = getRequset().getParameter("nickName");
         try{
-            buyerService.addBuyer();
+            UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
+            buyerService.addBuyer(userInfoDto.getRegPhone(),platformId,nickName,indexImage,infoImage,commentImage );
             return new BaseResult(true, "添加账号成功！");
         }catch (BizException e){
             return new BaseResult(false,e.getMessage());

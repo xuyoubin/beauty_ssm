@@ -127,6 +127,9 @@ public class UserServiceImpl implements UserService {
 		Precondition.checkState(StringUtils.isNotBlank(bankPhone), "请填写绑定手机号码!");
         //验证身份证号码
 		Precondition.checkState(IdcardUtils.validateCard(idNumber), "身份证号码格式有误!");
+		//查看身份证是否注册过
+		UserDetail user = userDetailDao.queryByCardId(idNumber);
+		Precondition.checkNotNull(user, "该身份证号已经注册过!");
 		//获取省份代码
 		String provinceNum = IdcardUtils.getProvinceByIdCard(idNumber);
 		//获取年龄
@@ -142,7 +145,8 @@ public class UserServiceImpl implements UserService {
 		//根据注册手机查询用户详细信息
 		UserInfoDto userInfo = userDetailDao.queryByRegPhone(regPhone);
 		Precondition.checkNotNull(userInfo, "用户异常,请联系管理员！");
-		if( StatusEnum.CONFIRM_PASS.equals(userInfo.getStatus()) ||StatusEnum.USER_BLACK.equals(userInfo.getStatus())){
+		if( StatusEnum.CONFIRM_PASS.equals(userInfo.getStatus()) || StatusEnum.USER_BLACK.equals(userInfo.getStatus()) ||
+				StatusEnum.CONFIRM_WAIT.equals(userInfo.getStatus())){
 			throw new BizException("当前用户状态不可修改认证信息!");
 		}
 		//保存正面

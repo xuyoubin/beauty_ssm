@@ -30,6 +30,7 @@ public final class UploadImageUtil {
 
     private static  final List<String> IMAGE_EXTENSIONS = Lists.newArrayList(".png",".jpg",".jpeg",".gif",".bmp");
     public static  final String  IMAGE_TYPE_USER_INFO = "userInfo";
+    public static  final String  IMAGE_TYPE_PLATFORM_INFO = "platformInfo";
     public static  final String  IMAGE_TYPE_TASK = "taskInfo";
 	
 	private static String makeFileName(String suffix,String regPhone){
@@ -44,9 +45,11 @@ public final class UploadImageUtil {
      */
     private static String  makeFilePath(String type){
         String newPath = "D:"+File.separator+"muma"+File.separator;
-        if("userInfo".equals(type)){ //用户信息
-            newPath += "userInfo";
-        }else if("taskInfo".equals(type)){
+        if(IMAGE_TYPE_USER_INFO.equals(type)){ //用户信息
+            newPath += IMAGE_TYPE_USER_INFO;
+        }else if(IMAGE_TYPE_PLATFORM_INFO.equals(type)){
+            newPath += IMAGE_TYPE_PLATFORM_INFO;
+        } else if(IMAGE_TYPE_TASK.equals(type)){
             // 1. 读取系统时间
             Calendar calendar = Calendar.getInstance();
             Date time = calendar.getTime();
@@ -62,7 +65,6 @@ public final class UploadImageUtil {
             System.out.println(newPath+"目录不存在，需要创建");
             file.mkdirs();
         }
-        System.out.println("创建成功" + newPath);
         return newPath;
     }
 

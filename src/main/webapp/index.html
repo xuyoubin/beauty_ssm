@@ -137,25 +137,61 @@
         </tr>
         </form>
     </table>
-    <fieldset>
-        <legend>查询用户邀请人数信息</legend>
-        <table>
+</fieldset>
+<fieldset>
+    <legend>查询用户邀请人数信息</legend>
+    <table>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/user/shareUsers.action</td>
+        </tr>
+        <tr>
+            <td class="title">用户注册手机:</td>
+            <td><input type="text" name="regPhone" value="15705938769"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>平台认证提交</legend>
+    <table>
+        <p>淘宝，京东，拼多多认证信息上传： 淘宝需要全部参数上传;京东和拼多多只传：platformId，nickName，infoImage</p>
+        <form>
             <tr>
                 <td class="title">URL:(post)</td>
-                <td name="url" type="post">/user/shareUsers.action</td>
+                <td name="url" type="post">/buyer/addBuyer.action</td>
             </tr>
             <tr>
-                <td class="title">用户注册手机:</td>
-                <td><input type="text" name="regPhone" value="15705938769"/></td>
+                <td class="title">平台类型:</td>
+                <td><input type="text" name="platformId" value="0"></td>
             </tr>
             <tr>
-                <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+                <td class="title">会员名称:</td>
+                <td><input type="text" name="nickName" value="我是子米"></td>
+            </tr>
+            <tr>
+                <td class="title">支付宝首页截图:</td>
+                <td><input type="file" name="indexImage" accept="image/png,image/jpg,image/jpeg"></td>
+            </tr>
+            <tr>
+                <td class="title">用户信息截图:</td>
+                <td><input type="file" name="infoImage" accept="image/png,image/jpg,image/jpeg"></td>
+            </tr>
+            <tr>
+                <td class="title">评论信息截图:</td>
+                <td><input type="file" name="commentImage" accept="image/png,image/jpg,image/jpeg"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="提交" onclick="submitFileAct(this)"/></td>
                 <td><textarea name="resp"></textarea></td>
             </tr>
-        </table>
-    </fieldset>
-
-
+        </form>
+    </table>
 </fieldset>
+
+
 </body>
 </html>
