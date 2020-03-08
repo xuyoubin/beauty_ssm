@@ -29,8 +29,6 @@
 		WHERE
 			id = #{id};
 	</update>
-
-
 	<select id="queryByIdAndCode" resultType="com.muma.entity.UserDetail">
 		SELECT  id,reg_phone,roal_id,status
 		FROM tbl_user_detail
@@ -39,7 +37,6 @@
 		AND code = #{code}
 		AND id= #{id} limit 1
 	</select>
-
 	<select id="queryByRegPhone" resultType="com.muma.dto.UserInfoDto">
 		SELECT id, reg_phone,roal_id,id_card,real_name,sex,age,province_code,city_code,
 		parent_phone,code,credit,status,bank_id,bank_name,phone,id_white,
@@ -47,10 +44,14 @@
 		FROM tbl_user_detail
 		WHERE reg_phone= #{regPhone} limit 1
 	</select>
-
 	<select id="queryByParentPhone" resultType="com.muma.dto.ShareUserDto">
 		SELECT id, reg_phone,roal_id,real_name,status,sex
 		FROM tbl_user_detail
 		WHERE parent_phone= #{parentPhone}
+	</select>
+	<select id="queryByCardId" resultType="com.muma.entity.UserDetail">
+		SELECT id, reg_phone,roal_id,real_name,status,sex
+		FROM tbl_user_detail
+		WHERE id_card= #{idNumber}
 	</select>
 </mapper>

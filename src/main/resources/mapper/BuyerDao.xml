@@ -4,11 +4,11 @@
 
 	<insert id="addBuyer">
 		INSERT INTO
-			tbl_buyer(reg_phone,platform_id,name,reg_time,heart,year,level,naughty,open,believe,status,auth_image_one,auth_image_two,
+			tbl_buyer(reg_phone,platform_id,name,status,auth_image_one,auth_image_two,
 					  auth_image_three,auth_image_four,create_by,create_time)
 		VALUES
-			(#{regPhone},#{platformId},#{name},#{regTime},#{heart},#{year},#{level},#{naughty},#{open},#{believe},#{status},
-			 #{authImageOne},#{authImageTwo},#{authImageThree},#{authImageFour},#{createBy},now())
+			(#{regPhone},#{platformId},#{name},#{status},#{authImageOne},#{authImageTwo},
+			#{authImageThree},#{authImageFour},#{createBy},now())
 	</insert>
 
 	<select id="queryBuyerListByRegPhone" resultType="com.muma.entity.Buyer">
@@ -16,5 +16,10 @@
 		FROM tbl_buyer
 		WHERE reg_phone= #{regPhone}
 	</select>
-
+	<select id="queryByRegPhoneAndPlatformId" resultType="com.muma.entity.Buyer">
+		SELECT id,reg_phone,platform_id
+		FROM tbl_buyer
+		WHERE reg_phone= #{regPhone}
+		AND platform_id = #{platformId}
+	</select>
 </mapper>
