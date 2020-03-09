@@ -52,6 +52,6 @@
 	<select id="queryByCardId" resultType="com.muma.entity.UserDetail">
 		SELECT id, reg_phone,roal_id,real_name,status,sex
 		FROM tbl_user_detail
-		WHERE id_card= #{idNumber}
+		WHERE id_card= #{idNumber} limit 1
 	</select>
 </mapper>

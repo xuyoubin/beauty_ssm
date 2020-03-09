@@ -20,6 +20,6 @@
 		SELECT id,reg_phone,platform_id
 		FROM tbl_buyer
 		WHERE reg_phone= #{regPhone}
-		AND platform_id = #{platformId}
+		AND platform_id = #{platformId} limit 1
 	</select>
 </mapper>

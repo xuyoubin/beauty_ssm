@@ -10,6 +10,12 @@ public interface UserDao {
      */
     void addUser(User user);
 
+    /**
+     * 更改用户信息
+     * @param user
+     */
+    void updateUser(User user);
+
 	/**
      * 根据手机号查询用户对象
      *
@@ -24,5 +30,12 @@ public interface UserDao {
      * @return
      */
     User queryByPhoneAndPwd(@Param("regPhone") String regPhone,@Param("password") String password);
+
+    /**
+     * 根据IP地址查询用户
+     * @param publicIp
+     * @return
+     */
+    User queryByIp(@Param("publicIp") String publicIp);
 
 }

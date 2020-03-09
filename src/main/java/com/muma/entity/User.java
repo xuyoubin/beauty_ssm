@@ -18,6 +18,15 @@ public class User extends BaseEntity {
    */
   private String password;
 
+  /**
+   *公网IP地址
+   */
+  private String ipAddress;
+  /**
+   * 设备唯一识别号
+   */
+  private String uniqueId;
+
   public String getRegPhone() {
     return regPhone;
   }
@@ -34,4 +43,19 @@ public class User extends BaseEntity {
     this.password = password;
   }
 
+  public String getIpAddress() {
+    return ipAddress;
+  }
+
+  public void setIpAddress(String ipAddress) {
+    this.ipAddress = ipAddress;
+  }
+
+  public String getUniqueId() {
+    return uniqueId;
+  }
+
+  public void setUniqueId(String uniqueId) {
+    this.uniqueId = uniqueId;
+  }
 }

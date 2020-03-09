@@ -17,6 +17,7 @@ import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.UserService;
 import com.muma.util.BankNameUtil;
+import com.muma.util.IPUtil;
 import com.muma.util.IdcardUtils;
 import com.muma.util.Precondition;
 import com.muma.util.ShareCodeUtil;
@@ -50,12 +51,24 @@ public class UserServiceImpl implements UserService {
 	 * @param password
 	 * @return
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public UserInfoDto login(String regPhone, String password) {
+	public UserInfoDto login(String regPhone, String password,String uniqueId) {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
 		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
+		//获取本机公网IP，防止多用户在同一个公网IP登录
+		String publicIp = IPUtil.getV4IP();
+		User u = userDao.queryByIp(publicIp);
+		if(u != null){
+			Precondition.checkState(regPhone.equals(u.getRegPhone()) , "网络已经被占用，请切换网络连接!");
+		}
 		User user = userDao.queryByPhoneAndPwd(regPhone,password);
 		Precondition.checkNotNull(user, ResultEnum.INVALID_USER.getMsg());
+		// 插入IP地址 TODO 设备唯一识别号
+		user.setIpAddress(publicIp);
+		user.setUniqueId(null);
+		user.setUpdateBy(regPhone);
+		userDao.updateUser(user);
 		//根据手机号码查询用户详细信息
         UserInfoDto userInfo = userDetailDao.queryByRegPhone(user.getRegPhone());
 		Precondition.checkNotNull(userInfo, "用户异常,请联系管理员！");
@@ -170,8 +183,17 @@ public class UserServiceImpl implements UserService {
 		userDetail.setStatus(StatusEnum.CONFIRM_WAIT);
 		userDetailDao.updateUserDetail(userDetail);
 	}
-
-
+	/**
+	 * 查询用户邀请的人信息
+	 * @param regPhone
+	 * @return
+	 */
+	public List<ShareUserDto> shareUser(String regPhone){
+		//查询邀请次数
+		List<ShareUserDto> shareUserDtos = userDetailDao.queryByParentPhone(regPhone);
+		// TODO 查询有效的销售任务
+		return shareUserDtos;
+	}
 
 	/**
 	 * 检查验证码是否有效
@@ -195,18 +217,6 @@ public class UserServiceImpl implements UserService {
 			Precondition.checkState(shareUserDtos.size()<=50, "该邀请码无效！");
 		}
 		return parentDetail;
-	}
-
-	/**
-	 * 查询用户邀请的人信息
-	 * @param regPhone
-	 * @return
-	 */
-	public List<ShareUserDto> shareUser(String regPhone){
-		//查询邀请次数
-		List<ShareUserDto> shareUserDtos = userDetailDao.queryByParentPhone(regPhone);
-		// TODO 查询有效的销售任务
-		return shareUserDtos;
 	}
 
 

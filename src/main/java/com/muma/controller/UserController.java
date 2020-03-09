@@ -41,9 +41,10 @@ public class UserController {
 	public BaseResult login(){
 		String regPhone = getRequset().getParameter("regPhone");
 		String password = getRequset().getParameter("password");
+		String uniqueId = getRequset().getParameter("uniqueId");
 		try{
 			logger.info("=====================用户名："+regPhone+"密码："+password+"登录时间："+ TimeUtils.getTime(new Date())+"==================");
-			UserInfoDto userInfo = userService.login(regPhone,password);
+			UserInfoDto userInfo = userService.login(regPhone,password,uniqueId);
 			Session.loginUser(getRequset().getSession(), userInfo);
 			return new BaseResult(true,userInfo);
 		}catch (BizException e){

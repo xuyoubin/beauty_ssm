@@ -8,6 +8,16 @@
 		VALUES
 		(#{regPhone},#{password},#{createBy},now())
 	</insert>
+	<update id="updateUser">
+		UPDATE tbl_user
+		SET
+			ip_address = #{ipAddress},
+			unique_id = #{uniqueId},
+			update_by = #{updateBy},
+			update_time = NOW()
+		WHERE
+			id = #{id};
+	</update>
 	<select id="queryByPhone" resultType="java.lang.Integer">
 		SELECT  count(*)
 		FROM tbl_user
@@ -20,5 +30,9 @@
 		WHERE reg_phone= #{regPhone}
 		AND password = #{password} limit 1
 	</select>
-
+	<select id="queryByIp" resultType="com.muma.entity.User">
+		SELECT  id,reg_phone
+		FROM tbl_user
+		WHERE ip_address= #{publicIp} limit 1
+	</select>
 </mapper>

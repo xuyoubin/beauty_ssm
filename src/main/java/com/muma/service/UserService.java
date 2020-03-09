@@ -13,7 +13,7 @@ public interface UserService {
 	 * @param password
 	 * @return
 	 */
-	UserInfoDto login(String regPhone, String password);
+	UserInfoDto login(String regPhone, String password,String uniqueId);
 	/**
 	 * 用户注册
 	 * @param regPhone

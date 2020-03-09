@@ -2,21 +2,12 @@ package com.muma.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadBase;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import sun.misc.BASE64Encoder;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -69,7 +60,39 @@ public final class UploadImageUtil {
     }
 
     /**
-     * 保存多张照片
+     * 获取图片转base64
+     * @param imageUrl
+     * @return
+     */
+    public static String base64image(String imageUrl) {
+        String imgStr = "";
+        try {
+            File file = new File(imageUrl);
+            FileInputStream fis = new FileInputStream(file);
+            byte[] buffer = new byte[(int) file.length()];
+            int offset = 0;
+            int numRead = 0;
+            while (offset < buffer.length && (numRead = fis.read(buffer, offset, buffer.length - offset)) >= 0) {
+                offset += numRead;
+            }
+            if (offset != buffer.length) {
+                throw new IOException("Could not completely read file "
+                        + file.getName());
+            }
+            fis.close();
+            BASE64Encoder encoder = new BASE64Encoder();
+            imgStr = encoder.encode(buffer);
+            System.out.println("base64iamge:" + imgStr);
+            return imgStr;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return imgStr;
+        }
+
+    }
+
+    /**
+     * 保存照片
      * @param file
      * @param type
      * @param regPhone
@@ -127,4 +150,8 @@ public final class UploadImageUtil {
          }
          return result;
 	 }
+
+    public static void main(String[] args) {
+       base64image("D:\\muma\\userInfo\\15705938769_738beb59-eeee-4488-90f6-974908fdac44.png");
+    }
 }
