@@ -10,11 +10,19 @@
 			(#{regPhone},#{shopId},#{shopName},#{shopUrl},#{shopType},#{shopWw},
 			#{status},#{repeatDay},#{createBy},now())
 	</insert>
-
 	<select id="queryByRegPhone" resultType="com.muma.entity.Shop">
 		SELECT reg_phone,shop_id,shop_name,shop_url,shop_type,shop_ww,believe,believe_day,status,repeat_day,create_time
 		FROM tbl_shop
 		WHERE reg_phone= #{regPhone}
 	</select>
-
+	<select id="queryShopList" resultType="com.muma.entity.Shop">
+		SELECT reg_phone,shop_id,shop_name,shop_url,shop_type,shop_ww,believe,believe_day,status,repeat_day,create_time
+		FROM tbl_shop
+		ORDER BY create_time DESC
+		limit #{pageIndex},#{pageSize}
+	</select>
+	<select id="count" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM tbl_shop
+	</select>
 </mapper>

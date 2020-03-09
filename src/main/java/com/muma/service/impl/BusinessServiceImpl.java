@@ -1,9 +1,11 @@
 package com.muma.service.impl;
 
+import com.muma.common.PageBean;
 import com.muma.dao.BusinessDao;
 import com.muma.entity.Shop;
 import com.muma.enums.PlatformEnum;
 import com.muma.service.BusinessService;
+import com.muma.util.KeyType;
 import com.muma.util.Precondition;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,20 @@ public class BusinessServiceImpl implements BusinessService {
      * @return
      */
     @Override
-    public List<Shop> queryShopList(String regPhone) {
+    public List<Shop> queryShopListByRegPhone(String regPhone) {
         return businessDao.queryByRegPhone(regPhone);
+    }
+    /**
+     * 查询所有店铺
+     * @return
+     */
+    @Override
+    public PageBean<Shop> queryShopList(String pageIndex){
+        Integer count = businessDao.count();
+        PageBean pg = new PageBean(Integer.valueOf(pageIndex), KeyType.PAGE_NUMBER,count);
+        int startIndex = pg.getStartIndex();
+        List<Shop> list =  businessDao.queryShopList(Integer.valueOf(pageIndex),KeyType.PAGE_NUMBER);
+        pg.setList(list);
+        return pg;
     }
 }

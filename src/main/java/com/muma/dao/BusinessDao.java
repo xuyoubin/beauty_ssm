@@ -15,6 +15,16 @@ public interface BusinessDao {
      * @return
      */
     List<Shop> queryByRegPhone(@Param("regPhone") String regPhone);
+    /**
+     * 查询所有店铺列表数量
+     * @return
+     */
+    Integer count();
+    /**
+     * 查询所有店铺列表
+     * @return
+     */
+    List<Shop> queryShopList(@Param("pageIndex") Integer pageIndex, @Param("pageSize") Integer pageSize);
 
 
 

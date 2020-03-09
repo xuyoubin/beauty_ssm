@@ -1,5 +1,6 @@
 package com.muma.controller;
 
+import com.muma.common.PageBean;
 import com.muma.common.Session;
 import com.muma.controller.base.BaseResult;
 import com.muma.dto.UserInfoDto;
@@ -52,6 +53,19 @@ public class BusinessController {
             logger.error("添加店铺异常：{}",e);
             return new BaseResult(false, ResultEnum.INNER_ERROR.getMsg());
         }
+    }
+
+    /**
+     * 查询店铺列表
+     * @returnlist
+     */
+    @RequestMapping(value = "shopList.action")
+    @Authenticate(permissions = "2")
+    @ResponseBody
+    public BaseResult roadList(){
+        String pageIndex = getRequset().getParameter("pageIndex");
+        PageBean pg = businessService.queryShopList(pageIndex);
+        return new BaseResult(true, pg);
     }
 
 
