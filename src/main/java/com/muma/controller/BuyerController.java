@@ -6,6 +6,7 @@ import com.muma.dto.UserInfoDto;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.BuyerService;
+import com.muma.util.Authenticate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class BuyerController {
      * @return
      */
     @RequestMapping(value = "addBuyer.action",method = RequestMethod.POST)
+    @Authenticate(permissions = "0,2")
     @ResponseBody
     public BaseResult addBuyer(@RequestParam("indexImage") MultipartFile indexImage,
                                @RequestParam("infoImage") MultipartFile infoImage,

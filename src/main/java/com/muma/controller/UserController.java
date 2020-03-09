@@ -7,6 +7,7 @@ import com.muma.dto.UserInfoDto;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.UserService;
+import com.muma.util.Authenticate;
 import com.muma.util.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "login.action" ,method = RequestMethod.POST)
+	@Authenticate(permissions = "0,1,2")
 	@ResponseBody
 	public BaseResult login(){
 		String regPhone = getRequset().getParameter("regPhone");
@@ -59,6 +61,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "loginOut.action",method = RequestMethod.POST)
+	@Authenticate(permissions = "0,1,2")
 	@ResponseBody
 	public BaseResult loginOut(){
 		Session.loginoutUser(getRequset().getSession());
@@ -69,6 +72,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "register.action",method = RequestMethod.POST)
+	@Authenticate(permissions = "0,1,2")
 	@ResponseBody
 	public BaseResult register(){
 		String regPhone = getRequset().getParameter("regPhone");
@@ -90,6 +94,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "checkCode.action",method = RequestMethod.POST)
+	@Authenticate(permissions = "0,2")
 	@ResponseBody
 	public BaseResult checkCode(){
 		String code = getRequset().getParameter("code");
@@ -108,6 +113,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "authInfo.action",method = RequestMethod.POST)
+	@Authenticate(permissions = "0,2")
 	@ResponseBody
 	public BaseResult authInfo(@RequestParam("idImageWhite") MultipartFile idImageWhite,
 										   @RequestParam("idImageBlack") MultipartFile idImageBlack	   ){
@@ -132,6 +138,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "shareUsers.action",method = RequestMethod.POST)
+	@Authenticate(permissions = "0,2")
 	@ResponseBody
 	public BaseResult shareUser(){
 		String regPhone = getRequset().getParameter("regPhone");

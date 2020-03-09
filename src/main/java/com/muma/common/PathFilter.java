@@ -44,8 +44,6 @@ public class PathFilter implements Filter {
 			chain.doFilter(req, res);
 		}else{
 			if(userInfo == null){//没有用户信息则跳转
-				//重置response
-//				response.reset();
 				response.setCharacterEncoding("UTF-8");
 				response.setContentType("application/json;charset=UTF-8");
 				PrintWriter pw = response.getWriter();

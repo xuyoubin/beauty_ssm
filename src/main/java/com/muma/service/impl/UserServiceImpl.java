@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 		if(u != null){
 			Precondition.checkState(regPhone.equals(u.getRegPhone()) , "网络已经被占用，请切换网络连接!");
 		}
-		// TODO 设备唯一识别号验证
+		//设备唯一识别号验证
         u = userDao.queryByUniqueId(uniqueId);
 		if(u != null){
 			Precondition.checkState(regPhone.equals(u.getRegPhone()) , "该设备已经有账号登录!");
