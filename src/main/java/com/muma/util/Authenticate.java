@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 public @interface Authenticate {
 	/**
 	 * 权限列表，以“,”分割的权限编号
-	 * 0,买家，1商家，2管理员
+	 * 0买家，1商家，2管理员
 	 * @return
 	 */
 	String permissions() default "";
