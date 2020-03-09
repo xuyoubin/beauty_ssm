@@ -82,7 +82,7 @@ public final class UploadImageUtil {
             fis.close();
             BASE64Encoder encoder = new BASE64Encoder();
             imgStr = encoder.encode(buffer);
-            System.out.println("base64iamge:" + imgStr);
+//            System.out.println("base64iamge:" + imgStr);
             return imgStr;
         } catch (Exception e) {
             e.printStackTrace();

@@ -56,17 +56,23 @@ public class UserServiceImpl implements UserService {
 	public UserInfoDto login(String regPhone, String password,String uniqueId) {
 		Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
 		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
+		Precondition.checkState(StringUtils.isNotBlank(uniqueId), "uniqueId is null!");
 		//获取本机公网IP，防止多用户在同一个公网IP登录
 		String publicIp = IPUtil.getV4IP();
 		User u = userDao.queryByIp(publicIp);
 		if(u != null){
 			Precondition.checkState(regPhone.equals(u.getRegPhone()) , "网络已经被占用，请切换网络连接!");
 		}
+		// TODO 设备唯一识别号验证
+        u = userDao.queryByUniqueId(uniqueId);
+		if(u != null){
+			Precondition.checkState(regPhone.equals(u.getRegPhone()) , "该设备已经有账号登录!");
+		}
 		User user = userDao.queryByPhoneAndPwd(regPhone,password);
 		Precondition.checkNotNull(user, ResultEnum.INVALID_USER.getMsg());
-		// 插入IP地址 TODO 设备唯一识别号
+		// 插入IP地址
 		user.setIpAddress(publicIp);
-		user.setUniqueId(null);
+		user.setUniqueId(uniqueId);
 		user.setUpdateBy(regPhone);
 		userDao.updateUser(user);
 		//根据手机号码查询用户详细信息

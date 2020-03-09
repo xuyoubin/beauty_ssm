@@ -35,4 +35,9 @@
 		FROM tbl_user
 		WHERE ip_address= #{publicIp} limit 1
 	</select>
+	<select id="queryByUniqueId" resultType="com.muma.entity.User">
+		SELECT  id,reg_phone
+		FROM tbl_user
+		WHERE unique_id= #{uniqueId} limit 1
+	</select>
 </mapper>

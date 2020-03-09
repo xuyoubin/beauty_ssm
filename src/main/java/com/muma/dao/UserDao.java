@@ -37,5 +37,11 @@ public interface UserDao {
      * @return
      */
     User queryByIp(@Param("publicIp") String publicIp);
+    /**
+     * 根据uniqueID查询用户
+     * @param publicIp
+     * @return
+     */
+    User queryByUniqueId(@Param("uniqueId") String uniqueId);
 
 }
