@@ -4,6 +4,7 @@ import com.muma.common.PageBean;
 import com.muma.common.Session;
 import com.muma.controller.base.BaseResult;
 import com.muma.dto.UserInfoDto;
+import com.muma.enums.RoalEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.BusinessService;
@@ -37,7 +38,7 @@ public class BusinessController {
     @Authenticate(permissions = "1,2")
     @ResponseBody
     public BaseResult addShop(){
-        String shopId = getRequset().getParameter("shopId");
+        String uniqueId = getRequset().getParameter("uniqueId");
         String shopName = getRequset().getParameter("shopName");
         String shopUrl = getRequset().getParameter("shopUrl");
         String shopType = getRequset().getParameter("shopType");
@@ -45,7 +46,7 @@ public class BusinessController {
         String repeatDay = getRequset().getParameter("repeatDay");
         try{
             UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
-            businessService.addShop(userInfoDto.getRegPhone(),shopId,shopName,shopUrl,shopType,shopWw,repeatDay);
+            businessService.addShop(userInfoDto.getRegPhone(),uniqueId,shopName,shopUrl,shopType,shopWw,repeatDay);
             return new BaseResult(true, "添加店铺成功！");
         }catch (BizException e){
             return new BaseResult(false,e.getMessage());
@@ -54,18 +55,30 @@ public class BusinessController {
             return new BaseResult(false, ResultEnum.INNER_ERROR.getMsg());
         }
     }
-
     /**
      * 查询店铺列表
      * @returnlist
      */
     @RequestMapping(value = "shopList.action")
-    @Authenticate(permissions = "2")
+    @Authenticate(permissions = "1,2")
     @ResponseBody
     public BaseResult roadList(){
         String pageIndex = getRequset().getParameter("pageIndex");
-        PageBean pg = businessService.queryShopList(pageIndex);
-        return new BaseResult(true, pg);
+        String regPhone = getRequset().getParameter("regPhone");
+        try{
+            UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
+            //商家强制传参
+            if(RoalEnum.BUSINESS_ROAL.equals(userInfoDto.getRoalId())){
+                regPhone = userInfoDto.getRegPhone();
+            }
+            PageBean pg = businessService.queryShopList(pageIndex,regPhone);
+            return new BaseResult(true, pg);
+        }catch (BizException e){
+            return new BaseResult(false,e.getMessage());
+        } catch (Exception e){
+            logger.error("查询店铺列表异常：{}",e);
+            return new BaseResult(false, ResultEnum.INNER_ERROR.getMsg());
+        }
     }
 
 

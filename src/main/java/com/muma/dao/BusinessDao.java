@@ -10,21 +10,16 @@ public interface BusinessDao {
      * @param
      */
     void addShop(Shop shop);
-	 /**
-     * 根据商家手机号查询店铺列表
-     * @return
-     */
-    List<Shop> queryByRegPhone(@Param("regPhone") String regPhone);
     /**
      * 查询所有店铺列表数量
      * @return
      */
-    Integer count();
+    Integer count(@Param("regPhone") String regPhone);
     /**
      * 查询所有店铺列表
      * @return
      */
-    List<Shop> queryShopList(@Param("pageIndex") Integer pageIndex, @Param("pageSize") Integer pageSize);
+    List<Shop> queryShopList(@Param("regPhone") String regPhone,@Param("pageIndex") Integer pageIndex, @Param("pageSize") Integer pageSize);
 
 
 

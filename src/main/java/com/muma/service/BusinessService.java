@@ -10,16 +10,10 @@ public interface BusinessService {
 	 * 添加店铺
 	 * @return
 	 */
-	void addShop(String regPhone,String shopId,String shopName,String shopUrl,String shopType,String shopWw,String repeatDay);
-
+	void addShop(String regPhone,String uniqueId,String shopName,String shopUrl,String shopType,String shopWw,String repeatDay);
 	/**
-	 * 查询商家所有店铺
+	 * 查询所有店铺 ，询商家所有店铺
 	 * @return
 	 */
-	List<Shop> queryShopListByRegPhone(String regPhone);
-	/**
-	 * 查询所有店铺
-	 * @return
-	 */
-	PageBean<Shop> queryShopList(String pageIndex);
+	PageBean<Shop> queryShopList(String pageIndex,String regPhone);
 }

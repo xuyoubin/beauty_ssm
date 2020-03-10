@@ -18,7 +18,7 @@ public class Shop extends BaseEntity {
   /**
    *店铺ID
    */
-  private String shopId;
+  private String uniqueId;
   /**
    * 商家名称
    */
@@ -61,12 +61,12 @@ public class Shop extends BaseEntity {
     this.regPhone = regPhone;
   }
 
-  public String getShopId() {
-    return shopId;
+  public String getUniqueId() {
+    return uniqueId;
   }
 
-  public void setShopId(String shopId) {
-    this.shopId = shopId;
+  public void setUniqueId(String uniqueId) {
+    this.uniqueId = uniqueId;
   }
 
   public String getShopName() {
