@@ -1,7 +1,7 @@
 package com.muma.service.impl;
 
 import com.muma.common.PageBean;
-import com.muma.dao.BusinessDao;
+import com.muma.dao.ShopDao;
 import com.muma.entity.Shop;
 import com.muma.enums.PlatformEnum;
 import com.muma.enums.StatusEnum;
@@ -21,7 +21,7 @@ import java.util.List;
 public class BusinessServiceImpl implements BusinessService {
 
     @Autowired
-    private BusinessDao businessDao;
+    private ShopDao shopDao;
     /**
      * 添加店铺
      * @return
@@ -45,7 +45,7 @@ public class BusinessServiceImpl implements BusinessService {
         shop.setRepeatDay(Integer.valueOf(repeatDay));
         shop.setCreateBy(regPhone);
         shop.setStatus(StatusEnum.CONFIRM_WAIT);
-        businessDao.addShop(shop);
+        shopDao.addShop(shop);
     }
     /**
      * 查询所有店铺，查询商家所有店铺
@@ -54,10 +54,10 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public PageBean<Shop> queryShopList(String pageIndex,String regPhone){
         Precondition.checkState(StringUtils.isNotBlank(pageIndex), "pageIndex is null!");
-        Integer count = businessDao.count(regPhone);
+        Integer count = shopDao.count(regPhone);
         PageBean pg = new PageBean(Integer.valueOf(pageIndex), KeyType.PAGE_NUMBER,count);
         int startIndex = pg.getStartIndex();
-        List<Shop> list =  businessDao.queryShopList(regPhone,startIndex,KeyType.PAGE_NUMBER);
+        List<Shop> list =  shopDao.queryShopList(regPhone,startIndex,KeyType.PAGE_NUMBER);
         pg.setList(list);
         return pg;
     }

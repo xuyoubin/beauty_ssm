@@ -4,7 +4,7 @@ import com.muma.entity.Shop;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
-public interface BusinessDao {
+public interface ShopDao {
     /**
      * 添加一个店铺
      * @param

@@ -78,6 +78,8 @@ public class UserServiceImpl implements UserService {
 		//根据手机号码查询用户详细信息
         UserInfoDto userInfo = userDetailDao.queryByRegPhone(user.getRegPhone());
 		Precondition.checkNotNull(userInfo, "用户异常,请联系管理员！");
+		//判断用户有效性
+		Precondition.checkState(!StatusEnum.USER_BLACK.equals(userInfo.getStatus()), "用户无效！");
 		//已经注册查询平台信息
 		List<Buyer> buyerList = buyerDao.queryBuyerListByRegPhone(userInfo.getRegPhone());
 		userInfo.setBuyerList(buyerList);

@@ -12,9 +12,9 @@ public class Statistics extends BaseEntity {
 
   private static final long serialVersionUID = -5473571056485803852L;
   /**
-   * 商家用户id
+   * 商家注册手机号
    */
-  private Integer userId;
+  private String businessPhone;
   /**
    * 任务id
    */
@@ -23,18 +23,6 @@ public class Statistics extends BaseEntity {
    * 任务类型 0-销售任务；1-评价任务；2-浏览任务； 3-天浏览第二天购买任务 ；4-复购任务
    */
   private TaskTypeEnum type;
-  /**
-   * 商家（店铺名称）
-   */
-  private String shopName;
-  /**
-   * 平台id
-   */
-  private Integer platformId;
-  /**
-   * 商品
-   */
-  private String commodity;
   /**
    * 预计本金
    */
@@ -68,12 +56,12 @@ public class Statistics extends BaseEntity {
    */
   private Integer revision;
 
-  public Integer getUserId() {
-    return userId;
+  public String getBusinessPhone() {
+    return businessPhone;
   }
 
-  public void setUserId(Integer userId) {
-    this.userId = userId;
+  public void setBusinessPhone(String businessPhone) {
+    this.businessPhone = businessPhone;
   }
 
   public Integer getTaskOrderId() {
@@ -90,30 +78,6 @@ public class Statistics extends BaseEntity {
 
   public void setType(TaskTypeEnum type) {
     this.type = type;
-  }
-
-  public String getShopName() {
-    return shopName;
-  }
-
-  public void setShopName(String shopName) {
-    this.shopName = shopName;
-  }
-
-  public Integer getPlatformId() {
-    return platformId;
-  }
-
-  public void setPlatformId(Integer platformId) {
-    this.platformId = platformId;
-  }
-
-  public String getCommodity() {
-    return commodity;
-  }
-
-  public void setCommodity(String commodity) {
-    this.commodity = commodity;
   }
 
   public BigDecimal getCorpus() {

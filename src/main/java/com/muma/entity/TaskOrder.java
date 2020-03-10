@@ -17,17 +17,25 @@ public class TaskOrder extends BaseEntity {
 
   private static final long serialVersionUID = -8999200277614292243L;
   /**
-   * 商家账号id
+   * 商家注册手机号
    */
-  private Integer userId;
+  private String businessPhone;
   /**
    * 商店id
    */
   private Integer shopId;
   /**
-   * 商品
+   * 商品名称
    */
   private String commodity;
+  /**
+   * 商品地址
+   */
+  private String commodityUrl;
+  /**
+   * 商品ID
+   */
+  private String commodityId;
   /**
    * 主图
    */
@@ -37,13 +45,9 @@ public class TaskOrder extends BaseEntity {
    */
   private SellTaskRuleEnum taskRule;
   /**
-   * 买家要求
+   * 买家要求关联要求表
    */
-  private BuyerRuleEnum buyerRule;
-  /**
-   * 买家信用要求
-   */
-  private Integer credit;
+  private BuyerRuleEnum buyerRuleId;
   /**
    * 发布类型
    */
@@ -60,10 +64,6 @@ public class TaskOrder extends BaseEntity {
    * 开始时间
    */
   private Date startTime;
-  /**
-   * 平台ID
-   */
-  private Integer platformId;
   /**
    * 关键词
    */
@@ -97,12 +97,12 @@ public class TaskOrder extends BaseEntity {
    */
   private Integer revision;
 
-  public Integer getUserId() {
-    return userId;
+  public String getBusinessPhone() {
+    return businessPhone;
   }
 
-  public void setUserId(Integer userId) {
-    this.userId = userId;
+  public void setBusinessPhone(String businessPhone) {
+    this.businessPhone = businessPhone;
   }
 
   public Integer getShopId() {
@@ -121,6 +121,22 @@ public class TaskOrder extends BaseEntity {
     this.commodity = commodity;
   }
 
+  public String getCommodityUrl() {
+    return commodityUrl;
+  }
+
+  public void setCommodityUrl(String commodityUrl) {
+    this.commodityUrl = commodityUrl;
+  }
+
+  public String getCommodityId() {
+    return commodityId;
+  }
+
+  public void setCommodityId(String commodityId) {
+    this.commodityId = commodityId;
+  }
+
   public String getMainImg() {
     return mainImg;
   }
@@ -137,20 +153,12 @@ public class TaskOrder extends BaseEntity {
     this.taskRule = taskRule;
   }
 
-  public BuyerRuleEnum getBuyerRule() {
-    return buyerRule;
+  public BuyerRuleEnum getBuyerRuleId() {
+    return buyerRuleId;
   }
 
-  public void setBuyerRule(BuyerRuleEnum buyerRule) {
-    this.buyerRule = buyerRule;
-  }
-
-  public Integer getCredit() {
-    return credit;
-  }
-
-  public void setCredit(Integer credit) {
-    this.credit = credit;
+  public void setBuyerRuleId(BuyerRuleEnum buyerRuleId) {
+    this.buyerRuleId = buyerRuleId;
   }
 
   public TaskTypeEnum getType() {
@@ -183,14 +191,6 @@ public class TaskOrder extends BaseEntity {
 
   public void setStartTime(Date startTime) {
     this.startTime = startTime;
-  }
-
-  public Integer getPlatformId() {
-    return platformId;
-  }
-
-  public void setPlatformId(Integer platformId) {
-    this.platformId = platformId;
   }
 
   public String getKeyword() {

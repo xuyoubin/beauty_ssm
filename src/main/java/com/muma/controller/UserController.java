@@ -116,7 +116,7 @@ public class UserController {
 	@Authenticate(permissions = "0,2")
 	@ResponseBody
 	public BaseResult authInfo(@RequestParam("idImageWhite") MultipartFile idImageWhite,
-										   @RequestParam("idImageBlack") MultipartFile idImageBlack	   ){
+							   @RequestParam("idImageBlack") MultipartFile idImageBlack){
 		String idNumber = getRequset().getParameter("idNumber");
 		String idName = getRequset().getParameter("idName");
 		String bankNumber = getRequset().getParameter("bankNumber");
