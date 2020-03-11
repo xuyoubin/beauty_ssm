@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
 		Precondition.checkState(StringUtils.isNotBlank(password), "password is null!");
 		Precondition.checkState(StringUtils.isNotBlank(uniqueId), "uniqueId is null!");
 		//获取本机公网IP，防止多用户在同一个公网IP登录
+		// TODO 接单流程需要验证
 		String publicIp = IPUtil.getV4IP();
 		User u = userDao.queryByIp(publicIp);
 		if(u != null){

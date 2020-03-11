@@ -24,33 +24,41 @@ public class Statistics extends BaseEntity {
    */
   private TaskTypeEnum type;
   /**
-   * 预计本金
+   * 预计总本金
    */
-  private BigDecimal corpus;
+  private BigDecimal taskCountCapital;
   /**
-   * 实收金额
+   * 该任务实收金额
    */
-  private BigDecimal realIncome;
+  private BigDecimal taskRealIncome;
   /**
-   * 已买金额
+   * 已买金额本金
    */
-  private BigDecimal totalIncome;
+  private BigDecimal taskOverCapital;
   /**
    * 预计总佣金
    */
-  private BigDecimal totalFee;
+  private BigDecimal taskCountFee;
   /**
    * 实际总佣金
    */
-  private BigDecimal realFee;
+  private BigDecimal taskOverFee;
   /**
    * 完成笔数
    */
-  private Integer totalNum;
+  private Integer taskOverNumber;
   /**
    * 商家发布笔数
    */
-  private Integer num;
+  private Integer taskNumber;
+  /**
+   * 单价
+   */
+  private BigDecimal price;
+  /**
+   * 佣金
+   */
+  private BigDecimal free;
   /**
    * 乐观锁
    */
@@ -80,60 +88,76 @@ public class Statistics extends BaseEntity {
     this.type = type;
   }
 
-  public BigDecimal getCorpus() {
-    return corpus;
+  public BigDecimal getTaskCountCapital() {
+    return taskCountCapital;
   }
 
-  public void setCorpus(BigDecimal corpus) {
-    this.corpus = corpus;
+  public void setTaskCountCapital(BigDecimal taskCountCapital) {
+    this.taskCountCapital = taskCountCapital;
   }
 
-  public BigDecimal getRealIncome() {
-    return realIncome;
+  public BigDecimal getTaskRealIncome() {
+    return taskRealIncome;
   }
 
-  public void setRealIncome(BigDecimal realIncome) {
-    this.realIncome = realIncome;
+  public void setTaskRealIncome(BigDecimal taskRealIncome) {
+    this.taskRealIncome = taskRealIncome;
   }
 
-  public BigDecimal getTotalIncome() {
-    return totalIncome;
+  public BigDecimal getTaskOverCapital() {
+    return taskOverCapital;
   }
 
-  public void setTotalIncome(BigDecimal totalIncome) {
-    this.totalIncome = totalIncome;
+  public void setTaskOverCapital(BigDecimal taskOverCapital) {
+    this.taskOverCapital = taskOverCapital;
   }
 
-  public BigDecimal getTotalFee() {
-    return totalFee;
+  public BigDecimal getTaskCountFee() {
+    return taskCountFee;
   }
 
-  public void setTotalFee(BigDecimal totalFee) {
-    this.totalFee = totalFee;
+  public void setTaskCountFee(BigDecimal taskCountFee) {
+    this.taskCountFee = taskCountFee;
   }
 
-  public BigDecimal getRealFee() {
-    return realFee;
+  public BigDecimal getTaskOverFee() {
+    return taskOverFee;
   }
 
-  public void setRealFee(BigDecimal realFee) {
-    this.realFee = realFee;
+  public void setTaskOverFee(BigDecimal taskOverFee) {
+    this.taskOverFee = taskOverFee;
   }
 
-  public Integer getTotalNum() {
-    return totalNum;
+  public Integer getTaskOverNumber() {
+    return taskOverNumber;
   }
 
-  public void setTotalNum(Integer totalNum) {
-    this.totalNum = totalNum;
+  public void setTaskOverNumber(Integer taskOverNumber) {
+    this.taskOverNumber = taskOverNumber;
   }
 
-  public Integer getNum() {
-    return num;
+  public Integer getTaskNumber() {
+    return taskNumber;
   }
 
-  public void setNum(Integer num) {
-    this.num = num;
+  public void setTaskNumber(Integer taskNumber) {
+    this.taskNumber = taskNumber;
+  }
+
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
+
+  public BigDecimal getFree() {
+    return free;
+  }
+
+  public void setFree(BigDecimal free) {
+    this.free = free;
   }
 
   public Integer getRevision() {

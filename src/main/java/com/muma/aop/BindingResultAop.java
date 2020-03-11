@@ -17,7 +17,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
 import static com.muma.common.HttpContext.getResponse;
 
 import java.io.PrintWriter;
@@ -26,7 +25,7 @@ import java.util.List;
 /**
  * @author xuyb
  *
- * 采用AOP的方式处理参数问题。
+ * 采用AOP的方式处理权限。
  */
 @Component
 @Aspect

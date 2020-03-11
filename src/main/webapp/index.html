@@ -1599,64 +1599,60 @@ MuLFUuTC/w9L22pkedDANgAAAABJRU5ErkJggg==" alt="" width="42" height="42"/>
     <legend>添加店铺</legend>
     <table>
         <p>淘宝，京东，拼多多店铺</p>
-        <form>
-            <tr>
-                <td class="title">URL:(post)</td>
-                <td name="url" type="post">/business/addShop.action</td>
-            </tr>
-            <tr>
-                <td class="title">店铺ID:</td>
-                <td><input type="text" name="uniqueId" value="520119"></td>
-            </tr>
-            <tr>
-                <td class="title">店铺名称:</td>
-                <td><input type="text" name="shopName" value="子米旗舰店"></td>
-            </tr>
-            <tr>
-                <td class="title">店铺URL:</td>
-                <td><input type="text" name="shopUrl" value="http://www.baidu.com"></td>
-            </tr>
-            <tr>
-                <td class="title">店铺类型:</td>
-                <td><input type="text" name="shopType" value="0"></td>
-            </tr>
-            <tr>
-                <td class="title">店铺旺旺号:</td>
-                <td><input type="text" name="shopWw" value="1484503933"></td>
-            </tr>
-            <tr>
-                <td class="title">店铺复购时间间隔（天）:</td>
-                <td><input type="text" name="repeatDay" value="60"></td>
-            </tr>
-            <tr>
-                <td><input type="button" value="提交" onclick="submitFileAct(this)"/></td>
-                <td><textarea name="resp"></textarea></td>
-            </tr>
-        </form>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/business/addShop.action</td>
+        </tr>
+        <tr>
+            <td class="title">店铺ID:</td>
+            <td><input type="text" name="uniqueId" value="520119"></td>
+        </tr>
+        <tr>
+            <td class="title">店铺名称:</td>
+            <td><input type="text" name="shopName" value="子米旗舰店"></td>
+        </tr>
+        <tr>
+            <td class="title">店铺URL:</td>
+            <td><input type="text" name="shopUrl" value="http://www.baidu.com"></td>
+        </tr>
+        <tr>
+            <td class="title">店铺类型:</td>
+            <td><input type="text" name="shopType" value="0"></td>
+        </tr>
+        <tr>
+            <td class="title">店铺旺旺号:</td>
+            <td><input type="text" name="shopWw" value="1484503933"></td>
+        </tr>
+        <tr>
+            <td class="title">店铺复购时间间隔（天）:</td>
+            <td><input type="text" name="repeatDay" value="60"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
     </table>
 </fieldset>
 <fieldset>
     <legend>查询店铺列表</legend>
     <table>
         <p>淘宝，京东，拼多多店铺列表</p>
-        <form>
-            <tr>
-                <td class="title">URL:(post)</td>
-                <td name="url" type="post">/business/shopList.action</td>
-            </tr>
-            <tr>
-                <td class="title">当前页:</td>
-                <td><input type="text" name="pageIndex" value="1"></td>
-            </tr>
-            <tr>
-                <td class="title">查询参数（手机号码）:</td>
-                <td><input type="text" name="regPhone" value="15705938769"></td>
-            </tr>
-            <tr>
-                <td><input type="button" value="提交" onclick="submitFileAct(this)"/></td>
-                <td><textarea name="resp"></textarea></td>
-            </tr>
-        </form>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/business/shopList.action</td>
+        </tr>
+        <tr>
+            <td class="title">当前页:</td>
+            <td><input type="text" name="pageIndex" value="1"></td>
+        </tr>
+        <tr>
+            <td class="title">查询参数（手机号码）:</td>
+            <td><input type="text" name="regPhone" value="15705938769"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
     </table>
 </fieldset>
 

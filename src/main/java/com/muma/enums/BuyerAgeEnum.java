@@ -2,15 +2,12 @@ package com.muma.enums;
 
 import com.muma.enums.base.ValuedEnum;
 
-public enum BuyerRuleEnum implements ValuedEnum {
+public enum BuyerAgeEnum implements ValuedEnum {
 
-    REGISTER_BIG_ONE_YEAR(0,"注册满一年"),
-    HEART_BIG_THREE(1,"大于3新"),
-    HOT_VALUE(2,"淘气值大于400"),
-    AGE_VALUE(3,"年龄"),
-    SEX_VALUE(4,"性别"),
-    AREA_VALUE(5,"区域");
-
+    YOUNG(1,"18 ~ 25"),
+    BIG_YOUNG(2,"25 ~ 35"),
+    MIDDLE(3,"35 ~ 45"),
+    OLD(4,"45 ~ 以上");
 
     private Integer value;
     private String text;
@@ -25,13 +22,13 @@ public enum BuyerRuleEnum implements ValuedEnum {
         return text;
     }
 
-    BuyerRuleEnum(Integer value, String text){
+    BuyerAgeEnum(Integer value, String text){
         this.value = value;
         this.text =text;
     }
 
-    public static BuyerRuleEnum stateOf(int value) {
-        for (BuyerRuleEnum b : BuyerRuleEnum.values()) {
+    public static BuyerAgeEnum stateOf(int value) {
+        for (BuyerAgeEnum b : BuyerAgeEnum.values()) {
             if (b.getValue() == value) {
                 return b;
             }

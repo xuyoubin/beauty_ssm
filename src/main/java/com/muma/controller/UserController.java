@@ -45,7 +45,7 @@ public class UserController {
 		String password = getRequset().getParameter("password");
 		String uniqueId = getRequset().getParameter("uniqueId");
 		try{
-			logger.info("=====================用户名："+regPhone+"密码："+password+"登录时间："+ TimeUtils.getTime(new Date())+"==================");
+			logger.info("=====================用户名："+regPhone+"密码："+password+"登录时间："+ TimeUtils.getStringDate()+"==================");
 			UserInfoDto userInfo = userService.login(regPhone,password,uniqueId);
 			Session.loginUser(getRequset().getSession(), userInfo);
 			return new BaseResult(true,userInfo);

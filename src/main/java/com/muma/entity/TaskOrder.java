@@ -1,13 +1,10 @@
 package com.muma.entity;
 
 import com.muma.entity.base.BaseEntity;
-import com.muma.enums.BuyerRuleEnum;
 import com.muma.enums.OperateStatusEnum;
 import com.muma.enums.SellTaskRuleEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.TaskTypeEnum;
-
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -39,17 +36,13 @@ public class TaskOrder extends BaseEntity {
   /**
    * 主图
    */
-  private String mainImg;
+  private String mainImage;
   /**
    * 任务要求
    */
-  private SellTaskRuleEnum taskRule;
+  private String taskRule;
   /**
-   * 买家要求关联要求表
-   */
-  private BuyerRuleEnum buyerRuleId;
-  /**
-   * 发布类型
+   * 发布类型 0-销售；2-浏览
    */
   private TaskTypeEnum type;
   /**
@@ -77,25 +70,21 @@ public class TaskOrder extends BaseEntity {
    */
   private String conditions;
   /**
-   * 笔数
+   * 是否给买家打入关键字标签：0是，1否
    */
-  private Integer number;
+  private Integer tagFlag;
   /**
-   * 单价
+   * 是否查询淘宝客订单： 0是，1否
    */
-  private BigDecimal price;
+  private Integer tbkFlag;
   /**
-   * 佣金
+   * 是否需要确认收货0-是，1-否
    */
-  private BigDecimal fee;
+  private Integer defineFlag;
   /**
    * 备注
    */
   private String remark;
-  /**
-   * 乐观锁
-   */
-  private Integer revision;
 
   public String getBusinessPhone() {
     return businessPhone;
@@ -137,28 +126,20 @@ public class TaskOrder extends BaseEntity {
     this.commodityId = commodityId;
   }
 
-  public String getMainImg() {
-    return mainImg;
+  public String getMainImage() {
+    return mainImage;
   }
 
-  public void setMainImg(String mainImg) {
-    this.mainImg = mainImg;
+  public void setMainImage(String mainImage) {
+    this.mainImage = mainImage;
   }
 
-  public SellTaskRuleEnum getTaskRule() {
+  public String getTaskRule() {
     return taskRule;
   }
 
-  public void setTaskRule(SellTaskRuleEnum taskRule) {
+  public void setTaskRule(String taskRule) {
     this.taskRule = taskRule;
-  }
-
-  public BuyerRuleEnum getBuyerRuleId() {
-    return buyerRuleId;
-  }
-
-  public void setBuyerRuleId(BuyerRuleEnum buyerRuleId) {
-    this.buyerRuleId = buyerRuleId;
   }
 
   public TaskTypeEnum getType() {
@@ -217,28 +198,28 @@ public class TaskOrder extends BaseEntity {
     this.conditions = conditions;
   }
 
-  public Integer getNumber() {
-    return number;
+  public Integer getTagFlag() {
+    return tagFlag;
   }
 
-  public void setNumber(Integer number) {
-    this.number = number;
+  public void setTagFlag(Integer tagFlag) {
+    this.tagFlag = tagFlag;
   }
 
-  public BigDecimal getPrice() {
-    return price;
+  public Integer getTbkFlag() {
+    return tbkFlag;
   }
 
-  public void setPrice(BigDecimal price) {
-    this.price = price;
+  public void setTbkFlag(Integer tbkFlag) {
+    this.tbkFlag = tbkFlag;
   }
 
-  public BigDecimal getFee() {
-    return fee;
+  public Integer getDefineFlag() {
+    return defineFlag;
   }
 
-  public void setFee(BigDecimal fee) {
-    this.fee = fee;
+  public void setDefineFlag(Integer defineFlag) {
+    this.defineFlag = defineFlag;
   }
 
   public String getRemark() {
@@ -247,13 +228,5 @@ public class TaskOrder extends BaseEntity {
 
   public void setRemark(String remark) {
     this.remark = remark;
-  }
-
-  public Integer getRevision() {
-    return revision;
-  }
-
-  public void setRevision(Integer revision) {
-    this.revision = revision;
   }
 }
