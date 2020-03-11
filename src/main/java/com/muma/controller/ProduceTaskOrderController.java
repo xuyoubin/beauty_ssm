@@ -7,14 +7,18 @@ import com.muma.dto.UserInfoDto;
 import com.muma.entity.BuyerRule;
 import com.muma.entity.Statistics;
 import com.muma.entity.TaskOrder;
+import com.muma.enums.EntranceEnum;
 import com.muma.enums.PlatformEnum;
 import com.muma.enums.RoalEnum;
+import com.muma.enums.SexEnum;
 import com.muma.enums.TaskTypeEnum;
+import com.muma.enums.YesAndNoEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.ProduceTaskOrderService;
 import com.muma.util.Authenticate;
 import com.muma.util.Precondition;
+import com.muma.util.TimeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.math.BigDecimal;
 
 import static com.muma.common.HttpContext.getRequset;
 
@@ -54,13 +60,18 @@ public class ProduceTaskOrderController {
         String type = getRequset().getParameter("type");
         String startTime = getRequset().getParameter("startTime");
         String entranceId = getRequset().getParameter("entranceId");
-        String conditions = getRequset().getParameter("conditions");
-        String tagFlag = getRequset().getParameter("tagFlag");
-        String tbkFlag = getRequset().getParameter("tbkFlag");
-        String defineFlag = getRequset().getParameter("defineFlag");
+        String keyword = getRequset().getParameter("keyword");
+        String tagFlag = getRequset().getParameter("tagFlag");//是否标签
+        if(StringUtils.isEmpty(tagFlag)){ tagFlag = "1"; } //默认值
+        String tbkFlag = getRequset().getParameter("tbkFlag");//是否查询淘宝客
+        if(StringUtils.isEmpty(tbkFlag)){ tbkFlag = "1"; } //默认值
+        String defineFlag = getRequset().getParameter("defineFlag");//是否要确认收货
+        if(StringUtils.isEmpty(defineFlag)){ defineFlag = "1"; } //默认值
         String taskRemark = getRequset().getParameter("taskRemark"); //任务备注
+
         String taskNumber = getRequset().getParameter("taskNumber");//发布任务数
         String price = getRequset().getParameter("price");
+
         String age = getRequset().getParameter("age");
         String sex = getRequset().getParameter("sex");
         String credit = getRequset().getParameter("credit");
@@ -68,23 +79,46 @@ public class ProduceTaskOrderController {
         String buyerRemark = getRequset().getParameter("buyerRemark");//买家要求备注
         String tags = getRequset().getParameter("tags");
         try{
-            Precondition.checkState(StringUtils.isNotBlank(shopId), "请填写店铺!");
-            Precondition.checkState(StringUtils.isNotBlank(type), "请填写任务类型!");
+            Precondition.checkState(StringUtils.isNotBlank(shopId), "请选择店铺!");
+            Precondition.checkState(StringUtils.isNotBlank(type), "请选择任务类型!");
             Precondition.checkState(StringUtils.isNotBlank(startTime), "请填写任务开始时间!");
+            Precondition.checkState(StringUtils.isNotBlank(entranceId), "请选择任务入口类型!");
+            Precondition.checkState(StringUtils.isNotBlank(taskNumber), "请填写发布任务数量!");
+            Precondition.checkState(StringUtils.isNotBlank(price), "请填写单价!");
             TaskTypeEnum taskTypeEnum = TaskTypeEnum.stateOf(Integer.valueOf(type));
             Precondition.checkNotNull(taskTypeEnum, "暂不支持该任务类型!");
+            EntranceEnum entranceEnum = EntranceEnum.stateOf(Integer.valueOf(entranceId));
+            Precondition.checkNotNull(entranceEnum, "暂不支持该入口类型!");
             taskOrder.setShopId(Integer.valueOf(shopId));
             taskOrder.setCommodity(commodity);
             taskOrder.setCommodityId(commodityId);
             taskOrder.setCommodityUrl(commodityUrl);
             taskOrder.setTaskRule(taskRule);
             taskOrder.setType(taskTypeEnum);
-//            taskOrder.setStartTime();
+            taskOrder.setStartTime(TimeUtils.strToDateLong(startTime));
+            taskOrder.setEntranceId(entranceEnum);
+            taskOrder.setKeyword(keyword);
+            taskOrder.setTagFlag(YesAndNoEnum.stateOf(Integer.valueOf(tagFlag)));
+            taskOrder.setTbkFlag(YesAndNoEnum.stateOf(Integer.valueOf(tbkFlag)));
+            taskOrder.setDefineFlag(YesAndNoEnum.stateOf(Integer.valueOf(defineFlag)));
+            taskOrder.setRemark(taskRemark);
+
+            statistics.setTaskNumber(Integer.valueOf(taskNumber));
+            statistics.setPrice(new BigDecimal(price));
+
+            buyerRule.setAge(age);
+            buyerRule.setCredit(Integer.valueOf(credit));
+            buyerRule.setProvince(province);
+            buyerRule.setTags(tags);
+            buyerRule.setRemark(buyerRemark);
+            buyerRule.setSex(SexEnum.stateOf(Integer.valueOf(sex)));
 
 
 
 
-            produceTaskOrderService.addTaskOrder(taskOrder,);
+
+
+            produceTaskOrderService.addTaskOrder();
 
 
             return new BaseResult(true, "添加任务成功！");
@@ -148,5 +182,7 @@ public class ProduceTaskOrderController {
             return new BaseResult(false, ResultEnum.INNER_ERROR.getMsg());
         }
     }
+
+
 
 }

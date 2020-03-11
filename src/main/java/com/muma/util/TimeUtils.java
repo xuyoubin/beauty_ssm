@@ -94,7 +94,7 @@ public class TimeUtils {
 	 * @param dateDate
 	 * @return
 	 */
-	public static String dateToStrLong(java.util.Date dateDate) {
+	public static String dateToStrLong(Date dateDate) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = formatter.format(dateDate);
 		return dateString;

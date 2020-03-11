@@ -1,10 +1,13 @@
 package com.muma.entity;
 
 import com.muma.entity.base.BaseEntity;
+import com.muma.enums.EntranceEnum;
 import com.muma.enums.OperateStatusEnum;
 import com.muma.enums.SellTaskRuleEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.TaskTypeEnum;
+import com.muma.enums.YesAndNoEnum;
+
 import java.util.Date;
 
 /**
@@ -64,7 +67,7 @@ public class TaskOrder extends BaseEntity {
   /**
    * 浏览入口id
    */
-  private Integer entranceId;
+  private EntranceEnum entranceId;
   /**
    * 卡位条件
    */
@@ -72,15 +75,15 @@ public class TaskOrder extends BaseEntity {
   /**
    * 是否给买家打入关键字标签：0是，1否
    */
-  private Integer tagFlag;
+  private YesAndNoEnum tagFlag;
   /**
    * 是否查询淘宝客订单： 0是，1否
    */
-  private Integer tbkFlag;
+  private YesAndNoEnum tbkFlag;
   /**
    * 是否需要确认收货0-是，1-否
    */
-  private Integer defineFlag;
+  private YesAndNoEnum defineFlag;
   /**
    * 备注
    */
@@ -182,11 +185,11 @@ public class TaskOrder extends BaseEntity {
     this.keyword = keyword;
   }
 
-  public Integer getEntranceId() {
+  public EntranceEnum getEntranceId() {
     return entranceId;
   }
 
-  public void setEntranceId(Integer entranceId) {
+  public void setEntranceId(EntranceEnum entranceId) {
     this.entranceId = entranceId;
   }
 
@@ -198,27 +201,27 @@ public class TaskOrder extends BaseEntity {
     this.conditions = conditions;
   }
 
-  public Integer getTagFlag() {
+  public YesAndNoEnum getTagFlag() {
     return tagFlag;
   }
 
-  public void setTagFlag(Integer tagFlag) {
+  public void setTagFlag(YesAndNoEnum tagFlag) {
     this.tagFlag = tagFlag;
   }
 
-  public Integer getTbkFlag() {
+  public YesAndNoEnum getTbkFlag() {
     return tbkFlag;
   }
 
-  public void setTbkFlag(Integer tbkFlag) {
+  public void setTbkFlag(YesAndNoEnum tbkFlag) {
     this.tbkFlag = tbkFlag;
   }
 
-  public Integer getDefineFlag() {
+  public YesAndNoEnum getDefineFlag() {
     return defineFlag;
   }
 
-  public void setDefineFlag(Integer defineFlag) {
+  public void setDefineFlag(YesAndNoEnum defineFlag) {
     this.defineFlag = defineFlag;
   }
 

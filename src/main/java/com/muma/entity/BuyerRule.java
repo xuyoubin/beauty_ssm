@@ -34,7 +34,7 @@ public class BuyerRule extends BaseEntity {
   /**
    * 用户标签
    */
-  private Integer tags;
+  private String tags;
   /**
    * 备注
    */
@@ -80,11 +80,11 @@ public class BuyerRule extends BaseEntity {
     this.credit = credit;
   }
 
-  public Integer getTags() {
+  public String getTags() {
     return tags;
   }
 
-  public void setTags(Integer tags) {
+  public void setTags(String tags) {
     this.tags = tags;
   }
 
