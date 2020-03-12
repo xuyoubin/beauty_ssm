@@ -32,7 +32,6 @@
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.YesAndNoEnum"/>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.SexEnum"/>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.SortEnum"/>
-        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.EntranceEnum"/>
     </typeHandlers>
 
     <plugins>
