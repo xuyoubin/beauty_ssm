@@ -6,7 +6,7 @@ import com.muma.enums.SexEnum;
 /**
  * 任务买家限制表
  */
-public class BuyerRule extends BaseEntity {
+public class TaskBuyerRule extends BaseEntity {
 
 
   private static final long serialVersionUID = 7518003941027674755L;

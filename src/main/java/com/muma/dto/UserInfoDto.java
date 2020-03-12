@@ -1,11 +1,9 @@
 package com.muma.dto;
 
 import com.muma.entity.Buyer;
-import com.muma.entity.base.BaseEntity;
 import com.muma.enums.RoalEnum;
 import com.muma.enums.SexEnum;
 import com.muma.enums.StatusEnum;
-import com.muma.enums.YesAndNoEnum;
 
 import java.util.List;
 

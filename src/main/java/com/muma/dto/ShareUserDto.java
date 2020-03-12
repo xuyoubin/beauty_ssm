@@ -1,11 +1,8 @@
 package com.muma.dto;
 
-import com.muma.entity.Buyer;
 import com.muma.enums.RoalEnum;
 import com.muma.enums.SexEnum;
 import com.muma.enums.StatusEnum;
-
-import java.util.List;
 
 /**
  * 用户全部信息DTO

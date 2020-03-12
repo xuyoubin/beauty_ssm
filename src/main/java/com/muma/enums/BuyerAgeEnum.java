@@ -4,6 +4,7 @@ import com.muma.enums.base.ValuedEnum;
 
 public enum BuyerAgeEnum implements ValuedEnum {
 
+    CHILD(0,"0 ~ 18"),
     YOUNG(1,"18 ~ 25"),
     BIG_YOUNG(2,"25 ~ 35"),
     MIDDLE(3,"35 ~ 45"),

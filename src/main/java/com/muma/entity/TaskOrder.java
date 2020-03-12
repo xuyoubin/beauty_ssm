@@ -1,9 +1,9 @@
 package com.muma.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.muma.entity.base.BaseEntity;
 import com.muma.enums.EntranceEnum;
 import com.muma.enums.OperateStatusEnum;
-import com.muma.enums.SellTaskRuleEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.TaskTypeEnum;
 import com.muma.enums.YesAndNoEnum;
@@ -59,6 +59,7 @@ public class TaskOrder extends BaseEntity {
   /**
    * 开始时间
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date startTime;
   /**
    * 关键词
@@ -68,10 +69,6 @@ public class TaskOrder extends BaseEntity {
    * 浏览入口id
    */
   private EntranceEnum entranceId;
-  /**
-   * 卡位条件
-   */
-  private String conditions;
   /**
    * 是否给买家打入关键字标签：0是，1否
    */
@@ -191,14 +188,6 @@ public class TaskOrder extends BaseEntity {
 
   public void setEntranceId(EntranceEnum entranceId) {
     this.entranceId = entranceId;
-  }
-
-  public String getConditions() {
-    return conditions;
-  }
-
-  public void setConditions(String conditions) {
-    this.conditions = conditions;
   }
 
   public YesAndNoEnum getTagFlag() {
