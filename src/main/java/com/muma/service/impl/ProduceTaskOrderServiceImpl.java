@@ -1,9 +1,11 @@
 package com.muma.service.impl;
 
 import com.muma.common.PageBean;
+import com.muma.dao.TaskFreeDao;
 import com.muma.dto.ProduceTaskOrderDto;
 import com.muma.entity.Shop;
 import com.muma.entity.Statistics;
+import com.muma.entity.TaskFree;
 import com.muma.entity.TaskOrder;
 import com.muma.enums.EntranceEnum;
 import com.muma.enums.OperateStatusEnum;
@@ -30,6 +32,9 @@ import java.util.List;
 @Service
 public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
 
+    @Autowired
+    private TaskFreeDao taskFreeDao;
+
     /**
      * 添加店铺
      * @return
@@ -42,10 +47,9 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
         //保存图片
         String imageUrl = UploadImageUtil.saveImage(mainImage,UploadImageUtil.IMAGE_TYPE_TASK,regPhone,"宝贝主图");
         TaskOrder taskOrder = buildTaskOrder(regPhone,produceTaskOrderDto,imageUrl);
+        Statistics statistics = buildStatistics(regPhone,produceTaskOrderDto,null);
 
-//
-//            statistics.setTaskNumber(Integer.valueOf(taskNumber));
-//            statistics.setPrice(new BigDecimal(price));
+
 //
 //            buyerRule.setAge(age);
 //            buyerRule.setCredit(Integer.valueOf(credit));
@@ -120,12 +124,13 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
     private Statistics buildStatistics(String regPhone,ProduceTaskOrderDto produceTaskOrderDto,Integer taskOrderId){
         Precondition.checkNotNull(produceTaskOrderDto.getTaskNumber(), "请填写发布任务数量!");
         Precondition.checkNotNull(produceTaskOrderDto.getPrice(), "请填写单价!");
-        Statistics statistics = new Statistics();
+        TaskTypeEnum taskTypeEnum = TaskTypeEnum.stateOf(produceTaskOrderDto.getType());
+        Statistics statistics = countMoney(produceTaskOrderDto.getTaskNumber(),produceTaskOrderDto.getPrice(),taskTypeEnum);
         statistics.setBusinessPhone(regPhone);
         statistics.setTaskOrderId(taskOrderId);
-        statistics.setType(TaskTypeEnum.stateOf(produceTaskOrderDto.getType()));
-        statistics.
-
+        statistics.setType(taskTypeEnum);
+        statistics.setCreateBy(regPhone);
+        return statistics;
     }
 
     /**
@@ -134,11 +139,35 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
      * @param price
      * @return
      */
-    private Statistics countMoney(Integer taskNumber, BigDecimal price){
+    private Statistics countMoney(Integer taskNumber, BigDecimal price ,TaskTypeEnum taskTypeEnum ){
         Statistics statistics = new Statistics();
+        BigDecimal businessFree = null;
+        BigDecimal buyerFree = null;
+        //计算总本金
         BigDecimal taskCountCapital = price.multiply(new BigDecimal(taskNumber)).setScale(2,BigDecimal.ROUND_HALF_UP);
         //获取佣金
-
+        List<TaskFree> taskFreeList = taskFreeDao.queryTaskFreeListByType(taskTypeEnum);
+        Precondition.checkNotNull(taskFreeList,"查询佣金费异常");
+        for(int i=0;i<taskFreeList.size();i++){
+            TaskFree taskFree = taskFreeList.get(i);
+            BigDecimal priceMin = taskFree.getPriceMin();
+            BigDecimal priceMax = taskFree.getPriceMax();
+            if(price.compareTo(priceMin)> -1 && price.compareTo(priceMax) == -1){
+                businessFree = taskFree.getBusinessFree();
+                buyerFree = taskFree.getBuyerFree();
+                break;
+            }
+        }
+        Precondition.checkNotNull(businessFree,"商家佣金计算异常！");
+        Precondition.checkNotNull(buyerFree,"买家佣金计算异常！");
+        //计算卖家总佣金
+        BigDecimal taskCountFee = businessFree.multiply(new BigDecimal(taskNumber)).setScale(2,BigDecimal.ROUND_HALF_UP);
+        statistics.setTaskNumber(taskNumber);
+        statistics.setPrice(price);
+        statistics.setBusinessFree(businessFree);
+        statistics.setBuyerFree(buyerFree);
+        statistics.setTaskCountCapital(taskCountCapital);
+        statistics.setTaskCountFee(taskCountFee);
         return statistics;
     }
 

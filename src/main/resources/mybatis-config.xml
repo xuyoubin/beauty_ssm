@@ -17,6 +17,7 @@
 
     <typeHandlers>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.PlatformEnum"/>
+        <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.EntranceEnum"/>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.BuyerAgeEnum"/>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.CommentTaskRuleEnum"/>
         <typeHandler handler="com.muma.enums.base.ValuedEnumTypeHandler" javaType="com.muma.enums.LogTypeEnum"/>

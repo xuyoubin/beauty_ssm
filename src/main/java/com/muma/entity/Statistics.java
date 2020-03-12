@@ -56,9 +56,13 @@ public class Statistics extends BaseEntity {
    */
   private BigDecimal price;
   /**
-   * 佣金
+   * 卖家佣金
    */
-  private BigDecimal free;
+  private BigDecimal businessFree;
+  /**
+   * 买家佣金
+   */
+  private BigDecimal buyerFree;
   /**
    * 乐观锁
    */
@@ -152,12 +156,20 @@ public class Statistics extends BaseEntity {
     this.price = price;
   }
 
-  public BigDecimal getFree() {
-    return free;
+  public BigDecimal getBusinessFree() {
+    return businessFree;
   }
 
-  public void setFree(BigDecimal free) {
-    this.free = free;
+  public void setBusinessFree(BigDecimal businessFree) {
+    this.businessFree = businessFree;
+  }
+
+  public BigDecimal getBuyerFree() {
+    return buyerFree;
+  }
+
+  public void setBuyerFree(BigDecimal buyerFree) {
+    this.buyerFree = buyerFree;
   }
 
   public Integer getRevision() {

@@ -34,6 +34,10 @@ public class TaskFree extends BaseEntity {
    */
   private BigDecimal priceMax;
   /**
+   * 其他条件限制 评论佣金计算用该字段 1-普通评论 2-评论+图片
+   */
+  private Integer condition;
+  /**
    * 备注
    */
   private String remark;
@@ -76,6 +80,14 @@ public class TaskFree extends BaseEntity {
 
   public void setPriceMax(BigDecimal priceMax) {
     this.priceMax = priceMax;
+  }
+
+  public Integer getCondition() {
+    return condition;
+  }
+
+  public void setCondition(Integer condition) {
+    this.condition = condition;
   }
 
   public String getRemark() {
