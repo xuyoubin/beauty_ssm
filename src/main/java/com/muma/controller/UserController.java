@@ -8,7 +8,12 @@ import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
 import com.muma.service.UserService;
 import com.muma.util.Authenticate;
+import com.muma.util.KeyType;
+import com.muma.util.Precondition;
 import com.muma.util.TimeUtils;
+import com.muma.util.verificationCode.CaptchaUtil;
+import com.muma.util.verificationCode.SpecCaptcha;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,5 +158,44 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * 生成验证码
+	 */
+	@RequestMapping("/captcha")
+	public BaseResult captcha() {
+		try{
+            SpecCaptcha specCaptcha = new SpecCaptcha(KeyType.DEFAULT_WIDTH,KeyType.DEFAULT_HEIGHT, KeyType.DEFAULT_LEN);
+            getRequset().getSession().setAttribute(KeyType.SESSION_KEY, specCaptcha.text().toLowerCase());
+            String yzm = specCaptcha.toBase64();
+			return  new BaseResult(true,yzm);
+		}catch (Exception e){
+			logger.error("获取验证码异常：{}",e);
+			return new BaseResult(false,ResultEnum.INNER_ERROR.getMsg());
+		}
+	}
+
+    /**
+     * 校验验证码
+     */
+    @RequestMapping("/checkCaptcha")
+    public BaseResult checkCaptcha() {
+        String captcha = getRequset().getParameter("captcha");
+        try{
+            Precondition.checkState(StringUtils.isNotBlank(captcha), "请填写验证码!");
+            String sessionCaptcha = (String) getRequset().getSession().getAttribute(KeyType.SESSION_KEY);
+            if(captcha.trim().toLowerCase().equals(sessionCaptcha)){
+//              getRequset().getSession().removeAttribute(KeyType.SESSION_KEY)
+                return  new BaseResult(true,"验证码正确！");
+            }else{
+
+            }
+            return  new BaseResult(true,yzm);
+        }catch (BizException e){
+            return new BaseResult(false,e.getMessage());
+        }catch (Exception e){
+            logger.error("验证码异常：{}",e);
+            return new BaseResult(false,ResultEnum.INNER_ERROR.getMsg());
+        }
+    }
 
 }
