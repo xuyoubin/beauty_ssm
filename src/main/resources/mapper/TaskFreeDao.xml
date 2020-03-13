@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muma.dao.TaskFreeDao">
+
+	<insert id="addTaskFree">
+		INSERT INTO
+			tbl_task_free(type,business_free,buyer_free,price_min,price_max,
+						  condition,remark,create_by,create_time)
+		VALUES
+			(#{type},#{businessFree},#{buyerFree},#{priceMin},#{priceMax},
+			#{condition},#{remark},#{createBy},now())
+	</insert>
+	<select id="queryTaskFreeListByType" resultType="com.muma.entity.TaskFree">
+		SELECT business_free,buyer_free,price_min,price_max,condition
+		FROM tbl_task_free
+		WHERE type= #{type}
+	</select>
+</mapper>

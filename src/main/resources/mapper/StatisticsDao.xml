@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muma.dao.StatisticsDao">
+
+	<insert id="addStatistics">
+		INSERT INTO
+			tbl_statistics(business_phone,task_order_id,type,task_count_capital,task_real_income,
+						   task_over_capital,task_count_fee,task_over_fee,task_over_number,task_number
+						   price,business_free,buyer_free,create_by,create_time)
+		VALUES
+			(#{businessPhone},#{taskOrderId},#{type},#{taskCountCapital},#{taskRealIncome},
+			#{taskOverCapital},#{taskCountFee},#{taskOverFee},#{taskOverNumber},#{taskNumber},
+			#{price},#{businessFree},#{buyerFree}, #{createBy},now())
+	</insert>
+
+</mapper>

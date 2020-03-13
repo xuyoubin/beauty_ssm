@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muma.dao.CapitalDao">
+
+	<insert id="addCapital">
+		INSERT INTO
+			tbl_capital(reg_phone,balance,freeze,total_income,total_out,
+					  create_by,create_time)
+		VALUES
+			(#{regPhone},#{balance},#{freeze},#{totalIncome},#{totalOut},
+			#{createBy},now())
+	</insert>
+	<select id="queryByRegPhone" resultType="com.muma.entity.Capital">
+		SELECT balance,freeze,total_income,total_out
+		FROM tbl_capital
+		WHERE reg_phone= #{regPhone} limit 1
+	</select>
+</mapper>
