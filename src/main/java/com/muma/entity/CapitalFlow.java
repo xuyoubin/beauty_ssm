@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 /**
  * 用户资金明细表
  */
-public class UserMoney extends BaseEntity {
+public class CapitalFlow extends BaseEntity {
 
   private static final long serialVersionUID = -263387528916903510L;
   /**
-   * 用户id
+   * 用户注册手机
    */
-  private Integer userId;
+  private String regPhone;
   /**
    * 任务订单Id
    */
@@ -32,10 +32,6 @@ public class UserMoney extends BaseEntity {
    */
   private BigDecimal payMoney;
   /**
-   * 可用余额
-   */
-  private BigDecimal totalMoney;
-  /**
    *状态：0 待审核，1审核通过，2审核不通过,
    */
   private StatusEnum status;
@@ -44,12 +40,12 @@ public class UserMoney extends BaseEntity {
    */
   private String remark;
 
-  public Integer getUserId() {
-    return userId;
+  public String getRegPhone() {
+    return regPhone;
   }
 
-  public void setUserId(Integer userId) {
-    this.userId = userId;
+  public void setRegPhone(String regPhone) {
+    this.regPhone = regPhone;
   }
 
   public Integer getOrderId() {
@@ -74,14 +70,6 @@ public class UserMoney extends BaseEntity {
 
   public void setPayMoney(BigDecimal payMoney) {
     this.payMoney = payMoney;
-  }
-
-  public BigDecimal getTotalMoney() {
-    return totalMoney;
-  }
-
-  public void setTotalMoney(BigDecimal totalMoney) {
-    this.totalMoney = totalMoney;
   }
 
   public StatusEnum getStatus() {

@@ -8,6 +8,7 @@ import com.muma.dao.UserDetailDao;
 import com.muma.dto.ShareUserDto;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
+import com.muma.entity.Capital;
 import com.muma.entity.User;
 import com.muma.entity.UserDetail;
 import com.muma.enums.RoalEnum;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -123,6 +125,14 @@ public class UserServiceImpl implements UserService {
 		userDetail.setParentPhone(parentPhone);
 		userDetail.setCreateBy(regPhone);
 		userDetailDao.addUserDetail(userDetail);
+		//创建用户资金表
+		Capital capital = new Capital();
+		capital.setRegPhone(regPhone);
+		capital.setBalance(new BigDecimal("0.00"));
+		capital.setFreeze(new BigDecimal("0.00"));
+		capital.setTotalIncome(new BigDecimal("0.00"));
+		capital.setTotalOut(new BigDecimal("0.00"));
+
 	}
 	/**
 	 * 检查验证码是否有效
