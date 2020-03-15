@@ -1,7 +1,13 @@
 package com.muma.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.muma.entity.base.BaseEntity;
+import com.muma.enums.OperateStatusEnum;
+import com.muma.enums.PlatformEnum;
 import com.muma.enums.SexEnum;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 任务买家限制表
@@ -35,6 +41,23 @@ public class TaskBuyerRule extends BaseEntity {
    * 用户标签
    */
   private String tags;
+  /**
+   * 单价
+   */
+  private BigDecimal price;
+  /**
+   * 店铺类型
+   */
+  private PlatformEnum platform;
+  /**
+   *操作状态:0 -未进行；1-进行中 ；2-已完成；3-任务撤销
+   */
+  private OperateStatusEnum operateStatus;
+  /**
+   * 开始时间
+   */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date startTime;
   /**
    * 备注
    */
@@ -94,5 +117,37 @@ public class TaskBuyerRule extends BaseEntity {
 
   public void setRemark(String remark) {
     this.remark = remark;
+  }
+
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public void setPrice(BigDecimal price) {
+    this.price = price;
+  }
+
+  public PlatformEnum getPlatform() {
+    return platform;
+  }
+
+  public void setPlatform(PlatformEnum platform) {
+    this.platform = platform;
+  }
+
+  public OperateStatusEnum getOperateStatus() {
+    return operateStatus;
+  }
+
+  public void setOperateStatus(OperateStatusEnum operateStatus) {
+    this.operateStatus = operateStatus;
+  }
+
+  public Date getStartTime() {
+    return startTime;
+  }
+
+  public void setStartTime(Date startTime) {
+    this.startTime = startTime;
   }
 }

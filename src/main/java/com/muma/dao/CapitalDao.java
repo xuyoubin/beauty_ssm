@@ -11,6 +11,11 @@ public interface CapitalDao {
     void addCapital(Capital capital);
 
     /**
+     * 根据主键更新信息
+     */
+    void updateCapital(Capital capital);
+
+    /**
      * 根据手机号查询资金信息
      * @param regPhone
      * @return

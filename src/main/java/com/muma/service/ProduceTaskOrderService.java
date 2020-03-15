@@ -4,6 +4,7 @@ package com.muma.service;
 import com.muma.common.PageBean;
 import com.muma.dto.ProduceTaskOrderDto;
 import com.muma.entity.Shop;
+import com.muma.entity.Statistics;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ProduceTaskOrderService {
@@ -16,5 +17,7 @@ public interface ProduceTaskOrderService {
 	 * 查询任务列表
 	 * @return
 	 */
-	PageBean<Shop> queryTaskOrder(String pageIndex, String regPhone);
+	PageBean<Shop> queryTaskOrder(String pageIndex, String regPhone,String shopName,String operateStatus,String status,String taskType);
+
+	Statistics countMoney(String taskNumber,String price,String platform,String taskType );
 }

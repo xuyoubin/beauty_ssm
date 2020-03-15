@@ -10,8 +10,20 @@
 			(#{regPhone},#{balance},#{freeze},#{totalIncome},#{totalOut},
 			#{createBy},now())
 	</insert>
+	<update id="updateCapital">
+		UPDATE tbl_capital
+		SET
+		balance = #{balance},
+		freeze = #{freeze},
+		total_income = #{totalIncome},
+		total_out = #{totalOut},
+		update_by = #{updateBy},
+		update_time = NOW()
+		WHERE
+		reg_phone = #{regPhone};
+	</update>
 	<select id="queryByRegPhone" resultType="com.muma.entity.Capital">
-		SELECT balance,freeze,total_income,total_out
+		SELECT reg_phone,balance,freeze,total_income,total_out
 		FROM tbl_capital
 		WHERE reg_phone= #{regPhone} limit 1
 	</select>

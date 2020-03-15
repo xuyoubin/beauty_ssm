@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.muma.dao.TaskOrderDao">
-	<insert id="addTaskOrder">
+	<insert id="addTaskOrder" keyProperty="id"  keyColumn="id" useGeneratedKeys="true" parameterType="com.muma.entity.TaskOrder">
 		INSERT INTO
 			tbl_task_order(business_phone,shop_id,commodity,commodity_url,commodity_id,main_image,
-						   task_rule,type,status,operate_status,start_time,keyword,entrance_id,
-						   tag_flag,tbk_flag,define_flag,remark,create_by,create_time)
+			task_rule,type,status,operate_status,start_time,keyword,entrance_id,
+			tag_flag,tbk_flag,define_flag,remark,create_by,create_time)
 		VALUES
 			(#{businessPhone},#{shopId},#{commodity},#{commodityUrl},#{commodityId},#{mainImage},
-			 #{taskRule},#{type},#{status},#{operateStatus},#{startTime},#{keyword},#{entranceId}
+			#{taskRule},#{type},#{status},#{operateStatus},#{startTime},#{keyword},#{entranceId},
 			#{tagFlag},#{tbkFlag},#{defineFlag},#{remark},#{createBy},now())
 	</insert>
 	<select id="queryTaskOrderList" resultType="com.muma.entity.TaskOrder">

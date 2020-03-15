@@ -1,6 +1,7 @@
 package com.muma.dao;
 
 import com.muma.entity.TaskFree;
+import com.muma.enums.PlatformEnum;
 import com.muma.enums.TaskTypeEnum;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +19,7 @@ public interface TaskFreeDao {
      *
      * @return
      */
-    List<TaskFree> queryTaskFreeListByType(@Param("type") TaskTypeEnum taskTypeEnum);
+    List<TaskFree> queryTaskFreeListByType(@Param("platform") PlatformEnum platformEnum, @Param("type") TaskTypeEnum taskTypeEnum);
 
 
 

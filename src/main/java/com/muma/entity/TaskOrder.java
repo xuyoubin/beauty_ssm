@@ -82,6 +82,10 @@ public class TaskOrder extends BaseEntity {
    */
   private YesAndNoEnum defineFlag;
   /**
+   * 审核不通过原因
+   */
+  private String reason;
+  /**
    * 备注
    */
   private String remark;
@@ -212,6 +216,14 @@ public class TaskOrder extends BaseEntity {
 
   public void setDefineFlag(YesAndNoEnum defineFlag) {
     this.defineFlag = defineFlag;
+  }
+
+  public String getReason() {
+    return reason;
+  }
+
+  public void setReason(String reason) {
+    this.reason = reason;
   }
 
   public String getRemark() {

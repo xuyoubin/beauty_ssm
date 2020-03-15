@@ -3,6 +3,7 @@ package com.muma.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.muma.controller.base.BaseResult;
 import com.muma.dao.BuyerDao;
+import com.muma.dao.CapitalDao;
 import com.muma.dao.UserDao;
 import com.muma.dao.UserDetailDao;
 import com.muma.dto.ShareUserDto;
@@ -46,6 +47,8 @@ public class UserServiceImpl implements UserService {
 	private BuyerDao buyerDao;
 	@Autowired
 	private UserDetailDao userDetailDao;
+	@Autowired
+	private CapitalDao capitalDao;
 
 	/**
 	 * 用户登录
@@ -61,10 +64,13 @@ public class UserServiceImpl implements UserService {
 		Precondition.checkState(StringUtils.isNotBlank(uniqueId), "uniqueId is null!");
 		//获取本机公网IP，防止多用户在同一个公网IP登录
 		// TODO 接单流程需要验证
+		User u = null;
 		String publicIp = IPUtil.getV4IP();
-		User u = userDao.queryByIp(publicIp);
-		if(u != null){
-			Precondition.checkState(regPhone.equals(u.getRegPhone()) , "网络已经被占用，请切换网络连接!");
+		if(StringUtils.isNotEmpty(publicIp)){
+			 u = userDao.queryByIp(publicIp);
+			if(u != null){
+				Precondition.checkState(regPhone.equals(u.getRegPhone()) , "网络已经被占用，请切换网络连接!");
+			}
 		}
 		//设备唯一识别号验证
         u = userDao.queryByUniqueId(uniqueId);
@@ -132,7 +138,7 @@ public class UserServiceImpl implements UserService {
 		capital.setFreeze(new BigDecimal("0.00"));
 		capital.setTotalIncome(new BigDecimal("0.00"));
 		capital.setTotalOut(new BigDecimal("0.00"));
-
+		capitalDao.addCapital(capital);
 	}
 	/**
 	 * 检查验证码是否有效

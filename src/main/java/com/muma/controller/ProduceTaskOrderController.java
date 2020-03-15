@@ -6,6 +6,7 @@ import com.muma.common.Session;
 import com.muma.controller.base.BaseResult;
 import com.muma.dto.ProduceTaskOrderDto;
 import com.muma.dto.UserInfoDto;
+import com.muma.entity.Statistics;
 import com.muma.enums.RoalEnum;
 import com.muma.enums.base.ResultEnum;
 import com.muma.exception.BizException;
@@ -43,9 +44,7 @@ public class ProduceTaskOrderController {
     public BaseResult addTaskOrder(@RequestParam("mainImage") MultipartFile mainImage,
                                    @ModelAttribute ProduceTaskOrderDto produceTaskOrder){
         try{
-
-            logger.info("form提交："+JSON.toJSONString(produceTaskOrder));
-            logger.info("主图"+mainImage.getOriginalFilename());
+            logger.info("发布任务提交信息："+JSON.toJSONString(produceTaskOrder));
             UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
             produceTaskOrderService.addTaskOrder(userInfoDto.getRegPhone(),produceTaskOrder,mainImage);
             return new BaseResult(true, "添加任务成功！");
@@ -67,17 +66,17 @@ public class ProduceTaskOrderController {
     public BaseResult taskOrderList(){
         String pageIndex = getRequset().getParameter("pageIndex");
         String regPhone = getRequset().getParameter("regPhone");//参数
-        String shopId = getRequset().getParameter("shopId");//参数
+        String shopName = getRequset().getParameter("shopName");//参数
         String operateStatus = getRequset().getParameter("operateStatus");//参数
         String status = getRequset().getParameter("status");//参数
-        String type = getRequset().getParameter("type");//参数
+        String taskType = getRequset().getParameter("taskType");//发布类型 参数
         try{
             UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
             //商家强制传参
             if(RoalEnum.BUSINESS_ROAL.equals(userInfoDto.getRoalId())){
                 regPhone = userInfoDto.getRegPhone();
             }
-            PageBean pg = null;
+            PageBean pg = produceTaskOrderService.queryTaskOrder(pageIndex,regPhone,shopName,operateStatus,status,taskType);
             return new BaseResult(true, pg);
         }catch (BizException e){
             return new BaseResult(false,e.getMessage());
@@ -97,15 +96,15 @@ public class ProduceTaskOrderController {
     public BaseResult countMoney(){
         String taskNumber = getRequset().getParameter("taskNumber");//发布任务数
         String price = getRequset().getParameter("price");
+        String platform = getRequset().getParameter("platform");
+        String taskType = getRequset().getParameter("taskType");
         try{
-            UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
-
-            PageBean pg = null;
-            return new BaseResult(true, pg);
+            Statistics statistics =  produceTaskOrderService.countMoney(taskNumber,price,platform,taskType);
+            return new BaseResult(true, statistics);
         }catch (BizException e){
             return new BaseResult(false,e.getMessage());
         } catch (Exception e){
-            logger.error("查询任务列表异常：{}",e);
+            logger.error("计算费用异常：{}",e);
             return new BaseResult(false, ResultEnum.INNER_ERROR.getMsg());
         }
     }

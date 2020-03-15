@@ -4,11 +4,11 @@
 
 	<insert id="addStatistics">
 		INSERT INTO
-			tbl_statistics(business_phone,task_order_id,type,task_count_capital,task_real_income,
-						   task_over_capital,task_count_fee,task_over_fee,task_over_number,task_number
-						   price,business_free,buyer_free,create_by,create_time)
+			tbl_statistics(business_phone,task_order_id,task_count_capital,task_real_income,
+			task_over_capital,task_count_fee,task_over_fee,task_over_number,task_number,
+			price,business_free,buyer_free,create_by,create_time)
 		VALUES
-			(#{businessPhone},#{taskOrderId},#{type},#{taskCountCapital},#{taskRealIncome},
+			(#{businessPhone},#{taskOrderId},#{taskCountCapital},#{taskRealIncome},
 			#{taskOverCapital},#{taskCountFee},#{taskOverFee},#{taskOverNumber},#{taskNumber},
 			#{price},#{businessFree},#{buyerFree}, #{createBy},now())
 	</insert>

@@ -1,6 +1,7 @@
 package com.muma.entity;
 
 import com.muma.entity.base.BaseEntity;
+import com.muma.enums.PlatformEnum;
 import com.muma.enums.TaskTypeEnum;
 
 import java.math.BigDecimal;
@@ -12,6 +13,10 @@ public class TaskFree extends BaseEntity {
 
 
   private static final long serialVersionUID = -1915858718035201865L;
+  /**
+   * 平台类型
+   */
+  private PlatformEnum platformEnum;
   /**
    * 佣金类型
    */
@@ -36,11 +41,19 @@ public class TaskFree extends BaseEntity {
   /**
    * 其他条件限制 评论佣金计算用该字段 1-普通评论 2-评论+图片
    */
-  private Integer condition;
+  private Integer conditions;
   /**
    * 备注
    */
   private String remark;
+
+  public PlatformEnum getPlatformEnum() {
+    return platformEnum;
+  }
+
+  public void setPlatformEnum(PlatformEnum platformEnum) {
+    this.platformEnum = platformEnum;
+  }
 
   public TaskTypeEnum getType() {
     return type;
@@ -82,12 +95,12 @@ public class TaskFree extends BaseEntity {
     this.priceMax = priceMax;
   }
 
-  public Integer getCondition() {
-    return condition;
+  public Integer getConditions() {
+    return conditions;
   }
 
-  public void setCondition(Integer condition) {
-    this.condition = condition;
+  public void setConditions(Integer conditions) {
+    this.conditions = conditions;
   }
 
   public String getRemark() {

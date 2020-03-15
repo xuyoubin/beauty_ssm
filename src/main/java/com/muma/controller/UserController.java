@@ -162,6 +162,8 @@ public class UserController {
 	 * 生成验证码
 	 */
 	@RequestMapping("/captcha")
+	@Authenticate(permissions = "0,1,2")
+	@ResponseBody
 	public BaseResult captcha() {
 		try{
             SpecCaptcha specCaptcha = new SpecCaptcha(KeyType.DEFAULT_WIDTH,KeyType.DEFAULT_HEIGHT, KeyType.DEFAULT_LEN);
@@ -178,18 +180,19 @@ public class UserController {
      * 校验验证码
      */
     @RequestMapping("/checkCaptcha")
+	@Authenticate(permissions = "0,1,2")
+	@ResponseBody
     public BaseResult checkCaptcha() {
         String captcha = getRequset().getParameter("captcha");
         try{
             Precondition.checkState(StringUtils.isNotBlank(captcha), "请填写验证码!");
             String sessionCaptcha = (String) getRequset().getSession().getAttribute(KeyType.SESSION_KEY);
             if(captcha.trim().toLowerCase().equals(sessionCaptcha)){
-//              getRequset().getSession().removeAttribute(KeyType.SESSION_KEY)
+                getRequset().getSession().removeAttribute(KeyType.SESSION_KEY);
                 return  new BaseResult(true,"验证码正确！");
             }else{
-
+				return  new BaseResult(false,"验证码不正确！");
             }
-            return  new BaseResult(true,yzm);
         }catch (BizException e){
             return new BaseResult(false,e.getMessage());
         }catch (Exception e){

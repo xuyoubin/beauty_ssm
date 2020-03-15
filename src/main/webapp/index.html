@@ -1417,6 +1417,8 @@ usI2T2sgCxTJApbxhSla8/qF+UBA67AQaX9k5J2g7aeBCym+kOILy8QCxIXuxEaVea3m8YVqHl8o
 m3fioH5hw08/Ld985CJtMDSYLEAWcC8LnDt3ruT1C8248NDhTZs2lZYmRPOQBexZgLiwMrOWO927
 kQu9WV1roQ8ejnhlfmQohTz1RBpfSFzoXrssrZYs4F4WcMSFCvORExI1Gi3rjxwd4+vrd4i4sEzU
 MuLFUuTC/w9L22pkedDANgAAAABJRU5ErkJggg==" alt="" width="42" height="42"/>
+      <img src="data:image/png;base64,
+    iVBORw0KGgoAAAANSUhEUgAAAIIAAAAwCAIAAABSYzXUAAAEnElEQVR42u2ab0hTexjHvdCLXkT0ohe96EKvohe9CJZ1B46MKFagBUVlFHgpxdRuI8e1YdZoldX1FhJ4k5UOS2LYH7GsBG/RJLqRay2yslH2z8bI1p81nLp5+o4Tv/06090mcztnPg8Pw/3Oozvn+Zzv73meMzMEMhlYBqWAMJARBsJARhgIAxlhIAxkhIEwkBEGwkBGGAgDGWFIJwwZqsJ4Pa7PU9WpRnX1KTV8ScOSDc0bKv6tsL+zj/+aCgsjThjiwhDtgBEMBQlDijHAdVf0vX39rteeOw+f3+zqGcsRgLCBwaFJjQEpYD4cDPn8AX4FzpLY3GGPCwN8em5eXCcza4V+/npjdmF1vtGyp7blhPXGtduPnvS6I5AUh8F8qXNz5emFWw5O0+wYB55RnU+x5NAviwqmrdr06x8r+ZiFB9cgp2P5gjzTnByD6FPVJTE+F0fnrd2r3VGz+8TFhtbbuDNkBSYWBn7d3f+50+G6bHMeb+rYV9e6zdS40WBGInBtLBHwKYuKwIxfgf+Wf1jM2ro/T/IpRjqgD6jkqs11rNZdrOv/fWtArxd21ltYjPaM9ucvBlp84/He634JBeCPVzVc0/1tXVNWC31E30kAgxPDffbP+VuOntf4XQVgSJTxGMSVx4+F8nKhtVXo6wu/9XiEtqtBFrPYvDhRJRp3EpDjNio6dBYykoCZka2DVkyn2hATA0mXSsV8fAFyxOD1hhm4XD/EDAYHJwJDtHSgGxQPaHTmsl2SAoPFvxrboa1JgcFqDetAYnVddSwm91xuchpWlHHUQhT22SvL+SRkbT0KAaHRSBmGhHer0RgMhu97kSiCu2/vGm8a+Ziqzqokzw1QCaog6gqKGUodu1IUEiymIYb/95OZvR97Uzi+ofk+0/YfyjgrJJMRQ94Bq0ymaEgE3ReaQz7LeAvdpDMGTb1mf/MFs1l2z5T4LLN6jlkEk7xSS7Tk0V7W6SwUZH27vt5R//SVFx2UxyNrDJifMDaxdKHfxVSoyE6Jnxvc7u9zQ3t7eMXplOMT1ugsY85Af8VmeKViEKcHiyXcNSFvmKKxF41TB6nAINr7jz70tXNXV/ABWFQGhss2p/jMav56Y3OHPTGfkTQMIemwPfjFxwfgukqPnGMzh0wxgMGcHANEjXXsqvg5MSQmEoNdrWZZHvrwQXL0k83GYxDHDrxi18J4KFMM0IHIQDSQQMWTOYaHOTmRPaelhT80Egw+LSjgMSD1UIM4c8SGkcqvfWZk6yRHUehkjuFFZSXLsmPpUi/aCWxNoZDv/v0n+fk8A1Y8UCHQ0TJlYNq41/1SRhiUqIavTqck17w/WL58rBru7v/MYMCLDp2VCwYl1oZwQi2WURk4tVp/T0/shlWEgW1qT22LXDCwTkn8aizxndL27cLE2Nfu7hcGg0OjsWdm4vVZaamnqSnk9//kFP3G4/X5A7EwpIMxDCUlSjnltMMwPBzBoNMRhqRnf2REGBgQGhsjGGpqCENyzWL5oTKLfv06YUiuVVdLGZhMwtAQYUiumc1CWZlQXBx2ozH8wDYQUNDp0390EwYywiAr+wZDL2I5N+inaQAAAABJRU5ErkJggg=="/>
     </div>
 </fieldset>
 <fieldset>
@@ -1479,6 +1481,36 @@ MuLFUuTC/w9L22pkedDANgAAAABJRU5ErkJggg==" alt="" width="42" height="42"/>
         <tr>
             <td class="title">URL:(post)</td>
             <td name="url" type="post">/user/loginOut.action</td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>获取验证码</legend>
+    <table>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/user/captcha.action</td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>校验验证码</legend>
+    <table>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/user/checkCaptcha.action</td>
+        </tr>
+        <tr>
+            <td class="title">验证码:</td>
+            <td><input type="text" name="captcha" value="YY47"/></td>
         </tr>
         <tr>
             <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
@@ -1759,7 +1791,7 @@ MuLFUuTC/w9L22pkedDANgAAAABJRU5ErkJggg==" alt="" width="42" height="42"/>
             </tr>
             <tr>
                 <td class="title">价格区间:</td>
-                <td><input type="text" name="tags" value="125,300"></td>
+                <td><input type="text" name="priceRange" value="125,300"></td>
             </tr>
             <tr>
                 <td class="title">发货区:</td>

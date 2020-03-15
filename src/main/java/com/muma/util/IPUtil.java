@@ -32,6 +32,8 @@ public class IPUtil {
         try {
             url = new URL(chinaz);
             urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setConnectTimeout(3000);
+            urlConnection.setReadTimeout(3000);
             in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
             while ((read = in.readLine()) != null) {
                 inputLine.append(read + "\r\n");

@@ -20,10 +20,6 @@ public class Statistics extends BaseEntity {
    */
   private Integer taskOrderId;
   /**
-   * 任务类型 0-销售任务；1-评价任务；2-浏览任务； 3-天浏览第二天购买任务 ；4-复购任务
-   */
-  private TaskTypeEnum type;
-  /**
    * 预计总本金
    */
   private BigDecimal taskCountCapital;
@@ -63,10 +59,6 @@ public class Statistics extends BaseEntity {
    * 买家佣金
    */
   private BigDecimal buyerFree;
-  /**
-   * 乐观锁
-   */
-  private Integer revision;
 
   public String getBusinessPhone() {
     return businessPhone;
@@ -82,14 +74,6 @@ public class Statistics extends BaseEntity {
 
   public void setTaskOrderId(Integer taskOrderId) {
     this.taskOrderId = taskOrderId;
-  }
-
-  public TaskTypeEnum getType() {
-    return type;
-  }
-
-  public void setType(TaskTypeEnum type) {
-    this.type = type;
   }
 
   public BigDecimal getTaskCountCapital() {
@@ -172,11 +156,4 @@ public class Statistics extends BaseEntity {
     this.buyerFree = buyerFree;
   }
 
-  public Integer getRevision() {
-    return revision;
-  }
-
-  public void setRevision(Integer revision) {
-    this.revision = revision;
-  }
 }

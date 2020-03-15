@@ -4,15 +4,14 @@
 
 	<insert id="addTaskFree">
 		INSERT INTO
-			tbl_task_free(type,business_free,buyer_free,price_min,price_max,
-						  condition,remark,create_by,create_time)
+			tbl_task_free(platform,type,business_free,buyer_free,price_min,price_max,conditions,remark,create_by,create_time)
 		VALUES
-			(#{type},#{businessFree},#{buyerFree},#{priceMin},#{priceMax},
-			#{condition},#{remark},#{createBy},now())
+			(#{platform},#{type},#{businessFree},#{buyerFree},#{priceMin},#{priceMax},#{conditions},#{remark},#{createBy},now())
 	</insert>
 	<select id="queryTaskFreeListByType" resultType="com.muma.entity.TaskFree">
-		SELECT business_free,buyer_free,price_min,price_max,condition
+		SELECT business_free,buyer_free,price_min,price_max,conditions
 		FROM tbl_task_free
-		WHERE type= #{type}
+		WHERE platform = {platform}
+		AND type= #{type}
 	</select>
 </mapper>
