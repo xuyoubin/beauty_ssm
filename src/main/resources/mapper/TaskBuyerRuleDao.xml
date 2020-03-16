@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muma.dao.TaskBuyerRuleDao">
+
+	<insert id="addTaskBuyerRule">
+		INSERT INTO
+			tbl_task_buyer_rule(task_order_id,age,sex,province,credit,tags,operate_status,
+			price,start_time,platform,remark,create_by,create_time)
+		VALUES
+			(#{taskOrderId},#{age},#{sex},#{province},#{credit},#{tags},#{operateStatus},
+			#{price},#{startTime},#{platform},#{remark},#{createBy},now())
+	</insert>
+	<select id="queryByTaskOrderId" resultType="com.muma.entity.TaskBuyerRule">
+		SELECT task_order_id,age,sex,province,credit,tags,operate_status,price,start_time,platform,remark
+		FROM tbl_task_buyer_rule
+		WHERE task_order_id= #{taskOrderId} limit 1
+	</select>
+</mapper>

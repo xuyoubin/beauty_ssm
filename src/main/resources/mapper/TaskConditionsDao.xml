@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muma.dao.TaskConditionsDao">
+
+	<insert id="addTaskConditions">
+		INSERT INTO
+			tbl_task_conditions(task_order_id,sort_flag,price_range,place,remark,create_by,create_time)
+		VALUES
+			(#{taskOrderId},#{sortFlag},#{priceRange},#{place},#{remark},#{createBy},now())
+	</insert>
+	<select id="queryByTaskOrderId" resultType="com.muma.entity.TaskBuyerRule">
+		SELECT task_order_id,sort_flag,price_range,place,remark
+		FROM tbl_task_conditions
+		WHERE task_order_id= #{taskOrderId} limit 1
+	</select>
+</mapper>

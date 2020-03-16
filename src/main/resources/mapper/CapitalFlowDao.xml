@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.muma.dao.CapitalFlowDao">
+
+	<insert id="addCapitalFlow">
+		INSERT INTO
+			tbl_capital_flow(reg_phone,order_id,type,pay_money,status,remark,create_by,create_time)
+		VALUES
+			(#{regPhone},#{orderId},#{type},#{payMoney},#{status},#{remark},#{createBy},now())
+	</insert>
+	<update id="updateStatus">
+		UPDATE tbl_capital_flow
+		SET
+		status = #{status},
+		update_by = #{updateBy},
+		update_time = NOW()
+		WHERE
+		id = #{id};
+	</update>
+	<select id="queryByRegPhone" resultType="com.muma.entity.CapitalFlow">
+		SELECT reg_phone,order_id,type,pay_money,status,remark,create_by,create_time
+		FROM tbl_capital_flow
+		WHERE reg_phone= #{regPhone}
+		ORDER BY create_time DESC
+		limit #{pageIndex},#{pageSize}
+	</select>
+</mapper>
