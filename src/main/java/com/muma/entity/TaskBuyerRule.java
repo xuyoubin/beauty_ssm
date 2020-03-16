@@ -59,6 +59,10 @@ public class TaskBuyerRule extends BaseEntity {
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date startTime;
   /**
+   * 复购日期
+   */
+  private Integer repeatDay;
+  /**
    * 备注
    */
   private String remark;
@@ -149,5 +153,13 @@ public class TaskBuyerRule extends BaseEntity {
 
   public void setStartTime(Date startTime) {
     this.startTime = startTime;
+  }
+
+  public Integer getRepeatDay() {
+    return repeatDay;
+  }
+
+  public void setRepeatDay(Integer repeatDay) {
+    this.repeatDay = repeatDay;
   }
 }

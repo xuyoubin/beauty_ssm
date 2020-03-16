@@ -15,10 +15,6 @@ public class ProduceTaskOrderDto implements Serializable {
      */
     private Integer shopId;
     /**
-     * 平台类型
-     */
-    private Integer platform;
-    /**
      * 商品名称
      */
     private String commodity;
@@ -118,14 +114,6 @@ public class ProduceTaskOrderDto implements Serializable {
      * 卡位条件备注
      */
     private String conditionsRemark;
-
-    public Integer getPlatform() {
-        return platform;
-    }
-
-    public void setPlatform(Integer platform) {
-        this.platform = platform;
-    }
 
     public Integer getShopId() {
         return shopId;

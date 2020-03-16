@@ -11,6 +11,18 @@ public interface ShopDao {
      */
     void addShop(Shop shop);
     /**
+     * 根据主键查询
+     * @param id
+     * @return
+     */
+    Shop queryById(@Param("id") Integer id);
+    /**
+     * 根据店铺名称查询
+     * @param shopName
+     * @return
+     */
+    Shop queryByName(@Param("shopName") String shopName);
+    /**
      * 查询所有店铺列表数量
      * @return
      */

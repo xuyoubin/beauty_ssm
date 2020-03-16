@@ -10,6 +10,16 @@
 		(#{regPhone},#{uniqueId},#{shopName},#{shopUrl},#{shopType},#{shopWw},
 		 #{status},#{repeatDay},#{createBy},now())
 	</insert>
+	<select id="queryById" resultType="com.muma.entity.Shop">
+		SELECT reg_phone,unique_id,shop_name,shop_url,shop_type,shop_ww,status,repeat_day,create_by,create_time
+		FROM tbl_shop
+		WHERE id= #{id}
+	</select>
+	<select id="queryByName" resultType="com.muma.entity.Shop">
+		SELECT reg_phone,unique_id,shop_name,shop_url,shop_type,shop_ww,status,repeat_day,create_by,create_time
+		FROM tbl_shop
+		WHERE shop_name= #{shopName}
+	</select>
 	<select id="count" resultType="java.lang.Integer">
 		SELECT count(*)
 		FROM tbl_shop

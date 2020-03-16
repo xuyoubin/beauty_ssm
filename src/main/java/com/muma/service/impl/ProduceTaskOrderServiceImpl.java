@@ -3,6 +3,7 @@ package com.muma.service.impl;
 import com.muma.common.PageBean;
 import com.muma.dao.CapitalDao;
 import com.muma.dao.CapitalFlowDao;
+import com.muma.dao.ShopDao;
 import com.muma.dao.StatisticsDao;
 import com.muma.dao.TaskBuyerRuleDao;
 import com.muma.dao.TaskConditionsDao;
@@ -60,10 +61,12 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
     private TaskConditionsDao taskConditionsDao;
     @Autowired
     private CapitalFlowDao capitalFlowDao;
+    @Autowired
+    private ShopDao shopDao;
 
 
     /**
-     * 添加店铺
+     * 添加任务
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
@@ -71,8 +74,12 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
     public void addTaskOrder(String regPhone, ProduceTaskOrderDto produceTaskOrderDto, MultipartFile mainImage) {
         Precondition.checkState(StringUtils.isNotBlank(regPhone), "regPhone is null!");
         Precondition.checkState(StringUtils.isNotBlank(mainImage.getOriginalFilename()), "请上传宝贝主图!");
+        Precondition.checkNotNull(produceTaskOrderDto.getShopId(), "请选择店铺!");
+        //查询店铺信息
+        Shop shop = shopDao.queryById(produceTaskOrderDto.getShopId());
+        Precondition.checkNotNull(shop,"店铺信息不存在！");
         //查询可用余额是否充足
-        Statistics statistics = buildStatistics(regPhone,produceTaskOrderDto);
+        Statistics statistics = buildStatistics(regPhone,produceTaskOrderDto,shop);
         //需要冻结金额 = 本金+商家佣金+原来已经冻结的金额
         Capital capital = capitalDao.queryByRegPhone(regPhone);
         BigDecimal freeze = statistics.getTaskCountCapital().add(statistics.getTaskCountFee()).add(capital.getFreeze()).setScale(2,BigDecimal.ROUND_HALF_UP);
@@ -80,7 +87,7 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
         //保存图片
         String imageUrl = UploadImageUtil.saveImage(mainImage,UploadImageUtil.IMAGE_TYPE_TASK,regPhone,"宝贝主图");
         TaskOrder taskOrder = buildTaskOrder(regPhone,produceTaskOrderDto,imageUrl);
-        TaskBuyerRule buyerRule = buildBuyerRule(regPhone,produceTaskOrderDto);
+        TaskBuyerRule buyerRule = buildBuyerRule(regPhone,produceTaskOrderDto,shop);
         TaskConditions conditions = buildTaskConditions(regPhone,produceTaskOrderDto);
         taskOrderDao.addTaskOrder(taskOrder);
         Precondition.checkNotNull(taskOrder.getId(), "taskOrderId is null!");
@@ -107,10 +114,28 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
     @Override
     public PageBean<Shop> queryTaskOrder(String pageIndex, String regPhone,String shopName,String operateStatus,String status,String taskType){
         Precondition.checkState(StringUtils.isNotBlank(pageIndex), "pageIndex is null!");
-//        Integer count = businessDao.count(regPhone);
-        PageBean pg = new PageBean(Integer.valueOf(pageIndex), KeyType.PAGE_NUMBER,0);
-//        int startIndex = pg.getStartIndex();
-        List<Shop> list =  null;
+        OperateStatusEnum operateStatusEnum = null;
+        TaskTypeEnum taskTypeEnum = null;
+        StatusEnum statusEnum = null;
+        Integer shopId = null;
+        if(StringUtils.isNotEmpty(operateStatus)){
+             operateStatusEnum = OperateStatusEnum.stateOf(Integer.valueOf(operateStatus));
+        }
+        if(StringUtils.isNotEmpty(taskType)){
+            taskTypeEnum = taskTypeEnum.stateOf(Integer.valueOf(taskType));
+        }
+        if(StringUtils.isNotEmpty(status)){
+            statusEnum = StatusEnum.stateOf(Integer.valueOf(status));
+        }
+        if(StringUtils.isNotEmpty(shopName)){
+            Shop shop = shopDao.queryByName(shopName);
+            Precondition.checkNotNull(shop,"店铺信息不存在！");
+            shopId  = shop.getId();
+        }
+        Integer count = taskOrderDao.count(regPhone,shopId,taskTypeEnum,operateStatusEnum,statusEnum);
+        PageBean pg = new PageBean(Integer.valueOf(pageIndex), KeyType.PAGE_NUMBER,count);
+        int startIndex = pg.getStartIndex();
+        List<ProduceTaskOrderDto> list =  taskOrderDao.queryTaskOrderList(regPhone,shopId,taskTypeEnum,operateStatusEnum,statusEnum,startIndex,KeyType.PAGE_NUMBER);
         pg.setList(list);
         return pg;
     }
@@ -182,13 +207,11 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
      * @param produceTaskOrderDto
      * @return
      */
-    private Statistics buildStatistics(String regPhone,ProduceTaskOrderDto produceTaskOrderDto){
+    private Statistics buildStatistics(String regPhone,ProduceTaskOrderDto produceTaskOrderDto,Shop shop){
         Precondition.checkNotNull(produceTaskOrderDto.getTaskNumber(), "请填写发布任务数量!");
         Precondition.checkNotNull(produceTaskOrderDto.getPrice(), "请填写单价!");
-        PlatformEnum platformEnum = PlatformEnum.stateOf(produceTaskOrderDto.getPlatform());
-        Precondition.checkNotNull(platformEnum, "暂不支持该平台类型!");
         TaskTypeEnum taskTypeEnum = TaskTypeEnum.stateOf(produceTaskOrderDto.getType());
-        Statistics statistics = countMoney(produceTaskOrderDto.getTaskNumber(),produceTaskOrderDto.getPrice(),platformEnum,taskTypeEnum);
+        Statistics statistics = countMoney(produceTaskOrderDto.getTaskNumber(),produceTaskOrderDto.getPrice(),shop.getShopType(),taskTypeEnum);
         statistics.setBusinessPhone(regPhone);
         statistics.setCreateBy(regPhone);
         statistics.setTaskRealIncome(new BigDecimal("0.00"));
@@ -238,10 +261,8 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
     /**
      * 构建BuyerRule 实体类
      */
-     private TaskBuyerRule buildBuyerRule(String regPhone,ProduceTaskOrderDto produceTaskOrderDto){
+     private TaskBuyerRule buildBuyerRule(String regPhone,ProduceTaskOrderDto produceTaskOrderDto,Shop shop){
          Precondition.checkNotNull(produceTaskOrderDto.getPrice(), "请填写单价!");
-         PlatformEnum platformEnum = PlatformEnum.stateOf(produceTaskOrderDto.getPlatform());
-         Precondition.checkNotNull(platformEnum, "暂不支持该平台类型!");
          TaskBuyerRule buyerRule = new TaskBuyerRule();
          buyerRule.setAge(produceTaskOrderDto.getAge());
          buyerRule.setCredit(produceTaskOrderDto.getCredit());
@@ -252,7 +273,8 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
          buyerRule.setPrice(produceTaskOrderDto.getPrice());
          buyerRule.setOperateStatus(OperateStatusEnum.TASK_NOT_START);
          buyerRule.setStartTime(TimeUtils.strToDateLong(produceTaskOrderDto.getStartTime()));
-         buyerRule.setPlatform(platformEnum);
+         buyerRule.setPlatform(shop.getShopType());
+         buyerRule.setRepeatDay(shop.getRepeatDay());
          buyerRule.setCreateBy(regPhone);
          return buyerRule;
      }

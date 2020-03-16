@@ -19,5 +19,13 @@ public interface ProduceTaskOrderService {
 	 */
 	PageBean<Shop> queryTaskOrder(String pageIndex, String regPhone,String shopName,String operateStatus,String status,String taskType);
 
+	/**
+	 * 计算费用
+	 * @param taskNumber
+	 * @param price
+	 * @param platform
+	 * @param taskType
+	 * @return
+	 */
 	Statistics countMoney(String taskNumber,String price,String platform,String taskType );
 }

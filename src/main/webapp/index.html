@@ -1809,6 +1809,72 @@ MuLFUuTC/w9L22pkedDANgAAAABJRU5ErkJggg==" alt="" width="42" height="42"/>
         </form>
     </table>
 </fieldset>
+<fieldset>
+    <legend>查询任务列表</legend>
+    <table>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/produceTask/taskOrderList.action</td>
+        </tr>
+        <tr>
+            <td class="title">当前页:</td>
+            <td><input type="text" name="pageIndex" value="1"></td>
+        </tr>
+        <tr>
+            <td class="title">查询参数（手机号码）:</td>
+            <td><input type="text" name="regPhone" value="15705938769"></td>
+        </tr>
+        <tr>
+            <td class="title">查询参数（店铺名称）:</td>
+            <td><input type="text" name="shopName" value="花旗旗舰店"></td>
+        </tr>
+        <tr>
+            <td class="title">查询参数（操作状态）:</td>
+            <td><input type="text" name="operateStatus" value="1"></td>
+        </tr>
+        <tr>
+            <td class="title">查询参数（任务状态）:</td>
+            <td><input type="text" name="status" value=""></td>
+        </tr>
+        <tr>
+            <td class="title">查询参数（任务类型）:</td>
+            <td><input type="text" name="taskType" value=""></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>计算佣金</legend>
+    <table>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/produceTask/countMoney.action</td>
+        </tr>
+        <tr>
+            <td class="title">发布任务数:</td>
+            <td><input type="text" name="taskNumber" value="5"></td>
+        </tr>
+        <tr>
+            <td class="title">任务单价:</td>
+            <td><input type="text" name="price" value="125.00"></td>
+        </tr>
+        <tr>
+            <td class="title">平台类型:</td>
+            <td><input type="text" name="platform" value="0"></td>
+        </tr>
+        <tr>
+            <td class="title">任务类型:</td>
+            <td><input type="text" name="taskType" value="0"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
+    </table>
+</fieldset>
 
 </body>
 </html>

@@ -11,9 +11,50 @@
 			#{taskRule},#{type},#{status},#{operateStatus},#{startTime},#{keyword},#{entranceId},
 			#{tagFlag},#{tbkFlag},#{defineFlag},#{remark},#{createBy},now())
 	</insert>
-	<select id="queryTaskOrderList" resultType="com.muma.entity.TaskOrder">
-		SELECT *
+	<select id="count" resultType="java.lang.Integer">
+		SELECT count(*)
 		FROM tbl_task_order
-		WHERE reg_phone= #{regPhone} limit 1
+		<where>
+			<if test="regPhone != null and regPhone != ''">
+				reg_phone = #{regPhone}
+			</if>
+			<if test="shopId != null and shopId != ''">
+				shop_id = #{shopId}
+			</if>
+			<if test="type != null and type != ''">
+				type = #{type}
+			</if>
+			<if test="operateStatus != null and operateStatus != ''">
+				operate_status = #{operateStatus}
+			</if>
+			<if test="status != null and status != ''">
+				status = #{status}
+			</if>
+		</where>
+	</select>
+	<select id="queryTaskOrderList" resultType="com.muma.dto.ProduceTaskOrderDto">
+		SELECT tto.business_phone,tto.commodity,tto.main_image,tto.type,tto.status,tto.operate_status,tto.start_time,tto.keyword
+		ts.task_number,ts.task_over_number,ts.price
+		FROM tbl_task_order tto LEFT JOIN tbl_statistics ts
+		ON tto.id = ts.task_order_id
+		<where>
+			<if test="regPhone != null and regPhone != ''">
+				reg_phone = #{regPhone}
+			</if>
+			<if test="shopId != null and shopId != ''">
+				shop_id = #{shopId}
+			</if>
+			<if test="type != null and type != ''">
+				type = #{type}
+			</if>
+			<if test="operateStatus != null and operateStatus != ''">
+				operate_status = #{operateStatus}
+			</if>
+			<if test="status != null and status != ''">
+				status = #{status}
+			</if>
+		</where>
+		ORDER BY create_time DESC
+		limit #{pageIndex},#{pageSize}
 	</select>
 </mapper>
