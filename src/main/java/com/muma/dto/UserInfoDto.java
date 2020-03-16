@@ -20,6 +20,10 @@ public class UserInfoDto {
    */
   private Integer id;
   /**
+   * 公网IP
+   */
+  private String ipAddress;
+  /**
    * 注册手机号
    */
   private String regPhone;
@@ -255,5 +259,13 @@ public class UserInfoDto {
 
   public void setBuyerList(List<Buyer> buyerList) {
     this.buyerList = buyerList;
+  }
+
+  public String getIpAddress() {
+    return ipAddress;
+  }
+
+  public void setIpAddress(String ipAddress) {
+    this.ipAddress = ipAddress;
   }
 }

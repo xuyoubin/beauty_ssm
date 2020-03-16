@@ -42,7 +42,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**\
- * 平台账号处理类
+ * 发布任务处理类
  */
 @Service
 public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {

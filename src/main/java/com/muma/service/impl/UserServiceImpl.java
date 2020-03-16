@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 		//获取本机公网IP，防止多用户在同一个公网IP登录
 		// TODO 接单流程需要验证
 		User u = null;
-		String publicIp = IPUtil.getV4IP();
+		String publicIp = IPUtil.publicip();
 		if(StringUtils.isNotEmpty(publicIp)){
 			 u = userDao.queryByIp(publicIp);
 			if(u != null){
@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
 		userDao.updateUser(user);
 		//根据手机号码查询用户详细信息
         UserInfoDto userInfo = userDetailDao.queryByRegPhone(user.getRegPhone());
+        userInfo.setIpAddress(publicIp);
 		Precondition.checkNotNull(userInfo, "用户异常,请联系管理员！");
 		//判断用户有效性
 		Precondition.checkState(!StatusEnum.USER_BLACK.equals(userInfo.getStatus()), "用户无效！");
