@@ -5,6 +5,7 @@ import com.muma.entity.base.BaseEntity;
 import com.muma.enums.OperateStatusEnum;
 import com.muma.enums.PlatformEnum;
 import com.muma.enums.SexEnum;
+import com.muma.enums.TaskTypeEnum;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -62,6 +63,14 @@ public class TaskBuyerRule extends BaseEntity {
    * 复购日期
    */
   private Integer repeatDay;
+  /**
+   * 任务类型
+   */
+  private TaskTypeEnum taskTypeEnum;
+  /**
+   * 店铺ID
+   */
+  private Integer shopId;
   /**
    * 备注
    */
@@ -161,5 +170,21 @@ public class TaskBuyerRule extends BaseEntity {
 
   public void setRepeatDay(Integer repeatDay) {
     this.repeatDay = repeatDay;
+  }
+
+  public TaskTypeEnum getTaskTypeEnum() {
+    return taskTypeEnum;
+  }
+
+  public void setTaskTypeEnum(TaskTypeEnum taskTypeEnum) {
+    this.taskTypeEnum = taskTypeEnum;
+  }
+
+  public Integer getShopId() {
+    return shopId;
+  }
+
+  public void setShopId(Integer shopId) {
+    this.shopId = shopId;
   }
 }

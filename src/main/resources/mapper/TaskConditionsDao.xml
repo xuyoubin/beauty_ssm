@@ -8,7 +8,7 @@
 		VALUES
 			(#{taskOrderId},#{sortFlag},#{priceRange},#{place},#{remark},#{createBy},now())
 	</insert>
-	<select id="queryByTaskOrderId" resultType="com.muma.entity.TaskBuyerRule">
+	<select id="queryByTaskOrderId" resultType="com.muma.entity.TaskConditions">
 		SELECT task_order_id,sort_flag,price_range,place,remark
 		FROM tbl_task_conditions
 		WHERE task_order_id= #{taskOrderId} limit 1

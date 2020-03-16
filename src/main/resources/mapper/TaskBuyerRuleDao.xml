@@ -5,13 +5,13 @@
 	<insert id="addTaskBuyerRule">
 		INSERT INTO
 			tbl_task_buyer_rule(task_order_id,age,sex,province,credit,tags,operate_status,
-			price,start_time,platform,remark,create_by,create_time)
+			price,start_time,platform,repeat_day,task_type,shop_id,remark,create_by,create_time)
 		VALUES
 			(#{taskOrderId},#{age},#{sex},#{province},#{credit},#{tags},#{operateStatus},
-			#{price},#{startTime},#{platform},#{remark},#{createBy},now())
+			#{price},#{startTime},#{platform},#{repeatDay},#{taskType},#{shopId},#{remark},#{createBy},now())
 	</insert>
 	<select id="queryByTaskOrderId" resultType="com.muma.entity.TaskBuyerRule">
-		SELECT task_order_id,age,sex,province,credit,tags,operate_status,price,start_time,platform,remark
+		SELECT task_order_id,age,sex,province,credit,tags,operate_status,price,start_time,platform,repeat_day,remark
 		FROM tbl_task_buyer_rule
 		WHERE task_order_id= #{taskOrderId} limit 1
 	</select>

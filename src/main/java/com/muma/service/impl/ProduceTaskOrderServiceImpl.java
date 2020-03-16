@@ -263,6 +263,9 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
      */
      private TaskBuyerRule buildBuyerRule(String regPhone,ProduceTaskOrderDto produceTaskOrderDto,Shop shop){
          Precondition.checkNotNull(produceTaskOrderDto.getPrice(), "请填写单价!");
+         Precondition.checkNotNull(produceTaskOrderDto.getType(), "请选择任务类型!");
+         TaskTypeEnum taskTypeEnum = TaskTypeEnum.stateOf(produceTaskOrderDto.getType());
+         Precondition.checkNotNull(taskTypeEnum, "暂不支持该任务类型!");
          TaskBuyerRule buyerRule = new TaskBuyerRule();
          buyerRule.setAge(produceTaskOrderDto.getAge());
          buyerRule.setCredit(produceTaskOrderDto.getCredit());
@@ -275,6 +278,8 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
          buyerRule.setStartTime(TimeUtils.strToDateLong(produceTaskOrderDto.getStartTime()));
          buyerRule.setPlatform(shop.getShopType());
          buyerRule.setRepeatDay(shop.getRepeatDay());
+         buyerRule.setShopId(shop.getId());
+         buyerRule.setTaskTypeEnum(taskTypeEnum);
          buyerRule.setCreateBy(regPhone);
          return buyerRule;
      }

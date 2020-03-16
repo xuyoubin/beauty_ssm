@@ -6,10 +6,14 @@ import com.muma.common.PageBean;
 import com.muma.dao.BuyerDao;
 import com.muma.dao.UserDao;
 import com.muma.dto.ConsumeTaskOrderDto;
+import com.muma.dto.TaskBuyerRuleDto;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.Order;
+import com.muma.entity.TaskBuyerRule;
 import com.muma.entity.User;
+import com.muma.enums.BuyerAgeEnum;
+import com.muma.enums.OperateStatusEnum;
 import com.muma.enums.PlatformEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.TaskTypeEnum;
@@ -17,10 +21,12 @@ import com.muma.exception.BizException;
 import com.muma.service.ConsumeTaskOrderService;
 import com.muma.util.IPUtil;
 import com.muma.util.Precondition;
+import com.muma.util.TimeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -41,8 +47,6 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		// TODO 1.0版本价格不做控制，后期可根据信用限制
 		//任务类型 只有销售和浏览
 		//获取本机公网IP，防止多用户在同一个公网IP登录
-		Precondition.checkState(StringUtils.isNotBlank(taskType), "请选择任务类型!");
-		TaskTypeEnum taskTypeEnum = TaskTypeEnum.stateOf(Integer.valueOf(taskType));
 		List<Integer> platformIds = Lists.newArrayList(); //允许接手任务的平台
 		String publicIp = IPUtil.publicip();
 		if(StringUtils.isNotEmpty(publicIp)){
@@ -66,7 +70,13 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		if(platformIds == null && platformIds.size() == 0){
 			throw new BizException("用户平台为认证通过，请根据提示修改！");
 		}
-		//计算用户最会一
+		/**
+		 * 查询约5条的任务记录
+		 * 如果不够五条记录递归查询
+		 */
+
+
+
 
 
 
@@ -81,6 +91,29 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	@Override
 	public  PageBean<Order> queryOrderHistoryList(String pageIndex, String regPhone, String status){
 		return null;
+	}
+
+
+	/**
+	 * 组装任务查询参数
+	 * @param userInfoDto
+	 * @return
+	 */
+	private TaskBuyerRuleDto buildTaskBuyerRule(UserInfoDto userInfoDto,List<String> platformIds, String price, String taskType ){
+		Precondition.checkState(StringUtils.isNotBlank(taskType), "请选择任务类型!");
+		TaskTypeEnum taskTypeEnum = TaskTypeEnum.stateOf(Integer.valueOf(taskType));
+		TaskBuyerRuleDto taskBuyerRuleDto = new TaskBuyerRuleDto();
+		String ageStr = BuyerAgeEnum.stateOfAge(userInfoDto.getAge()).getValue().toString();
+		taskBuyerRuleDto.setAge(ageStr);
+		taskBuyerRuleDto.setSex(userInfoDto.getSex().getValue().toString());
+		taskBuyerRuleDto.setProvince(userInfoDto.getProvinceCode());
+//		taskBuyerRuleDto.setCredit(userInfoDto.getCredit());
+		taskBuyerRuleDto.setOperateStatus(OperateStatusEnum.TASK_PROCESS.getValue());
+//		taskBuyerRuleDto.setPrice(new BigDecimal(price));
+		taskBuyerRuleDto.setStartTime(TimeUtils.getNowDate());
+        taskBuyerRuleDto.setPlatformIds(platformIds);
+        taskBuyerRuleDto.setTaskType(taskType);
+		return taskBuyerRuleDto;
 	}
 
 

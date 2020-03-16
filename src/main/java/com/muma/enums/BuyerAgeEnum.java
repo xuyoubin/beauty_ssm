@@ -37,5 +37,21 @@ public enum BuyerAgeEnum implements ValuedEnum {
         return null;
     }
 
+    public static BuyerAgeEnum stateOfAge(Integer age){
+        if(age > 0 && age <18){
+            return CHILD;
+        }else if(age >= 18 && age < 25){
+            return  YOUNG;
+        }else if(age >= 25 && age < 35){
+            return  BIG_YOUNG;
+        }else if(age >=35 && age < 45){
+            return MIDDLE;
+        }else if(age >=45){
+            return OLD;
+        }else {
+            return null;
+        }
+    }
+
 
 }

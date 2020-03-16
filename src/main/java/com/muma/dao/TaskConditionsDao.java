@@ -7,7 +7,7 @@ public interface TaskConditionsDao {
 
     void addTaskConditions(TaskConditions taskConditions);
 	 /**
-     * 根据任务ID
+     * 根据任务ID查询卡位条件
      *
      * @return
      */
