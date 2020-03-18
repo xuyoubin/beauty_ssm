@@ -22,6 +22,12 @@ public interface TaskBuyerRuleDao {
      * @return
      */
     List<TaskBuyerRule> queryByTaskBuyerRuleDto(TaskBuyerRuleDto taskBuyerRuleDto );
+    /**
+     * 根据规则查询任务数量
+     * @param taskBuyerRuleDto
+     * @return
+     */
+    Integer countByTaskBuyerRuleDto(TaskBuyerRuleDto taskBuyerRuleDto );
 
 
 }

@@ -21,21 +21,21 @@ public class Order extends BaseEntity {
      */
     private TaskTypeEnum type;
     /**
-     * 买家ID
+     * 买家手机
      */
-    private Integer playerId;
+    private String playerPhone;
     /**
-     * 用户ID
+     * 商家手机号码
      */
-    private Integer businessId;
+    private String businessPhone;
     /**
-     * 商家（店铺名称）
+     * 店铺名称
      */
     private String shop;
     /**
-     * 商品
+     * 店铺ID
      */
-    private String commodity;
+    private String shopId;
     /**
      * 平台订单号
      */
@@ -61,6 +61,10 @@ public class Order extends BaseEntity {
      * 审核图片2
      */
     private String authImageTwo;
+    /**
+     * 备注
+     */
+    private String remark;
 
     public Integer getTaskOrderId() {
         return taskOrderId;
@@ -78,20 +82,20 @@ public class Order extends BaseEntity {
         this.type = type;
     }
 
-    public Integer getPlayerId() {
-        return playerId;
+    public String getPlayerPhone() {
+        return playerPhone;
     }
 
-    public void setPlayerId(Integer playerId) {
-        this.playerId = playerId;
+    public void setPlayerPhone(String playerPhone) {
+        this.playerPhone = playerPhone;
     }
 
-    public Integer getBusinessId() {
-        return businessId;
+    public String getBusinessPhone() {
+        return businessPhone;
     }
 
-    public void setBusinessId(Integer businessId) {
-        this.businessId = businessId;
+    public void setBusinessPhone(String businessPhone) {
+        this.businessPhone = businessPhone;
     }
 
     public String getShop() {
@@ -102,12 +106,12 @@ public class Order extends BaseEntity {
         this.shop = shop;
     }
 
-    public String getCommodity() {
-        return commodity;
+    public String getShopId() {
+        return shopId;
     }
 
-    public void setCommodity(String commodity) {
-        this.commodity = commodity;
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 
     public String getOrderNo() {
@@ -156,5 +160,13 @@ public class Order extends BaseEntity {
 
     public void setAuthImageTwo(String authImageTwo) {
         this.authImageTwo = authImageTwo;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

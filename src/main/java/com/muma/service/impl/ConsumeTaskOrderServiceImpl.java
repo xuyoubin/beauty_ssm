@@ -38,6 +38,9 @@ import java.util.List;
 @Service
 public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 
+	private static final int INDEX = 0;
+	private static final int SIZE = 5;
+
 	@Autowired
 	private UserDao userDao;
 	@Autowired
@@ -81,13 +84,13 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		 */
          TaskBuyerRuleDto taskBuyerRuleDto = buildTaskBuyerRule(userInfoDto,platformIds,price,taskType);
          //根据规则查询可接手任务
-
-
-
-
-
-
-
+		Integer totalTask = taskBuyerRuleDao.countByTaskBuyerRuleDto(taskBuyerRuleDto);
+		Precondition.checkState(totalTask > 0,"当前无匹配的任务，请稍后再来！");
+		List<TaskBuyerRule> taskBuyerRules = getRealTaskBuyerRules(taskBuyerRuleDto,totalTask);
+		for (TaskBuyerRule t : taskBuyerRules) {
+			//查询任务
+		}
+		//生成订单
 
 		return null;
 	}
@@ -121,22 +124,34 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		taskBuyerRuleDto.setStartTime(TimeUtils.getNowDate());
         taskBuyerRuleDto.setPlatformIds(platformIds);
         taskBuyerRuleDto.setTaskType(taskTypeEnum.getValue());
-        taskBuyerRuleDto.setIndex(0);
-        taskBuyerRuleDto.setSize(5);
+        taskBuyerRuleDto.setIndex(INDEX);
+        taskBuyerRuleDto.setSize(SIZE);
 		return taskBuyerRuleDto;
 	}
 
-	private List<TaskBuyerRule> getRealTaskBuyerRules(){
+	/**
+	 * 查询多个（5）任务
+	 * @param taskBuyerRuleDto
+	 * @return
+	 */
+	private List<TaskBuyerRule> getRealTaskBuyerRules(TaskBuyerRuleDto taskBuyerRuleDto,Integer totalTask){
 		List<TaskBuyerRule> realTaskBuyerRules = Lists.newArrayList(); //获取实际有用的
 		List<TaskBuyerRule> taskBuyerRules = taskBuyerRuleDao.queryByTaskBuyerRuleDto(taskBuyerRuleDto);
-		Precondition.checkNotNull(taskBuyerRules,"当前无匹配的任务，请稍后再来！");
+		Precondition.checkState(taskBuyerRules != null && taskBuyerRules.size()>0,"当前无匹配的任务，请稍后再来！");
 		for (TaskBuyerRule t : taskBuyerRules) {
 			Integer shopId = t.getShopId();
 			Integer repeatDay = t.getRepeatDay();
 			// TODO 根据shopID 查询最后一次任务是否超过repeatDay 如果有放入realTaskBuyerRules
 			realTaskBuyerRules.add(t);
 		}
-		return  null;
+		if(realTaskBuyerRules.size() < SIZE){
+			Integer currentTotal = taskBuyerRuleDto.getIndex()+taskBuyerRuleDto.getSize();
+			if(totalTask > currentTotal){
+				taskBuyerRuleDto.setIndex(currentTotal);
+				getRealTaskBuyerRules(taskBuyerRuleDto,totalTask);
+			}
+		}
+		return  realTaskBuyerRules;
 	}
 
 
