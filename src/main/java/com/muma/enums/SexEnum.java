@@ -1,6 +1,7 @@
 package com.muma.enums;
 
 import com.muma.enums.base.ValuedEnum;
+import org.apache.commons.lang3.StringUtils;
 
 public enum SexEnum implements ValuedEnum {
 
@@ -32,6 +33,17 @@ public enum SexEnum implements ValuedEnum {
             }
         }
         return null;
+    }
+
+    public static String getValueStr(){
+        String valueStr = "";
+        for (SexEnum s : SexEnum.values()) {
+            valueStr +=s.getValue()+",";
+        }
+        if(StringUtils.isNotEmpty(valueStr)){
+            valueStr = valueStr.substring(0,valueStr.length()-1);
+        }
+        return valueStr;
     }
 
 

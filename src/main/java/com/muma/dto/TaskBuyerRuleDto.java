@@ -51,11 +51,19 @@ public class TaskBuyerRuleDto {
   /**
    * 店铺类型
    */
-  private List<String> platformIds;
+  private List<Integer> platformIds;
   /**
    * 任务类型
    */
-  private String taskType;
+  private Integer taskType;
+  /**
+   * 开始的记录
+   */
+  private Integer index;
+  /**
+   * 一次查询的条数
+   */
+  private Integer size;
 
   public String getAge() {
     return age;
@@ -121,20 +129,35 @@ public class TaskBuyerRuleDto {
     this.price = price;
   }
 
-
-  public List<String> getPlatformIds() {
+  public List<Integer> getPlatformIds() {
     return platformIds;
   }
 
-  public void setPlatformIds(List<String> platformIds) {
+  public void setPlatformIds(List<Integer> platformIds) {
     this.platformIds = platformIds;
   }
 
-  public String getTaskType() {
+  public Integer getTaskType() {
     return taskType;
   }
 
-  public void setTaskType(String taskType) {
+  public void setTaskType(Integer taskType) {
     this.taskType = taskType;
+  }
+
+  public Integer getIndex() {
+    return index;
+  }
+
+  public void setIndex(Integer index) {
+    this.index = index;
+  }
+
+  public Integer getSize() {
+    return size;
+  }
+
+  public void setSize(Integer size) {
+    this.size = size;
   }
 }

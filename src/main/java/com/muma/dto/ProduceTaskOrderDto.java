@@ -79,7 +79,7 @@ public class ProduceTaskOrderDto implements Serializable {
     /**
      *性别
      */
-    private Integer sex;
+    private String sex;
     /**
      * 省份
      */
@@ -243,11 +243,11 @@ public class ProduceTaskOrderDto implements Serializable {
         this.age = age;
     }
 
-    public Integer getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 

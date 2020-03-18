@@ -1,7 +1,10 @@
 package com.muma.dao;
 
+import com.muma.dto.TaskBuyerRuleDto;
 import com.muma.entity.TaskBuyerRule;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TaskBuyerRuleDao {
 
@@ -12,6 +15,13 @@ public interface TaskBuyerRuleDao {
      * @return
      */
     TaskBuyerRule queryByTaskOrderId(@Param("taskOrderId") String taskOrderId);
+
+    /**
+     * 根据规则查询任务
+     * @param taskBuyerRuleDto
+     * @return
+     */
+    List<TaskBuyerRule> queryByTaskBuyerRuleDto(TaskBuyerRuleDto taskBuyerRuleDto );
 
 
 }

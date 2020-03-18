@@ -26,9 +26,9 @@ public class TaskBuyerRule extends BaseEntity {
    */
   private String age;
   /**
-   *性别
+   *性别 0,1
    */
-  private SexEnum sex;
+  private String sex;
   /**
    * 省份
    */
@@ -43,22 +43,23 @@ public class TaskBuyerRule extends BaseEntity {
    */
   private String tags;
   /**
-   * 单价
-   */
-  private BigDecimal price;
-  /**
-   * 店铺类型
-   */
-  private PlatformEnum platform;
-  /**
    *操作状态:0 -未进行；1-进行中 ；2-已完成；3-任务撤销
    */
   private OperateStatusEnum operateStatus;
+  /**
+   * 单价
+   */
+  private BigDecimal price;
   /**
    * 开始时间
    */
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date startTime;
+  /**
+   * 店铺类型
+   */
+  private PlatformEnum platform;
+
   /**
    * 复购日期
    */
@@ -66,7 +67,7 @@ public class TaskBuyerRule extends BaseEntity {
   /**
    * 任务类型
    */
-  private TaskTypeEnum taskTypeEnum;
+  private TaskTypeEnum taskType;
   /**
    * 店铺ID
    */
@@ -92,11 +93,11 @@ public class TaskBuyerRule extends BaseEntity {
     this.age = age;
   }
 
-  public SexEnum getSex() {
+  public String getSex() {
     return sex;
   }
 
-  public void setSex(SexEnum sex) {
+  public void setSex(String sex) {
     this.sex = sex;
   }
 
@@ -172,12 +173,12 @@ public class TaskBuyerRule extends BaseEntity {
     this.repeatDay = repeatDay;
   }
 
-  public TaskTypeEnum getTaskTypeEnum() {
-    return taskTypeEnum;
+  public TaskTypeEnum getTaskType() {
+    return taskType;
   }
 
-  public void setTaskTypeEnum(TaskTypeEnum taskTypeEnum) {
-    this.taskTypeEnum = taskTypeEnum;
+  public void setTaskType(TaskTypeEnum taskType) {
+    this.taskType = taskType;
   }
 
   public Integer getShopId() {

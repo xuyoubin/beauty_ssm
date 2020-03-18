@@ -20,11 +20,8 @@ public class IdcardUtils extends StringUtils {
     public static final int CHINA_ID_MAX_LENGTH = 18;
 
     /** 省、直辖市代码表 */
-    public static final String cityCode[] = {
-            "11", "12", "13", "14", "15", "21", "22", "23", "31", "32", "33", "34", "35", "36", "37", "41",
-            "42", "43", "44", "45", "46", "50", "51", "52", "53", "54", "61", "62", "63", "64", "65", "71",
-            "81", "82", "91"
-    };
+    public static final String cityCodeStr = "11,12,13,14,15,21,22,23,31,32,33,34,35,36,37,41,42,43,44,45,46,50,51,52,53,54,61,62,63,64,65,71,81,82,91";
+
     /** 每位加权因子 */
     public static final int power[] = {
             7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2

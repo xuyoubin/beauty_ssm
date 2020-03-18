@@ -1,9 +1,11 @@
 package com.muma.service.impl;
 
 
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.muma.common.PageBean;
 import com.muma.dao.BuyerDao;
+import com.muma.dao.TaskBuyerRuleDao;
 import com.muma.dao.UserDao;
 import com.muma.dto.ConsumeTaskOrderDto;
 import com.muma.dto.TaskBuyerRuleDto;
@@ -27,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,6 +40,8 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private TaskBuyerRuleDao taskBuyerRuleDao;
 	/**
 	 * 获取一个任务
 	 * @return
@@ -74,6 +79,8 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		 * 查询约5条的任务记录
 		 * 如果不够五条记录递归查询
 		 */
+         TaskBuyerRuleDto taskBuyerRuleDto = buildTaskBuyerRule(userInfoDto,platformIds,price,taskType);
+         //根据规则查询可接手任务
 
 
 
@@ -99,9 +106,10 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	 * @param userInfoDto
 	 * @return
 	 */
-	private TaskBuyerRuleDto buildTaskBuyerRule(UserInfoDto userInfoDto,List<String> platformIds, String price, String taskType ){
+	private TaskBuyerRuleDto buildTaskBuyerRule(UserInfoDto userInfoDto,List<Integer> platformIds, String price, String taskType ){
 		Precondition.checkState(StringUtils.isNotBlank(taskType), "请选择任务类型!");
 		TaskTypeEnum taskTypeEnum = TaskTypeEnum.stateOf(Integer.valueOf(taskType));
+		Precondition.checkNotNull(taskTypeEnum, "暂不支持该任务类型!");
 		TaskBuyerRuleDto taskBuyerRuleDto = new TaskBuyerRuleDto();
 		String ageStr = BuyerAgeEnum.stateOfAge(userInfoDto.getAge()).getValue().toString();
 		taskBuyerRuleDto.setAge(ageStr);
@@ -112,8 +120,23 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 //		taskBuyerRuleDto.setPrice(new BigDecimal(price));
 		taskBuyerRuleDto.setStartTime(TimeUtils.getNowDate());
         taskBuyerRuleDto.setPlatformIds(platformIds);
-        taskBuyerRuleDto.setTaskType(taskType);
+        taskBuyerRuleDto.setTaskType(taskTypeEnum.getValue());
+        taskBuyerRuleDto.setIndex(0);
+        taskBuyerRuleDto.setSize(5);
 		return taskBuyerRuleDto;
+	}
+
+	private List<TaskBuyerRule> getRealTaskBuyerRules(){
+		List<TaskBuyerRule> realTaskBuyerRules = Lists.newArrayList(); //获取实际有用的
+		List<TaskBuyerRule> taskBuyerRules = taskBuyerRuleDao.queryByTaskBuyerRuleDto(taskBuyerRuleDto);
+		Precondition.checkNotNull(taskBuyerRules,"当前无匹配的任务，请稍后再来！");
+		for (TaskBuyerRule t : taskBuyerRules) {
+			Integer shopId = t.getShopId();
+			Integer repeatDay = t.getRepeatDay();
+			// TODO 根据shopID 查询最后一次任务是否超过repeatDay 如果有放入realTaskBuyerRules
+			realTaskBuyerRules.add(t);
+		}
+		return  null;
 	}
 
 

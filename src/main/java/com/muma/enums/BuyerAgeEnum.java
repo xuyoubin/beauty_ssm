@@ -1,6 +1,7 @@
 package com.muma.enums;
 
 import com.muma.enums.base.ValuedEnum;
+import org.apache.commons.lang3.StringUtils;
 
 public enum BuyerAgeEnum implements ValuedEnum {
 
@@ -51,6 +52,20 @@ public enum BuyerAgeEnum implements ValuedEnum {
         }else {
             return null;
         }
+    }
+    public static String getValueStr(){
+        String valueStr = "";
+        for (BuyerAgeEnum b : BuyerAgeEnum.values()) {
+            valueStr +=b.getValue()+",";
+        }
+        if(StringUtils.isNotEmpty(valueStr)){
+            valueStr = valueStr.substring(0,valueStr.length()-1);
+        }
+        return valueStr;
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.err.println(getValueStr());
     }
 
 
