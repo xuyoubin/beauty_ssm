@@ -5,6 +5,7 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.muma.common.PageBean;
 import com.muma.dao.BuyerDao;
+import com.muma.dao.OrderDao;
 import com.muma.dao.TaskBuyerRuleDao;
 import com.muma.dao.UserDao;
 import com.muma.dto.ConsumeTaskOrderDto;
@@ -21,12 +22,14 @@ import com.muma.enums.StatusEnum;
 import com.muma.enums.TaskTypeEnum;
 import com.muma.exception.BizException;
 import com.muma.service.ConsumeTaskOrderService;
+import com.muma.service.OrderService;
 import com.muma.util.IPUtil;
 import com.muma.util.Precondition;
 import com.muma.util.TimeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -45,10 +48,15 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	private UserDao userDao;
 	@Autowired
 	private TaskBuyerRuleDao taskBuyerRuleDao;
+	@Autowired
+	private OrderDao orderDao;
+	@Autowired
+    private OrderService orderService;
 	/**
 	 * 获取一个任务
 	 * @return
 	 */
+    @Transactional(rollbackFor = Exception.class)
 	@Override
 	public ConsumeTaskOrderDto getOrder(UserInfoDto userInfoDto, String platform, String price, String taskType){
 		// TODO 1.0版本不做平台控制，只要通过认证则默认全部可以接
@@ -81,14 +89,18 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		/**
 		 * 查询约5条的任务记录
 		 * 如果不够五条记录递归查询
+         * 查询是否有未完成任务
 		 */
-         TaskBuyerRuleDto taskBuyerRuleDto = buildTaskBuyerRule(userInfoDto,platformIds,price,taskType);
+        List<Order> orderList = orderService.getNotFinishOrderList(userInfoDto.getRegPhone());
+        Precondition.checkState(orderList.size() == 0,"当前有未完成任务，请完成后再来！");
+        TaskBuyerRuleDto taskBuyerRuleDto = buildTaskBuyerRule(userInfoDto,platformIds,price,taskType);
          //根据规则查询可接手任务
 		Integer totalTask = taskBuyerRuleDao.countByTaskBuyerRuleDto(taskBuyerRuleDto);
 		Precondition.checkState(totalTask > 0,"当前无匹配的任务，请稍后再来！");
-		List<TaskBuyerRule> taskBuyerRules = getRealTaskBuyerRules(taskBuyerRuleDto,totalTask);
+		List<TaskBuyerRule> taskBuyerRules = getRealTaskBuyerRules(taskBuyerRuleDto,totalTask,userInfoDto.getRegPhone());
 		for (TaskBuyerRule t : taskBuyerRules) {
 			//查询任务
+            getTaskOrder(t);
 		}
 		//生成订单
 
@@ -134,25 +146,37 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	 * @param taskBuyerRuleDto
 	 * @return
 	 */
-	private List<TaskBuyerRule> getRealTaskBuyerRules(TaskBuyerRuleDto taskBuyerRuleDto,Integer totalTask){
+	private List<TaskBuyerRule> getRealTaskBuyerRules(TaskBuyerRuleDto taskBuyerRuleDto,Integer totalTask,String buyerPhone){
 		List<TaskBuyerRule> realTaskBuyerRules = Lists.newArrayList(); //获取实际有用的
 		List<TaskBuyerRule> taskBuyerRules = taskBuyerRuleDao.queryByTaskBuyerRuleDto(taskBuyerRuleDto);
 		Precondition.checkState(taskBuyerRules != null && taskBuyerRules.size()>0,"当前无匹配的任务，请稍后再来！");
 		for (TaskBuyerRule t : taskBuyerRules) {
 			Integer shopId = t.getShopId();
 			Integer repeatDay = t.getRepeatDay();
-			// TODO 根据shopID 查询最后一次任务是否超过repeatDay 如果有放入realTaskBuyerRules
-			realTaskBuyerRules.add(t);
+            Order order = orderDao.queryByShopId(shopId,buyerPhone);
+            String currentTime = TimeUtils.getStringDate();
+            String createTime = TimeUtils.dateToStrLong(order.getCreateTime());
+            String days = TimeUtils.getTwoDay(currentTime,createTime);
+            if(Integer.valueOf(days)>= repeatDay){
+                realTaskBuyerRules.add(t);
+            }
 		}
-		if(realTaskBuyerRules.size() < SIZE){
+		if(realTaskBuyerRules.size() < 20){
 			Integer currentTotal = taskBuyerRuleDto.getIndex()+taskBuyerRuleDto.getSize();
 			if(totalTask > currentTotal){
 				taskBuyerRuleDto.setIndex(currentTotal);
-				getRealTaskBuyerRules(taskBuyerRuleDto,totalTask);
-			}
+				getRealTaskBuyerRules(taskBuyerRuleDto,totalTask,buyerPhone);
+			}else {
+			    return realTaskBuyerRules;
+            }
 		}
 		return  realTaskBuyerRules;
 	}
+
+	private synchronized void getTaskOrder(){
+
+    }
+
 
 
 }

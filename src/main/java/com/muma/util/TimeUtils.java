@@ -228,8 +228,8 @@ public class TimeUtils {
 		SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd");
 		long day = 0;
 		try {
-			java.util.Date date = myFormatter.parse(sj1);
-			java.util.Date mydate = myFormatter.parse(sj2);
+			Date date = myFormatter.parse(sj1);
+			Date mydate = myFormatter.parse(sj2);
 			day = (date.getTime() - mydate.getTime()) / (24 * 60 * 60 * 1000);
 		} catch (Exception e) {
 			return "";
