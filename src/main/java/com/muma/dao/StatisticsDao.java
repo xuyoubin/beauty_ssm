@@ -1,6 +1,7 @@
 package com.muma.dao;
 
 import com.muma.entity.Statistics;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 销售浏览任务统计
@@ -11,5 +12,12 @@ public interface StatisticsDao {
      * @param
      */
     void addStatistics(Statistics statistics);
+
+    /**
+     * 根据任务ID查询
+     * @param taskOrderId
+     * @return
+     */
+    Statistics queryTaskOrderId(@Param("taskOrderId") Integer taskOrderId);
 
 }

@@ -47,4 +47,11 @@ public interface OrderDao {
      */
     Integer queryFinish30Days(@Param("buyerPhone") String buyerPhone);
 
+    /**
+     * 根据任务ID 查询 未完成任务条数
+     * @param taskOrderId
+     * @return
+     */
+    Integer queryByTaskOrderId(@Param("taskOrderId") Integer taskOrderId);
+
 }

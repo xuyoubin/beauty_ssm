@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.muma.common.PageBean;
 import com.muma.dao.BuyerDao;
 import com.muma.dao.OrderDao;
+import com.muma.dao.StatisticsDao;
 import com.muma.dao.TaskBuyerRuleDao;
 import com.muma.dao.UserDao;
 import com.muma.dto.ConsumeTaskOrderDto;
@@ -13,6 +14,7 @@ import com.muma.dto.TaskBuyerRuleDto;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.Order;
+import com.muma.entity.Statistics;
 import com.muma.entity.TaskBuyerRule;
 import com.muma.entity.User;
 import com.muma.enums.BuyerAgeEnum;
@@ -42,7 +44,7 @@ import java.util.List;
 public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 
 	private static final int INDEX = 0;
-	private static final int SIZE = 5;
+	private static final int SIZE = 10;
 
 	@Autowired
 	private UserDao userDao;
@@ -52,6 +54,8 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	private OrderDao orderDao;
 	@Autowired
     private OrderService orderService;
+	@Autowired
+	private StatisticsDao statisticsDao;
 	/**
 	 * 获取一个任务
 	 * @return
@@ -96,12 +100,14 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
         TaskBuyerRuleDto taskBuyerRuleDto = buildTaskBuyerRule(userInfoDto,platformIds,price,taskType);
          //根据规则查询可接手任务
 		Integer totalTask = taskBuyerRuleDao.countByTaskBuyerRuleDto(taskBuyerRuleDto);
-		Precondition.checkState(totalTask > 0,"当前无匹配的任务，请稍后再来！");
-		List<TaskBuyerRule> taskBuyerRules = getRealTaskBuyerRules(taskBuyerRuleDto,totalTask,userInfoDto.getRegPhone());
-		for (TaskBuyerRule t : taskBuyerRules) {
-			//查询任务
-            getTaskOrder(t);
+		if(buyerList.size() < 3){
+			Precondition.checkState(totalTask > 0,"已认证平台无匹配任务，请完成其他平台认证获取更多任务哦！");
+		}else {
+			Precondition.checkState(totalTask > 0,"当前无匹配任务，请稍后再来！");
 		}
+		Statistics statistics = null;
+
+
 		//生成订单
 
 		return null;
@@ -142,7 +148,7 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	}
 
 	/**
-	 * 查询多个（5）任务
+	 * 查询多个（10）任务
 	 * @param taskBuyerRuleDto
 	 * @return
 	 */
@@ -161,7 +167,7 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
                 realTaskBuyerRules.add(t);
             }
 		}
-		if(realTaskBuyerRules.size() < 20){
+		if(realTaskBuyerRules.size() < SIZE){
 			Integer currentTotal = taskBuyerRuleDto.getIndex()+taskBuyerRuleDto.getSize();
 			if(totalTask > currentTotal){
 				taskBuyerRuleDto.setIndex(currentTotal);
@@ -173,8 +179,34 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		return  realTaskBuyerRules;
 	}
 
-	private synchronized void getTaskOrder(){
+	private Statistics getCanTaskOrder(TaskBuyerRuleDto taskBuyerRuleDto,Integer totalTask,String buyerPhone){
+		List<TaskBuyerRule> taskBuyerRules = getRealTaskBuyerRules(taskBuyerRuleDto,totalTask,buyerPhone);
+		if(taskBuyerRules != null && taskBuyerRules.size() > 0){
+			for (int i = 0; i <taskBuyerRules.size() ; i++) {
+				//查询任务
+				Statistics statistics = getTaskOrder(taskBuyerRules.get(i));
+				if(statistics != null){
+					return  statistics;
+				}
+			}
+			getCanTaskOrder();
+		}else {
+			return null;
+		}
+	}
 
+	private synchronized Statistics getTaskOrder(TaskBuyerRule taskBuyerRule){
+        //判断当前任务是否还有可以接手的任务 for update
+		Integer notFinishNumber = orderDao.queryByTaskOrderId(taskBuyerRule.getTaskOrderId());
+		Statistics statistics = statisticsDao.queryTaskOrderId(taskBuyerRule.getTaskOrderId());
+		Precondition.checkNotNull(statistics, "查询统计任务异常!");
+		//已接手任务 = 完成任务+进行中任务；
+		Integer totalNumber = statistics.getTaskOverNumber()+notFinishNumber;
+		if(statistics.getTaskNumber() > totalNumber){
+			return  statistics;
+		}else {
+			return null;
+		}
     }
 
 

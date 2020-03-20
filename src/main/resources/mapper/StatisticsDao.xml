@@ -12,5 +12,10 @@
 			#{taskOverCapital},#{taskCountFee},#{taskOverFee},#{taskOverNumber},#{taskNumber},
 			#{price},#{businessFree},#{buyerFree}, #{createBy},now())
 	</insert>
+	<select id="queryTaskOrderId" resultType="com.muma.entity.Statistics">
+		SELECT  task_order_id,task_over_number,task_number,price,buyer_free
+		FROM tbl_statistics
+		WHERE task_order_id= #{taskOrderId} limit 1  for update
+	</select>
 
 </mapper>

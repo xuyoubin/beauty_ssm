@@ -60,7 +60,13 @@
 		SELECT COUNT(*)
 		FROM tbl_order
 		WHERE player_phone = #{buyerPhone}
-		  AND status IN (30,40,60,90)
-		  AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
+		AND status IN (30,40,60,90)
+		AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
+	</select>
+	<select id="queryByTaskOrderId" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM tbl_order
+		WHERE task_order_id = #{taskOrderId}
+		AND status IN (0,10,20)
 	</select>
 </mapper>
