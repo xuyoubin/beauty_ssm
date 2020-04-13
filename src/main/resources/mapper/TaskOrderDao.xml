@@ -57,4 +57,9 @@
 		ORDER BY create_time DESC
 		limit #{pageIndex},#{pageSize}
 	</select>
+	<select id="queryByTaskOrderId" resultType="com.muma.entity.TaskOrder">
+		SELECT  id,business_phone,shop_id,commodity,main_image,task_rule,type,keyword,entrance_id,remark
+		FROM tbl_task_order
+		WHERE id = #{id} limit 1
+	</select>
 </mapper>

@@ -55,7 +55,7 @@ public class TaskBuyerRuleDto {
   /**
    * 任务类型
    */
-  private Integer taskType;
+  private List<Integer> taskTypes;
   /**
    * 开始的记录
    */
@@ -137,12 +137,12 @@ public class TaskBuyerRuleDto {
     this.platformIds = platformIds;
   }
 
-  public Integer getTaskType() {
-    return taskType;
+  public List<Integer> getTaskTypes() {
+    return taskTypes;
   }
 
-  public void setTaskType(Integer taskType) {
-    this.taskType = taskType;
+  public void setTaskTypes(List<Integer> taskTypes) {
+    this.taskTypes = taskTypes;
   }
 
   public Integer getIndex() {

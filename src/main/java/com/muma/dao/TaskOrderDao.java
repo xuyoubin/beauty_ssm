@@ -31,5 +31,11 @@ public interface TaskOrderDao {
     List<ProduceTaskOrderDto> queryTaskOrderList(@Param("regPhone") String regPhone, @Param("shopId") Integer shopId, @Param("type") TaskTypeEnum type,
                                                  @Param("operateStatus") OperateStatusEnum operateStatus, @Param("status") StatusEnum status,
                                                  @Param("pageIndex") Integer pageIndex, @Param("pageSize") Integer pageSize);
-    
+
+    /**
+     * 根据任务ID 查询任务信息
+     * @param id
+     * @return
+     */
+    TaskOrder queryByTaskOrderId(@Param("id") Integer id);
 }

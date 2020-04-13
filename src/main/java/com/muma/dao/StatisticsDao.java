@@ -1,5 +1,6 @@
 package com.muma.dao;
 
+import com.muma.dto.StatisticsDto;
 import com.muma.entity.Statistics;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,6 +19,6 @@ public interface StatisticsDao {
      * @param taskOrderId
      * @return
      */
-    Statistics queryTaskOrderId(@Param("taskOrderId") Integer taskOrderId);
+    StatisticsDto queryTaskOrderId(@Param("taskOrderId") Integer taskOrderId);
 
 }

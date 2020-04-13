@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
 		Precondition.checkState(IdcardUtils.validateCard(idNumber), "身份证号码格式有误!");
 		//查看身份证是否注册过
 		UserDetail user = userDetailDao.queryByCardId(idNumber);
-		Precondition.checkNotNull(user, "该身份证号已经注册过!");
+		Precondition.checkState(user == null, "该身份证号已经注册过!");
 		//获取省份代码
 		String provinceNum = IdcardUtils.getProvinceByIdCard(idNumber);
 		//获取年龄

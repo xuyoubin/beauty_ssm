@@ -4,18 +4,18 @@
 
 	<insert id="addOrder">
 		INSERT INTO
-		tbl_order(task_order_id,type,player_phone,business_phone,shop,shop_id,order_no,money,fee,
-		          status,auth_image_one,auth_image_two,remark,create_by,create_time)
+		tbl_order(task_order_id,type,player_phone,business_phone,shop,shop_id,money,fee,
+		status,create_by,create_time)
 		VALUES
-		(#{taskOrderId},#{type},#{playerPhone},#{businessPhone},#{shop},#{shopId},#{orderNo},#{fee}
-		#{status},#{authImageOne},#{authImageTwo},#{remark},#{createBy},now())
+		(#{taskOrderId},#{type},#{playerPhone},#{businessPhone},#{shop},#{shopId},#{money},#{fee},
+		#{status},#{createBy},now())
 	</insert>
 	<select id="queryByShopId" resultType="com.muma.entity.Order">
 		SELECT player_phone,shop,shop_id,status,create_time
 		FROM tbl_order
 		WHERE shop_id= #{shopId}
         AND  player_phone = #{buyerPhone}
-        AND status IN (60,90)
+        AND status IN (30,40,60,90)
 		ORDER BY create_time DESC
 		limit 1
 	</select>

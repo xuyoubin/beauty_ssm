@@ -293,7 +293,9 @@ public class ProduceTaskOrderServiceImpl implements ProduceTaskOrderService {
      */
      private TaskConditions buildTaskConditions(String regPhone,ProduceTaskOrderDto produceTaskOrderDto){
          TaskConditions conditions = new TaskConditions();
-         conditions.setSortFlag(SortEnum.stateOf(produceTaskOrderDto.getSortFlag()));
+         if(produceTaskOrderDto.getSortFlag() != null ){
+             conditions.setSortFlag(SortEnum.stateOf(produceTaskOrderDto.getSortFlag()));
+         }
          conditions.setPriceRange(produceTaskOrderDto.getPriceRange());
          conditions.setPlace(produceTaskOrderDto.getPlace());
          conditions.setRemark(produceTaskOrderDto.getConditionsRemark());

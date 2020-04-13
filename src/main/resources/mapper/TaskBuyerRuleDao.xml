@@ -15,4 +15,69 @@
 		FROM tbl_task_buyer_rule
 		WHERE task_order_id= #{taskOrderId} limit 1
 	</select>
+	<select id="queryByTaskBuyerRuleDto" resultType="com.muma.entity.TaskBuyerRule">
+		SELECT task_order_id,shop_id,repeat_day,remark
+		FROM tbl_task_buyer_rule
+		<where>
+			<if test="taskBuyerRuleDto.operateStatus != null">
+				operate_status = #{taskBuyerRuleDto.operateStatus}
+			</if>
+			<if test="taskBuyerRuleDto.taskType != null">
+				AND task_type = #{taskBuyerRuleDto.taskType}
+			</if>
+			<if test="null != taskBuyerRuleDto.platformIds and taskBuyerRuleDto.platformIds.size() > 0">
+				AND platform IN
+				<foreach collection="taskBuyerRuleDto.platformIds" item="platformId" index="index" open="(" separator="," close=")">
+					#{platformId}
+				</foreach>
+			</if>
+			<if test="taskBuyerRuleDto.startTime != null">
+				AND #{taskBuyerRuleDto.startTime} &lt;= now()
+			</if>
+			<if test="taskBuyerRuleDto.age != null and taskBuyerRuleDto.age != ''">
+				AND find_in_set(#{taskBuyerRuleDto.age}, age)
+			</if>
+			<if test="taskBuyerRuleDto.sex != null and taskBuyerRuleDto.sex != ''">
+				AND find_in_set(#{taskBuyerRuleDto.sex}, sex)
+			</if>
+			<if test="taskBuyerRuleDto.province != null and taskBuyerRuleDto.province != ''">
+				AND find_in_set(#{taskBuyerRuleDto.province}, province)
+			</if>
+		</where>
+		ORDER BY create_time ASC
+		limit #{taskBuyerRuleDto.index},#{taskBuyerRuleDto.size}
+	</select>
+	<select id="countByTaskBuyerRuleDto" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM tbl_task_buyer_rule
+		<where>
+			<if test="taskBuyerRuleDto.operateStatus != null">
+				operate_status = #{taskBuyerRuleDto.operateStatus}
+			</if>
+			<if test="null != taskBuyerRuleDto.taskTypes and taskBuyerRuleDto.taskTypes.size() > 0">
+				AND task_type IN
+				<foreach collection="taskBuyerRuleDto.taskTypes" item="taskType" index="index" open="(" separator="," close=")">
+					#{taskType}
+				</foreach>
+			</if>
+			<if test="null != taskBuyerRuleDto.platformIds and taskBuyerRuleDto.platformIds.size() > 0">
+				AND platform IN
+				<foreach collection="taskBuyerRuleDto.platformIds" item="platformId" index="index" open="(" separator="," close=")">
+					#{platformId}
+				</foreach>
+			</if>
+			<if test="taskBuyerRuleDto.startTime != null">
+				AND #{taskBuyerRuleDto.startTime} &lt;= now()
+			</if>
+			<if test="taskBuyerRuleDto.age != null and taskBuyerRuleDto.age != ''">
+				AND find_in_set(#{taskBuyerRuleDto.age}, age)
+			</if>
+			<if test="taskBuyerRuleDto.sex != null and taskBuyerRuleDto.sex != ''">
+				AND find_in_set(#{taskBuyerRuleDto.sex}, sex)
+			</if>
+			<if test="taskBuyerRuleDto.province != null and taskBuyerRuleDto.province != ''">
+				AND find_in_set(#{taskBuyerRuleDto.province}, province)
+			</if>
+		</where>
+	</select>
 </mapper>

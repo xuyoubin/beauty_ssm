@@ -6,19 +6,27 @@ import com.google.common.collect.Lists;
 import com.muma.common.PageBean;
 import com.muma.dao.BuyerDao;
 import com.muma.dao.OrderDao;
+import com.muma.dao.ShopDao;
 import com.muma.dao.StatisticsDao;
 import com.muma.dao.TaskBuyerRuleDao;
+import com.muma.dao.TaskConditionsDao;
+import com.muma.dao.TaskOrderDao;
 import com.muma.dao.UserDao;
 import com.muma.dto.ConsumeTaskOrderDto;
+import com.muma.dto.StatisticsDto;
 import com.muma.dto.TaskBuyerRuleDto;
 import com.muma.dto.UserInfoDto;
 import com.muma.entity.Buyer;
 import com.muma.entity.Order;
+import com.muma.entity.Shop;
 import com.muma.entity.Statistics;
 import com.muma.entity.TaskBuyerRule;
+import com.muma.entity.TaskConditions;
+import com.muma.entity.TaskOrder;
 import com.muma.entity.User;
 import com.muma.enums.BuyerAgeEnum;
 import com.muma.enums.OperateStatusEnum;
+import com.muma.enums.OrderStatusEnum;
 import com.muma.enums.PlatformEnum;
 import com.muma.enums.StatusEnum;
 import com.muma.enums.TaskTypeEnum;
@@ -27,7 +35,9 @@ import com.muma.service.ConsumeTaskOrderService;
 import com.muma.service.OrderService;
 import com.muma.util.IPUtil;
 import com.muma.util.Precondition;
+import com.muma.util.StringReplaceUtil;
 import com.muma.util.TimeUtils;
+import com.muma.util.UploadImageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +66,12 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
     private OrderService orderService;
 	@Autowired
 	private StatisticsDao statisticsDao;
+	@Autowired
+	private TaskOrderDao taskOrderDao;
+	@Autowired
+	private ShopDao shopDao;
+	@Autowired
+	private TaskConditionsDao taskConditionsDao;
 	/**
 	 * 获取一个任务
 	 * @return
@@ -84,12 +100,13 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		}
 		for (Buyer buyer : buyerList) {
             if(StatusEnum.CONFIRM_PASS.equals(buyer.getStatus())){
-            	platformIds.add(buyer.getId());
+            	platformIds.add(buyer.getPlatformId().getValue());
 			}
 		}
 		if(platformIds == null && platformIds.size() == 0){
 			throw new BizException("用户平台为认证通过，请根据提示修改！");
 		}
+		//TODO 查询是否有评价任务
 		/**
 		 * 查询约5条的任务记录
 		 * 如果不够五条记录递归查询
@@ -100,20 +117,28 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
         TaskBuyerRuleDto taskBuyerRuleDto = buildTaskBuyerRule(userInfoDto,platformIds,price,taskType);
          //根据规则查询可接手任务
 		Integer totalTask = taskBuyerRuleDao.countByTaskBuyerRuleDto(taskBuyerRuleDto);
-		if(buyerList.size() < 3){
-			Precondition.checkState(totalTask > 0,"已认证平台无匹配任务，请完成其他平台认证获取更多任务哦！");
-		}else {
-			Precondition.checkState(totalTask > 0,"当前无匹配任务，请稍后再来！");
+		if(totalTask == null || totalTask == 0){
+			if(buyerList.size() < 4){
+				throw new BizException("已认证平台无匹配任务，请完成其他平台认证获取更多任务哦！");
+			}else {
+				throw new BizException("当前无匹配任务，请稍后再来！");
+			}
 		}
-		Statistics statistics = null;
-
-
+		StatisticsDto statisticsDto = getCanTaskOrder(taskBuyerRuleDto,totalTask,userInfoDto.getPhone());
+		Precondition.checkNotNull(statisticsDto,"当前无匹配任务，请稍后再来！");
+		//查询任务信息
+		TaskOrder taskOrder = taskOrderDao.queryByTaskOrderId(statisticsDto.getTaskOrderId());
+		Shop shop = shopDao.queryById(taskOrder.getShopId());
+		TaskConditions taskConditions = taskConditionsDao.queryByTaskOrderId(statisticsDto.getTaskOrderId());
 		//生成订单
-
-		return null;
+		Order order = buildOrder(taskOrder,statisticsDto,shop,userInfoDto.getRegPhone());
+		orderDao.addOrder(order);
+		//返回 ConsumeTaskOrderDto
+		ConsumeTaskOrderDto consumeTaskOrderDto = buildConsumeTaskOrderDto(taskOrder,statisticsDto,shop,taskConditions,userInfoDto.getRegPhone(),OrderStatusEnum.INIT);
+		return consumeTaskOrderDto;
 	}
 	/**
-	 * 查询接单历史列表
+	 * 查询接单历史列表 查60天内任务
 	 * @return
 	 */
 	@Override
@@ -129,8 +154,15 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	 */
 	private TaskBuyerRuleDto buildTaskBuyerRule(UserInfoDto userInfoDto,List<Integer> platformIds, String price, String taskType ){
 		Precondition.checkState(StringUtils.isNotBlank(taskType), "请选择任务类型!");
-		TaskTypeEnum taskTypeEnum = TaskTypeEnum.stateOf(Integer.valueOf(taskType));
-		Precondition.checkNotNull(taskTypeEnum, "暂不支持该任务类型!");
+		List<Integer> taskTypes = null;
+		if("0".equals(taskType)){//销售任务
+			 taskTypes = Lists.newArrayList(TaskTypeEnum.SELLE_TASK.getValue(),
+					TaskTypeEnum.LOOK_AND_SHOP.getValue(),TaskTypeEnum.REPEAT_SHOP.getValue());
+		}else if("1".equals(taskType)){//浏览
+			taskTypes = Lists.newArrayList(TaskTypeEnum.LOOK_TASK.getValue());
+		}else {
+           throw new BizException("平台暂不支持该任务类型!");
+		}
 		TaskBuyerRuleDto taskBuyerRuleDto = new TaskBuyerRuleDto();
 		String ageStr = BuyerAgeEnum.stateOfAge(userInfoDto.getAge()).getValue().toString();
 		taskBuyerRuleDto.setAge(ageStr);
@@ -141,7 +173,7 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 //		taskBuyerRuleDto.setPrice(new BigDecimal(price));
 		taskBuyerRuleDto.setStartTime(TimeUtils.getNowDate());
         taskBuyerRuleDto.setPlatformIds(platformIds);
-        taskBuyerRuleDto.setTaskType(taskTypeEnum.getValue());
+        taskBuyerRuleDto.setTaskTypes(taskTypes);
         taskBuyerRuleDto.setIndex(INDEX);
         taskBuyerRuleDto.setSize(SIZE);
 		return taskBuyerRuleDto;
@@ -160,12 +192,16 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 			Integer shopId = t.getShopId();
 			Integer repeatDay = t.getRepeatDay();
             Order order = orderDao.queryByShopId(shopId,buyerPhone);
-            String currentTime = TimeUtils.getStringDate();
-            String createTime = TimeUtils.dateToStrLong(order.getCreateTime());
-            String days = TimeUtils.getTwoDay(currentTime,createTime);
-            if(Integer.valueOf(days)>= repeatDay){
-                realTaskBuyerRules.add(t);
-            }
+            if(order != null){
+				String currentTime = TimeUtils.getStringDate();
+				String createTime = TimeUtils.dateToStrLong(order.getCreateTime());
+				String days = TimeUtils.getTwoDay(currentTime,createTime);
+				if(Integer.valueOf(days)>= repeatDay){
+					realTaskBuyerRules.add(t);
+				}
+			}else { //未接过该店铺的单子
+				realTaskBuyerRules.add(t);
+			}
 		}
 		if(realTaskBuyerRules.size() < SIZE){
 			Integer currentTotal = taskBuyerRuleDto.getIndex()+taskBuyerRuleDto.getSize();
@@ -179,36 +215,86 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		return  realTaskBuyerRules;
 	}
 
-	private Statistics getCanTaskOrder(TaskBuyerRuleDto taskBuyerRuleDto,Integer totalTask,String buyerPhone){
+	/**
+	 * 获取一个任务
+	 * @param taskBuyerRuleDto
+	 * @param totalTask
+	 * @param buyerPhone
+	 * @return
+	 */
+	private StatisticsDto getCanTaskOrder(TaskBuyerRuleDto taskBuyerRuleDto,Integer totalTask,String buyerPhone){
 		List<TaskBuyerRule> taskBuyerRules = getRealTaskBuyerRules(taskBuyerRuleDto,totalTask,buyerPhone);
 		if(taskBuyerRules != null && taskBuyerRules.size() > 0){
 			for (int i = 0; i <taskBuyerRules.size() ; i++) {
 				//查询任务
-				Statistics statistics = getTaskOrder(taskBuyerRules.get(i));
-				if(statistics != null){
-					return  statistics;
+				StatisticsDto statisticsDto = getTaskOrder(taskBuyerRules.get(i));
+				if(statisticsDto != null){
+					statisticsDto.setBuyerRemark(taskBuyerRules.get(i).getRemark());
+					return  statisticsDto;
 				}
 			}
-			getCanTaskOrder();
-		}else {
-			return null;
+			getCanTaskOrder(taskBuyerRuleDto,totalTask,buyerPhone);
 		}
+		return null;
 	}
 
-	private synchronized Statistics getTaskOrder(TaskBuyerRule taskBuyerRule){
+	private synchronized StatisticsDto getTaskOrder(TaskBuyerRule taskBuyerRule){
         //判断当前任务是否还有可以接手的任务 for update
 		Integer notFinishNumber = orderDao.queryByTaskOrderId(taskBuyerRule.getTaskOrderId());
-		Statistics statistics = statisticsDao.queryTaskOrderId(taskBuyerRule.getTaskOrderId());
-		Precondition.checkNotNull(statistics, "查询统计任务异常!");
+		StatisticsDto statisticsDto = statisticsDao.queryTaskOrderId(taskBuyerRule.getTaskOrderId());
+		Precondition.checkNotNull(statisticsDto, "查询统计任务异常!");
 		//已接手任务 = 完成任务+进行中任务；
-		Integer totalNumber = statistics.getTaskOverNumber()+notFinishNumber;
-		if(statistics.getTaskNumber() > totalNumber){
-			return  statistics;
+		Integer totalNumber = statisticsDto.getTaskOverNumber()+notFinishNumber;
+		if(statisticsDto.getTaskNumber() > totalNumber){
+			return  statisticsDto;
 		}else {
 			return null;
 		}
     }
 
+	/**
+	 * 创建Order实体类
+	 * @return
+	 */
+	private Order buildOrder(TaskOrder taskOrder,StatisticsDto statisticsDto,Shop shop,String regPhone){
+		Order order = new Order();
+		order.setTaskOrderId(taskOrder.getId());
+		order.setType(taskOrder.getType());
+		order.setPlayerPhone(regPhone);
+		order.setBusinessPhone(taskOrder.getBusinessPhone());
+		order.setShop(shop.getShopName());
+		order.setShopId(shop.getId());
+        order.setMoney(statisticsDto.getPrice());
+        order.setFee(statisticsDto.getBuyerFree());
+        order.setStatus(OrderStatusEnum.INIT);
+        order.setCreateBy(regPhone);
+		return order;
+	}
+
+	/**
+	 * 创建ConsumeTaskOrderDto
+	 * @return
+	 */
+	private ConsumeTaskOrderDto buildConsumeTaskOrderDto(TaskOrder taskOrder,StatisticsDto statisticsDto,Shop shop,TaskConditions taskConditions,String regPhone,OrderStatusEnum orderStatusEnum){
+		ConsumeTaskOrderDto consumeTaskOrderDto = new ConsumeTaskOrderDto();
+		consumeTaskOrderDto.setShopName(StringReplaceUtil.userNameReplaceWithStar(shop.getShopName()));
+		consumeTaskOrderDto.setCommodity(taskOrder.getCommodity());
+		consumeTaskOrderDto.setTaskRule(taskOrder.getTaskRule());
+		consumeTaskOrderDto.setTaskTypeEnum(taskOrder.getType());
+		consumeTaskOrderDto.setKeyword(taskOrder.getKeyword());
+		consumeTaskOrderDto.setEntranceEnum(taskOrder.getEntranceId());
+		consumeTaskOrderDto.setTaskRemark(taskOrder.getRemark());
+		consumeTaskOrderDto.setPlatformEnum(shop.getShopType());
+		consumeTaskOrderDto.setPrice(statisticsDto.getPrice());
+		consumeTaskOrderDto.setOrderStatusEnum(orderStatusEnum);
+		consumeTaskOrderDto.setBuyerRemark(statisticsDto.getBuyerRemark());
+		consumeTaskOrderDto.setSortFlag(taskConditions.getSortFlag());
+		consumeTaskOrderDto.setPriceRange(taskConditions.getPriceRange());
+		consumeTaskOrderDto.setPlace(taskConditions.getPlace());
+		consumeTaskOrderDto.setConditionsRemark(taskConditions.getRemark());
+		consumeTaskOrderDto.setBase64image(UploadImageUtil.base64image(taskOrder.getMainImage()));
+		return consumeTaskOrderDto;
+	}
 
 
 }

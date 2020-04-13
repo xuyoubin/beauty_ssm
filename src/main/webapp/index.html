@@ -1875,6 +1875,30 @@ MuLFUuTC/w9L22pkedDANgAAAABJRU5ErkJggg==" alt="" width="42" height="42"/>
         </tr>
     </table>
 </fieldset>
-
+<fieldset>
+    <legend>抢单任务</legend>
+    <table>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/consumeTask/getOrder.action</td>
+        </tr>
+        <tr>
+            <td class="title">平台类型:</td>
+            <td><input type="text" name="platform" value="0"></td>
+        </tr>
+        <tr>
+            <td class="title">最大接单价格:</td>
+            <td><input type="text" name="price" value="125.00"></td>
+        </tr>
+        <tr>
+            <td class="title">任务类型:</td>
+            <td><input type="text" name="taskType" value="0"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
+    </table>
+</fieldset>
 </body>
 </html>

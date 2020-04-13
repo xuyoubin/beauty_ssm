@@ -25,17 +25,17 @@ public class OrderDaoTest {
 	public void testInsertOrder() {
 		Goods goods=goodsDao.queryAll(0, 1).get(0);
 		System.out.println(goods);
-		int result=orderDao.insertOrder(1000,goods.getGoodsId(),goods.getTitle());
-		System.out.println("testInsertOrder result:"+result);
+//		int result=orderDao.insertOrder(1000,goods.getGoodsId(),goods.getTitle());
+//		System.out.println("testInsertOrder result:"+result);
 		System.out.println("--------------------------");
 	}
 
 	@Test
 	public void testQueryByUserPhone() {
-		List<Order> list=orderDao.queryByUserPhone(18768128888L);
-		for (Order order : list) {
-			System.out.println(order);
-		}
+//		List<Order> list=orderDao.queryByUserPhone(18768128888L);
+//		for (Order order : list) {
+//			System.out.println(order);
+//		}
 		System.out.println("--------------------------");
 	}
 

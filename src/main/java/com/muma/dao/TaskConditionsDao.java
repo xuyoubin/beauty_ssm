@@ -11,7 +11,7 @@ public interface TaskConditionsDao {
      *
      * @return
      */
-    TaskConditions queryByTaskOrderId(@Param("taskOrderId") String taskOrderId);
+    TaskConditions queryByTaskOrderId(@Param("taskOrderId") Integer taskOrderId);
 
 
 }

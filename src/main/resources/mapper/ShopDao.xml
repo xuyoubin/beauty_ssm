@@ -11,14 +11,14 @@
 		 #{status},#{repeatDay},#{createBy},now())
 	</insert>
 	<select id="queryById" resultType="com.muma.entity.Shop">
-		SELECT reg_phone,unique_id,shop_name,shop_url,shop_type,shop_ww,status,repeat_day,create_by,create_time
+		SELECT id,reg_phone,unique_id,shop_name,shop_url,shop_type,shop_ww,status,repeat_day,create_by,create_time
 		FROM tbl_shop
-		WHERE id= #{id}
+		WHERE id= #{id} limit 1
 	</select>
 	<select id="queryByName" resultType="com.muma.entity.Shop">
 		SELECT reg_phone,unique_id,shop_name,shop_url,shop_type,shop_ww,status,repeat_day,create_by,create_time
 		FROM tbl_shop
-		WHERE shop_name= #{shopName}
+		WHERE shop_name= #{shopName} limit 1
 	</select>
 	<select id="count" resultType="java.lang.Integer">
 		SELECT count(*)

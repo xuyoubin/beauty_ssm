@@ -35,7 +35,7 @@ public class Order extends BaseEntity {
     /**
      * 店铺ID
      */
-    private String shopId;
+    private Integer shopId;
     /**
      * 平台订单号
      */
@@ -106,11 +106,11 @@ public class Order extends BaseEntity {
         this.shop = shop;
     }
 
-    public String getShopId() {
+    public Integer getShopId() {
         return shopId;
     }
 
-    public void setShopId(String shopId) {
+    public void setShopId(Integer shopId) {
         this.shopId = shopId;
     }
 

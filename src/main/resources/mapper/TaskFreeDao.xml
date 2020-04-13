@@ -11,7 +11,7 @@
 	<select id="queryTaskFreeListByType" resultType="com.muma.entity.TaskFree">
 		SELECT business_free,buyer_free,price_min,price_max,conditions
 		FROM tbl_task_free
-		WHERE platform = {platform}
-		AND type= #{type}
+		WHERE platform = #{platformEnum}
+		AND type = #{taskTypeEnum}
 	</select>
 </mapper>

@@ -19,7 +19,7 @@ public interface TaskFreeDao {
      *
      * @return
      */
-    List<TaskFree> queryTaskFreeListByType(@Param("platform") PlatformEnum platformEnum, @Param("type") TaskTypeEnum taskTypeEnum);
+    List<TaskFree> queryTaskFreeListByType(@Param("platformEnum") PlatformEnum platformEnum, @Param("taskTypeEnum") TaskTypeEnum taskTypeEnum);
 
 
 

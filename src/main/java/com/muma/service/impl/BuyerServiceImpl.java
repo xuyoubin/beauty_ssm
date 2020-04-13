@@ -61,5 +61,10 @@ public class BuyerServiceImpl implements BuyerService {
         buyer.setStatus(StatusEnum.CONFIRM_WAIT);
         buyer.setCreateBy(regPhone);
         buyerDao.addBuyer(buyer);
+        //天猫没有注册入口 如果注册淘宝，同时添加天猫注册信息
+        if(PlatformEnum.TAO_BAO_PLATFORM.equals(platformEnum)){
+            buyer.setPlatformId(PlatformEnum.TIAN_MAO_PLATFORM);
+            buyerDao.addBuyer(buyer);
+        }
     }
 }
