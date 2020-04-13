@@ -34,6 +34,7 @@ import com.muma.exception.BizException;
 import com.muma.service.ConsumeTaskOrderService;
 import com.muma.service.OrderService;
 import com.muma.util.IPUtil;
+import com.muma.util.KeyType;
 import com.muma.util.Precondition;
 import com.muma.util.StringReplaceUtil;
 import com.muma.util.TimeUtils;
@@ -142,8 +143,21 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	 * @return
 	 */
 	@Override
-	public  PageBean<Order> queryOrderHistoryList(String pageIndex, String regPhone, String status){
-		return null;
+	public  PageBean<Order> queryOrderHistoryList(String pageIndex, String playerPhone, String status){
+		Precondition.checkState(StringUtils.isNotBlank(pageIndex), "pageIndex is null!");
+		List<Integer> statusList = null;
+		if(StringUtils.isEmpty(status)){
+			statusList = Lists.newArrayList(OrderStatusEnum.CANCEL.getValue(),
+					OrderStatusEnum.BUYER_COMPLAIN_SURE.getValue(), OrderStatusEnum.BUSINESS_PASS.getValue());
+		}else {
+			statusList = Lists.newArrayList(Integer.valueOf(status));
+		}
+		Integer count = orderDao.count(playerPhone,statusList);
+		PageBean pg = new PageBean(Integer.valueOf(pageIndex), KeyType.PAGE_NUMBER,count);
+		int startIndex = pg.getStartIndex();
+		List<Order> list =  orderDao.queryOrderHistoryList(playerPhone,statusList,startIndex, KeyType.PAGE_NUMBER);
+		pg.setList(list);
+		return pg;
 	}
 
 

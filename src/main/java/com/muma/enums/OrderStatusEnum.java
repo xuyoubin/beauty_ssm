@@ -8,11 +8,12 @@ public enum OrderStatusEnum implements ValuedEnum {
     ONE_STEP_OVER(10,"步骤1完成"),
     TWO_STEP_OVER(20,"步骤2完成"),
     COMMIT(30,"提交订单"),
-    COMPLAIN(40,"投诉状态"),//确认为投诉单，需要罚款
+    BUSINESS_COMPLAIN(40,"商家投诉"),
     CANCEL(50,"取消状态"),
-    COMPLAIN_OVER(60,"投诉单买家确认"),
-    CONFIRM_PASS(90,"审核通过"),
-    CONFIRM_NO_PASS(100,"审核不通过");
+    BUYER_COMPLAIN_SURE(60,"买家确认投诉单"),
+    BUSINESS_PASS(90,"商家审核通过"),
+    PLATFORM_CONFIRM_PASS(100,"平台审核投诉单通过"),
+    PLATFORM_CONFIRM_NO_PASS(110,"平台审核投诉单驳回");
 
     private Integer value;
     private String text;

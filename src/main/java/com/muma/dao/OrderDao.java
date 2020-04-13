@@ -15,7 +15,7 @@ public interface OrderDao {
      */
     int addOrder(Order order);
     /**
-     * 根据店铺和手机号码查询最后一单（完成单和投诉单 60,90）
+     * 根据店铺和手机号码查询最后一单（30,40,60,90,100,110）
      * @param shopId
      * @return
      */
@@ -53,5 +53,13 @@ public interface OrderDao {
      * @return
      */
     Integer queryByTaskOrderId(@Param("taskOrderId") Integer taskOrderId);
-
+    /**
+     * 查询近60天的历史任务数量
+     */
+    Integer count(@Param("playerPhone") String playerPhone,@Param("statusList") List<Integer> statusList);
+    /**
+     * 查询近60天的历史任务
+     */
+    List<Order> queryOrderHistoryList(@Param("playerPhone") String playerPhone,@Param("statusList") List<Integer> statusList,
+                                      @Param("pageIndex") Integer pageIndex, @Param("pageSize") Integer pageSize);
 }

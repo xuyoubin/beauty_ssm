@@ -1900,5 +1900,31 @@ MuLFUuTC/w9L22pkedDANgAAAABJRU5ErkJggg==" alt="" width="42" height="42"/>
         </tr>
     </table>
 </fieldset>
+<fieldset>
+    <legend>60天历史任务</legend>
+    <table>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/consumeTask/orderHistoryList.action</td>
+        </tr>
+        <tr>
+            <td class="title">当前页数:</td>
+            <td><input type="text" name="pageIndex" value="1"></td>
+        </tr>
+        <tr>
+            <td class="title">买家手机号:</td>
+            <td><input type="text" name="regPhone" value="15705938769"></td>
+        </tr>
+        <tr>
+            <td class="title">订单状态:</td>
+            <td><input type="text" name="status" value="90"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="提交" onclick="submitAct(this)"/></td>
+            <td><textarea name="resp"></textarea></td>
+        </tr>
+    </table>
+</fieldset>
+
 </body>
 </html>

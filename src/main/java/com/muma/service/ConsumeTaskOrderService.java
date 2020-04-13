@@ -20,7 +20,7 @@ public interface ConsumeTaskOrderService {
 	 * 查询接单历史列表
 	 * @return
 	 */
-	PageBean<Order> queryOrderHistoryList(String pageIndex, String regPhone, String status);
+	PageBean<Order> queryOrderHistoryList(String pageIndex, String playerPhone, String status);
 
 
 }

@@ -59,7 +59,7 @@ public class ConsumeTaskOrderController {
     @ResponseBody
     public BaseResult orderHistoryList(){
         String pageIndex = getRequset().getParameter("pageIndex");
-        String regPhone = getRequset().getParameter("regPhone");//参数
+        String regPhone = getRequset().getParameter("regPhone");//买家参数
         String status = getRequset().getParameter("status");//参数
         try{
             UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
