@@ -2,6 +2,7 @@ package com.muma.quartz;
 
 
 import com.muma.entity.Order;
+import com.muma.enums.OrderStatusEnum;
 import com.muma.service.ConsumeTaskOrderService;
 import com.muma.service.OrderService;
 import com.muma.util.KeyType;
@@ -57,15 +58,26 @@ public class BizQuartz {
 		//判断任务是否过去
 		orderList.stream().forEach(order -> {
 			try {
-				//剩余时间计算，判断是过期
-				int minutes = TimeUtils.getTwoMinutes(order.getCreateTime());
-				logger.info("两个时间差为："+minutes);
-				if(minutes >= 30){
-					consumeTaskOrderService.cancelOrder(order, KeyType.SYSTEM_TASK);
+				//60为买家确认投诉单，无需取消
+				if(!OrderStatusEnum.BUYER_COMPLAIN_SURE.equals(order.getStatus())){
+					//剩余时间计算，判断是过期
+					int minutes = TimeUtils.getTwoMinutes(order.getCreateTime());
+					logger.info("两个时间差为："+minutes);
+					if(minutes >= 30){
+						consumeTaskOrderService.cancelOrder(order, KeyType.SYSTEM_TASK);
+					}
 				}
 			}catch (Exception e){
                 logger.info("取消任务id：{}异常，任务状态：{},异常原因：{}",order.getId(),order.getStatus(),e);
 			}
 		});
+	}
+	/**
+	 * 每天23点关闭已经完成的任务
+	 */
+	@Scheduled(cron = "0 0 23 * * ?")
+	public void closeTaskTask() {
+		logger.info("-------------关闭已经完成的任务开始-----------------");
+
 	}
 }

@@ -1,5 +1,6 @@
 package com.muma.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.muma.common.Session;
 import com.muma.controller.base.BaseResult;
 import com.muma.dto.UserInfoDto;
@@ -32,7 +33,8 @@ public class CommonController {
         String uniqueId = getRequset().getParameter("uniqueId");
         try{
             UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
-            return new BaseResult(true, "步骤保存成功！");
+            JSONObject object = new JSONObject();
+            return new BaseResult(true, object);
         }catch (BizException e){
             return new BaseResult(false,e.getMessage());
         } catch (Exception e){

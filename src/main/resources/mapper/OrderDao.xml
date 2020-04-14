@@ -22,25 +22,37 @@
 	<select id="queryNotFinishToday" resultType="com.muma.entity.Order">
 		SELECT id,shop,type,status,create_time
 		FROM tbl_order
-		WHERE player_phone = #{buyerPhone}
-		AND status IN (0,10,20,60)
-        AND type IN (0,1,2,4)
+		<where>
+			<if test="buyerPhone != null and buyerPhone != ''">
+				player_phone = #{buyerPhone}
+			</if>
+			AND status IN (0,10,20,60)
+			AND type IN (0,1,2,4)
+		</where>
 	</select>
 	<select id="queryNot20Status" resultType="com.muma.entity.Order">
 		SELECT id,shop,type,status,create_time
 		FROM tbl_order
-		WHERE player_phone = #{buyerPhone}
-		AND status IN (0,10)
-		AND type = 3
-        AND to_days(create_time) = to_days(now())
+		<where>
+			<if test="buyerPhone != null and buyerPhone != ''">
+				player_phone = #{buyerPhone}
+			</if>
+			AND status IN (0,10)
+			AND type = 3
+			AND to_days(create_time) = to_days(now())
+		</where>
 	</select>
 	<select id="queryNotFinishTomorrow" resultType="com.muma.entity.Order">
 		SELECT id,shop,type,status,create_time
 		FROM tbl_order
-		WHERE player_phone = #{buyerPhone}
-		AND status IN (0,10,20,60)
-		AND type = 3
-		AND to_days(now()) - to_days(create_time) &lt;= 1
+		<where>
+			<if test="buyerPhone != null and buyerPhone != ''">
+				player_phone = #{buyerPhone}
+			</if>
+			AND status IN (0,10,20,60)
+			AND type = 3
+			AND to_days(now()) - to_days(create_time) &lt;= 1
+		</where>
 	</select>
 	<select id="queryFinishToday" resultType="java.lang.Integer">
 		SELECT COUNT(*)
@@ -77,10 +89,10 @@
 				player_phone = #{playerPhone}
 			</if>
 			<if test="businessPhone != null and businessPhone != ''">
-				business_phone = #{businessPhone}
+				AND business_phone = #{businessPhone}
 			</if>
 			<if test="shopId != null and shopId != ''">
-				shop_id = #{shopId}
+				AND shop_id = #{shopId}
 			</if>
 			<if test="null != statusList and statusList.size() > 0">
 				AND status IN
@@ -98,10 +110,10 @@
 				player_phone = #{playerPhone}
 			</if>
 			<if test="businessPhone != null and businessPhone != ''">
-				business_phone = #{businessPhone}
+				AND business_phone = #{businessPhone}
 			</if>
 			<if test="shopId != null and shopId != ''">
-				shop_id = #{shopId}
+				AND shop_id = #{shopId}
 			</if>
 			<if test="null != statusList and statusList.size() > 0">
 				AND status IN
@@ -121,7 +133,6 @@
 	<update id="updateOrderStatus">
 		UPDATE tbl_order
 		SET
-		ip_address = #{ipAddress},
 		status = #{status},
 		update_by = #{updateBy},
 		update_time = NOW()

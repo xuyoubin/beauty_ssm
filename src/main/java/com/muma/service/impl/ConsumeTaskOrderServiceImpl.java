@@ -199,7 +199,6 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		}else {
 			statusList = Lists.newArrayList(Integer.valueOf(status));
 		}
-		Integer.valueOf(null);
 		Integer count = orderDao.count(playerPhone,businessPhone,shopId,statusList);
 		PageBean pg = new PageBean(Integer.valueOf(pageIndex), KeyType.PAGE_NUMBER,count);
 		int startIndex = pg.getStartIndex();
@@ -359,7 +358,8 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
         int minutes = TimeUtils.getTwoMinutes(order.getCreateTime());
 		logger.info("两个时间差为："+minutes);
 		Precondition.checkState(minutes < 30,"当前任务已经超时，请手动取消！");
-		consumeTaskOrderDto.setRemainTime(minutes);
+		Integer remainTime = 30 - minutes;
+		consumeTaskOrderDto.setRemainTime(remainTime);
 		return consumeTaskOrderDto;
 	}
 

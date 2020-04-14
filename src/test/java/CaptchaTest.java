@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 
 /**
  * 测试类
- * Created by 王帆 on 2018-07-27 上午 10:08.
+ *
  */
 public class CaptchaTest {
 
