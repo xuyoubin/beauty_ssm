@@ -47,7 +47,7 @@ public class BizQuartz {
 	/**
 	 * 每隔30分钟定时取消过期任务
 	 */
-	@Scheduled(cron = "0 0/30 * * * ? *")
+	@Scheduled(cron = "0 0/30 * * * ?")
 	public void cancelOrderTask() {
 		logger.info("-------------取消过期任务开始-----------------");
 		List<Order> orderList = orderService.getNotFinishOrderList(null);
