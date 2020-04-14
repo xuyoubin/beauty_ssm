@@ -86,10 +86,11 @@ public class ConsumeTaskOrderController {
         String id = getRequset().getParameter("orderId");//任务ID
         try{
             Precondition.checkState(StringUtils.isNotBlank(id), "id is null!");
+            UserInfoDto userInfoDto= (UserInfoDto) Session.getSessionAttribute();
             //查询订单信息
             Order order = orderDao.queryById(Integer.valueOf(id));
             Precondition.checkNotNull(order, "查询订单信息异常!");
-            consumeTaskOrderService.cancelOrder(order);
+            consumeTaskOrderService.cancelOrder(order,userInfoDto.getRegPhone());
             return new BaseResult(true, "取消任务成功！");
         }catch (BizException e){
             return new BaseResult(false,e.getMessage());

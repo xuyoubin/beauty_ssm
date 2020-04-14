@@ -178,11 +178,11 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public void cancelOrder(Order order) {
+	public void cancelOrder(Order order,String operator) {
 		List<OrderStatusEnum> statusList = Lists.newArrayList(OrderStatusEnum.INIT,
 				OrderStatusEnum.ONE_STEP_OVER, OrderStatusEnum.TWO_STEP_OVER);
 		Precondition.checkState(statusList.contains(order.getStatus()),"当前订单状态异常！");
-		orderDao.updateOrderById(order.getId());
+		orderDao.updateOrderStatus(order.getId(),OrderStatusEnum.CANCEL,operator);
 	}
 
 	/**

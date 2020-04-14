@@ -6,6 +6,10 @@ public class KeyType {
 	 */
 	public static final int  PAGE_NUMBER = 20;
 	/**
+	 * 系统操作标志
+	 */
+	public static final String SYSTEM_TASK = "SYSTEM_TASK";
+	/**
 	 * 验证码
 	 */
 	public static final String SESSION_KEY = "captcha";

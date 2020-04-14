@@ -23,7 +23,7 @@ public interface ConsumeTaskOrderService {
 	/**
 	 *取消一个任务
 	 */
-	void cancelOrder(Order order);
+	void cancelOrder(Order order,String operator);
 	/**
 	 * 查询接单历史列表
 	 * @return

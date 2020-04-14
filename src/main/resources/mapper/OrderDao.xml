@@ -76,6 +76,12 @@
 			<if test="playerPhone != null and playerPhone != ''">
 				player_phone = #{playerPhone}
 			</if>
+			<if test="businessPhone != null and businessPhone != ''">
+				business_phone = #{businessPhone}
+			</if>
+			<if test="shopId != null and shopId != ''">
+				shop_id = #{shopId}
+			</if>
 			<if test="null != statusList and statusList.size() > 0">
 				AND status IN
 				<foreach collection="statusList" item="status" index="index" open="(" separator="," close=")">
@@ -91,6 +97,12 @@
 			<if test="playerPhone != null and playerPhone != ''">
 				player_phone = #{playerPhone}
 			</if>
+			<if test="businessPhone != null and businessPhone != ''">
+				business_phone = #{businessPhone}
+			</if>
+			<if test="shopId != null and shopId != ''">
+				shop_id = #{shopId}
+			</if>
 			<if test="null != statusList and statusList.size() > 0">
 				AND status IN
 				<foreach collection="statusList" item="status" index="index" open="(" separator="," close=")">
@@ -101,4 +113,19 @@
 		ORDER BY create_time DESC
 		limit #{pageIndex},#{pageSize}
 	</select>
+	<select id="queryById" resultType="com.muma.entity.Order">
+		SELECT *
+		FROM tbl_order
+		WHERE id = #{id} limit 1
+	</select>
+	<update id="updateOrderStatus">
+		UPDATE tbl_order
+		SET
+		ip_address = #{ipAddress},
+		status = #{status},
+		update_by = #{updateBy},
+		update_time = NOW()
+		WHERE
+		id = #{id};
+	</update>
 </mapper>

@@ -4,6 +4,7 @@ package com.muma.quartz;
 import com.muma.entity.Order;
 import com.muma.service.ConsumeTaskOrderService;
 import com.muma.service.OrderService;
+import com.muma.util.KeyType;
 import com.muma.util.Precondition;
 import com.muma.util.TimeUtils;
 import org.slf4j.Logger;
@@ -39,6 +40,8 @@ public class BizQuartz {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+
+
 	@Autowired
 	OrderService orderService;
 	@Autowired
@@ -58,7 +61,7 @@ public class BizQuartz {
 				int minutes = TimeUtils.getTwoMinutes(order.getCreateTime());
 				logger.info("两个时间差为："+minutes);
 				if(minutes >= 30){
-					consumeTaskOrderService.cancelOrder(order);
+					consumeTaskOrderService.cancelOrder(order, KeyType.SYSTEM_TASK);
 				}
 			}catch (Exception e){
                 logger.info("取消任务id：{}异常，任务状态：{},异常原因：{}",order.getId(),order.getStatus(),e);

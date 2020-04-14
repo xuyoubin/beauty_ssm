@@ -1,6 +1,7 @@
 package com.muma.dao;
 
 import com.muma.entity.Order;
+import com.muma.enums.OrderStatusEnum;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -72,5 +73,6 @@ public interface OrderDao {
     /**
      * 根据主键更新状态
      */
-    void updateOrderById(@Param("id") Integer id);
+    void updateOrderStatus(@Param("id") Integer id, @Param("status")OrderStatusEnum orderStatusEnum,
+                           @Param("updateBy") String operator);
 }
