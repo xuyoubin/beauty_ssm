@@ -455,6 +455,18 @@ public class TimeUtils {
 	}
 
 	/**
+	 * 返回当前时间和传入时间的时间差（分钟）
+	 * @return
+	 */
+	public static int getTwoMinutes(Date createTime){
+		Calendar calendar =Calendar.getInstance();
+		long currentTime = calendar.getTimeInMillis();
+		long create = createTime.getTime();
+		int minutes = (int) ((currentTime - create) / (1000 * 60));
+		return minutes;
+	}
+
+	/**
 	 * 形成如下的日历 ， 根据传入的一个时间返回一个结构 星期日 星期一 星期二 星期三 星期四 星期五 星期六 下面是当月的各个时间
 	 * 此函数返回该日历第一行星期日所在的日期
 	 *

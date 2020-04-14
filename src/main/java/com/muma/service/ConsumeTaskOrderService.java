@@ -17,10 +17,18 @@ public interface ConsumeTaskOrderService {
 	 */
 	ConsumeTaskOrderDto getOrder(UserInfoDto userInfoDto, String platform, String price, String taskType);
 	/**
+	 *继续一个任务
+	 */
+	ConsumeTaskOrderDto continueOrder(String id);
+	/**
+	 *取消一个任务
+	 */
+	void cancelOrder(Order order);
+	/**
 	 * 查询接单历史列表
 	 * @return
 	 */
-	PageBean<Order> queryOrderHistoryList(String pageIndex, String playerPhone, String status);
+	PageBean<Order> queryOrderHistoryList(String pageIndex, String playerPhone,String businessPhone,String shopId, String status);
 
 
 }

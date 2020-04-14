@@ -77,9 +77,13 @@ public class ConsumeTaskOrderDto  {
 
     /**
      * 主图
-     * @return
      */
     private String base64image;
+
+    /**
+     *剩余时间
+     */
+    private Integer remainTime;
 
     public String getShopName() {
         return shopName;
@@ -207,5 +211,13 @@ public class ConsumeTaskOrderDto  {
 
     public void setBase64image(String base64image) {
         this.base64image = base64image;
+    }
+
+    public Integer getRemainTime() {
+        return remainTime;
+    }
+
+    public void setRemainTime(Integer remainTime) {
+        this.remainTime = remainTime;
     }
 }

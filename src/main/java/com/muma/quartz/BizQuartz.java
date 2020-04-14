@@ -1,12 +1,18 @@
 package com.muma.quartz;
 
 
+import com.muma.entity.Order;
+import com.muma.service.ConsumeTaskOrderService;
+import com.muma.service.OrderService;
+import com.muma.util.Precondition;
+import com.muma.util.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import com.muma.dao.UserDao;
+
+import java.util.List;
 
 /**
  * 业务相关的作业调度
@@ -31,24 +37,32 @@ import com.muma.dao.UserDao;
 @Component
 public class BizQuartz {
 
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-//	@Autowired
-//	private UserDao userDao;
-	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@Autowired
+	OrderService orderService;
+	@Autowired
+	ConsumeTaskOrderService consumeTaskOrderService;
+
 	/**
-	 * 用户自动加积分
-	 * 每天9点到17点每过1分钟所有用户加一次积分
+	 * 每隔30分钟定时取消过期任务
 	 */
-	@Scheduled(cron = "0 0/1 9-17 * * ? ")
-	public void addUserScore() {
-		LOG.info("@Scheduled--------addUserScore()");
+	@Scheduled(cron = "0 0/30 * * * ? *")
+	public void cancelOrderTask() {
+		logger.info("-------------取消过期任务开始-----------------");
+		List<Order> orderList = orderService.getNotFinishOrderList(null);
+		//判断任务是否过去
+		orderList.stream().forEach(order -> {
+			try {
+				//剩余时间计算，判断是过期
+				int minutes = TimeUtils.getTwoMinutes(order.getCreateTime());
+				logger.info("两个时间差为："+minutes);
+				if(minutes >= 30){
+					consumeTaskOrderService.cancelOrder(order);
+				}
+			}catch (Exception e){
+                logger.info("取消任务id：{}异常，任务状态：{},异常原因：{}",order.getId(),order.getStatus(),e);
+			}
+		});
 	}
-	/**
-	 * 每隔5分钟定时清理缓存
-	 */
-	@Scheduled(cron = "0 0/5 * * * ? ")
-	public void cacheClear() {
-		LOG.info("@Scheduled-------cacheClear()");
-	}
-	
 }

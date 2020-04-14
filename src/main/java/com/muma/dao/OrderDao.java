@@ -56,10 +56,21 @@ public interface OrderDao {
     /**
      * 查询近60天的历史任务数量
      */
-    Integer count(@Param("playerPhone") String playerPhone,@Param("statusList") List<Integer> statusList);
+    Integer count(@Param("playerPhone") String playerPhone,@Param("businessPhone") String businessPhone,
+                  @Param("shopId") String shopId,@Param("statusList") List<Integer> statusList);
     /**
      * 查询近60天的历史任务
      */
-    List<Order> queryOrderHistoryList(@Param("playerPhone") String playerPhone,@Param("statusList") List<Integer> statusList,
+    List<Order> queryOrderHistoryList(@Param("playerPhone") String playerPhone,@Param("businessPhone") String businessPhone,
+                                      @Param("shopId") String shopId,@Param("statusList") List<Integer> statusList,
                                       @Param("pageIndex") Integer pageIndex, @Param("pageSize") Integer pageSize);
+
+    /**
+     * 根据主键查询订单信息
+     */
+    Order queryById(@Param("id") Integer id);
+    /**
+     * 根据主键更新状态
+     */
+    void updateOrderById(@Param("id") Integer id);
 }

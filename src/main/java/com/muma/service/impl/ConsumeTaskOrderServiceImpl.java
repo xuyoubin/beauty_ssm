@@ -40,12 +40,15 @@ import com.muma.util.StringReplaceUtil;
 import com.muma.util.TimeUtils;
 import com.muma.util.UploadImageUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,6 +56,8 @@ import java.util.List;
  */
 @Service
 public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private static final int INDEX = 0;
 	private static final int SIZE = 10;
@@ -135,15 +140,57 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		Order order = buildOrder(taskOrder,statisticsDto,shop,userInfoDto.getRegPhone());
 		orderDao.addOrder(order);
 		//返回 ConsumeTaskOrderDto
-		ConsumeTaskOrderDto consumeTaskOrderDto = buildConsumeTaskOrderDto(taskOrder,statisticsDto,shop,taskConditions,userInfoDto.getRegPhone(),OrderStatusEnum.INIT);
+		ConsumeTaskOrderDto consumeTaskOrderDto = buildConsumeTaskOrderDto(taskOrder,statisticsDto,shop,taskConditions,order);
 		return consumeTaskOrderDto;
 	}
+
+	/**
+	 * 继续一个任务
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public ConsumeTaskOrderDto continueOrder(String id) {
+		Precondition.checkState(StringUtils.isNotBlank(id), "id is null!");
+		//查询订单信息
+		Order order = orderDao.queryById(Integer.valueOf(id));
+		Precondition.checkNotNull(order, "查询订单信息异常!");
+		//查询统计信息
+		StatisticsDto statisticsDto = statisticsDao.queryTaskOrderId(order.getTaskOrderId());
+		Precondition.checkNotNull(statisticsDto, "查询统计信息异常!");
+		//查询任务信息
+		TaskOrder taskOrder = taskOrderDao.queryByTaskOrderId(order.getTaskOrderId());
+		Precondition.checkNotNull(taskOrder, "查询任务信息异常!");
+		//查询店铺信息
+		Shop shop = shopDao.queryById(order.getShopId());
+		Precondition.checkNotNull(shop, "查询店铺信息异常!");
+		//查询条件信息
+		TaskConditions taskConditions = taskConditionsDao.queryByTaskOrderId(order.getTaskOrderId());
+		Precondition.checkNotNull(taskConditions, "查询条件信息异常!");
+		//返回 ConsumeTaskOrderDto
+		ConsumeTaskOrderDto consumeTaskOrderDto = buildConsumeTaskOrderDto(taskOrder,statisticsDto,shop,taskConditions,order);
+		return consumeTaskOrderDto;
+	}
+
+	/**
+	 * 取消任务
+	 * @param
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void cancelOrder(Order order) {
+		List<OrderStatusEnum> statusList = Lists.newArrayList(OrderStatusEnum.INIT,
+				OrderStatusEnum.ONE_STEP_OVER, OrderStatusEnum.TWO_STEP_OVER);
+		Precondition.checkState(statusList.contains(order.getStatus()),"当前订单状态异常！");
+		orderDao.updateOrderById(order.getId());
+	}
+
 	/**
 	 * 查询接单历史列表 查60天内任务
 	 * @return
 	 */
 	@Override
-	public  PageBean<Order> queryOrderHistoryList(String pageIndex, String playerPhone, String status){
+	public  PageBean<Order> queryOrderHistoryList(String pageIndex, String playerPhone,String businessPhone,String shopId, String status){
 		Precondition.checkState(StringUtils.isNotBlank(pageIndex), "pageIndex is null!");
 		List<Integer> statusList = null;
 		if(StringUtils.isEmpty(status)){
@@ -152,10 +199,11 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		}else {
 			statusList = Lists.newArrayList(Integer.valueOf(status));
 		}
-		Integer count = orderDao.count(playerPhone,statusList);
+		Integer.valueOf(null);
+		Integer count = orderDao.count(playerPhone,businessPhone,shopId,statusList);
 		PageBean pg = new PageBean(Integer.valueOf(pageIndex), KeyType.PAGE_NUMBER,count);
 		int startIndex = pg.getStartIndex();
-		List<Order> list =  orderDao.queryOrderHistoryList(playerPhone,statusList,startIndex, KeyType.PAGE_NUMBER);
+		List<Order> list =  orderDao.queryOrderHistoryList(playerPhone,businessPhone,shopId,statusList,startIndex, KeyType.PAGE_NUMBER);
 		pg.setList(list);
 		return pg;
 	}
@@ -289,7 +337,7 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 	 * 创建ConsumeTaskOrderDto
 	 * @return
 	 */
-	private ConsumeTaskOrderDto buildConsumeTaskOrderDto(TaskOrder taskOrder,StatisticsDto statisticsDto,Shop shop,TaskConditions taskConditions,String regPhone,OrderStatusEnum orderStatusEnum){
+	private ConsumeTaskOrderDto buildConsumeTaskOrderDto(TaskOrder taskOrder,StatisticsDto statisticsDto,Shop shop,TaskConditions taskConditions,Order order){
 		ConsumeTaskOrderDto consumeTaskOrderDto = new ConsumeTaskOrderDto();
 		consumeTaskOrderDto.setShopName(StringReplaceUtil.userNameReplaceWithStar(shop.getShopName()));
 		consumeTaskOrderDto.setCommodity(taskOrder.getCommodity());
@@ -300,13 +348,18 @@ public class ConsumeTaskOrderServiceImpl implements ConsumeTaskOrderService {
 		consumeTaskOrderDto.setTaskRemark(taskOrder.getRemark());
 		consumeTaskOrderDto.setPlatformEnum(shop.getShopType());
 		consumeTaskOrderDto.setPrice(statisticsDto.getPrice());
-		consumeTaskOrderDto.setOrderStatusEnum(orderStatusEnum);
+		consumeTaskOrderDto.setOrderStatusEnum(order.getStatus());
 		consumeTaskOrderDto.setBuyerRemark(statisticsDto.getBuyerRemark());
 		consumeTaskOrderDto.setSortFlag(taskConditions.getSortFlag());
 		consumeTaskOrderDto.setPriceRange(taskConditions.getPriceRange());
 		consumeTaskOrderDto.setPlace(taskConditions.getPlace());
 		consumeTaskOrderDto.setConditionsRemark(taskConditions.getRemark());
 		consumeTaskOrderDto.setBase64image(UploadImageUtil.base64image(taskOrder.getMainImage()));
+		//剩余时间计算，判断是否超时
+        int minutes = TimeUtils.getTwoMinutes(order.getCreateTime());
+		logger.info("两个时间差为："+minutes);
+		Precondition.checkState(minutes < 30,"当前任务已经超时，请手动取消！");
+		consumeTaskOrderDto.setRemainTime(minutes);
 		return consumeTaskOrderDto;
 	}
 

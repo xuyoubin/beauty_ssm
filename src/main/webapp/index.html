@@ -1912,11 +1912,19 @@ MuLFUuTC/w9L22pkedDANgAAAABJRU5ErkJggg==" alt="" width="42" height="42"/>
             <td><input type="text" name="pageIndex" value="1"></td>
         </tr>
         <tr>
-            <td class="title">买家手机号:</td>
-            <td><input type="text" name="regPhone" value="15705938769"></td>
+            <td class="title">买家手机号（查询参数）:</td>
+            <td><input type="text" name="playerPhone" value="15705938769"></td>
         </tr>
         <tr>
-            <td class="title">订单状态:</td>
+            <td class="title">卖家手机号（查询参数）:</td>
+            <td><input type="text" name="businessPhone" value="15005004697"></td>
+        </tr>
+        <tr>
+            <td class="title">店铺ID（查询参数）:</td>
+            <td><input type="text" name="shopId" value="1"></td>
+        </tr>
+        <tr>
+            <td class="title">订单状态（查询参数）:</td>
             <td><input type="text" name="status" value="90"></td>
         </tr>
         <tr>
@@ -1925,6 +1933,18 @@ MuLFUuTC/w9L22pkedDANgAAAABJRU5ErkJggg==" alt="" width="42" height="42"/>
         </tr>
     </table>
 </fieldset>
-
+<fieldset>
+    <legend>买家继续任务</legend>
+    <table>
+        <tr>
+            <td class="title">URL:(post)</td>
+            <td name="url" type="post">/consumeTask/continueOrder.action</td>
+        </tr>
+        <tr>
+            <td class="title">任务ID:</td>
+            <td><input type="text" name="orderId" value="10"></td>
+        </tr>
+    </table>
+</fieldset>
 </body>
 </html>
