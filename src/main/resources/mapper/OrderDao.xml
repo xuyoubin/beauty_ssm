@@ -15,7 +15,7 @@
 		FROM tbl_order
 		WHERE shop_id= #{shopId}
         AND  player_phone = #{buyerPhone}
-        AND status IN (30,40,60,90)
+        AND status IN (30,40,60,90,100,110)
 		ORDER BY create_time DESC
 		limit 1
 	</select>
@@ -23,7 +23,7 @@
 		SELECT id,shop,type,status,create_time
 		FROM tbl_order
 		WHERE player_phone = #{buyerPhone}
-		AND status IN (0,10,20,40)
+		AND status IN (0,10,20,60)
         AND type IN (0,1,2,4)
 	</select>
 	<select id="queryNot20Status" resultType="com.muma.entity.Order">
@@ -38,7 +38,7 @@
 		SELECT id,shop,type,status,create_time
 		FROM tbl_order
 		WHERE player_phone = #{buyerPhone}
-		AND status IN (0,10,20,40)
+		AND status IN (0,10,20,60)
 		AND type = 3
 		AND to_days(now()) - to_days(create_time) &lt;= 1
 	</select>
@@ -46,21 +46,21 @@
 		SELECT COUNT(*)
 		FROM tbl_order
 		WHERE player_phone = #{buyerPhone}
-		AND status IN (30,40,60,90)
+		AND status IN (30,40,60,90,100,110)
 		AND to_days(create_time) = to_days(now())
 	</select>
 	<select id="queryFinish7Days" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM tbl_order
 		WHERE player_phone = #{buyerPhone}
-		AND status IN (30,40,60,90)
+		AND status IN (30,40,60,90,100,110)
 		AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= create_time
 	</select>
 	<select id="queryFinish30Days" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM tbl_order
 		WHERE player_phone = #{buyerPhone}
-		AND status IN (30,40,60,90)
+		AND status IN (30,40,60,90,100,110)
 		AND DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= create_time
 	</select>
 	<select id="queryByTaskOrderId" resultType="java.lang.Integer">
@@ -68,5 +68,37 @@
 		FROM tbl_order
 		WHERE task_order_id = #{taskOrderId}
 		AND status IN (0,10,20)
+	</select>
+	<select id="count" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM tbl_order
+		<where>
+			<if test="playerPhone != null and playerPhone != ''">
+				player_phone = #{playerPhone}
+			</if>
+			<if test="null != statusList and statusList.size() > 0">
+				AND status IN
+				<foreach collection="statusList" item="status" index="index" open="(" separator="," close=")">
+					#{status}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	<select id="queryOrderHistoryList" resultType="com.muma.entity.Order">
+		SELECT task_order_id,type,shop,order_no,money,fee,status,create_time
+		FROM tbl_order
+		<where>
+			<if test="playerPhone != null and playerPhone != ''">
+				player_phone = #{playerPhone}
+			</if>
+			<if test="null != statusList and statusList.size() > 0">
+				AND status IN
+				<foreach collection="statusList" item="status" index="index" open="(" separator="," close=")">
+					#{status}
+				</foreach>
+			</if>
+		</where>
+		ORDER BY create_time DESC
+		limit #{pageIndex},#{pageSize}
 	</select>
 </mapper>
